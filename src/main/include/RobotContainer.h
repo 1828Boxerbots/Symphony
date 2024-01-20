@@ -9,6 +9,7 @@
 
 #include "Constants.h"
 #include "subsystems/ExampleSubsystem.h"
+#include "subsystems/visionSub.h"
 
 /**
  * This class is where the bulk of the robot should be declared.  Since
@@ -23,6 +24,8 @@ class RobotContainer {
 
   frc2::CommandPtr GetAutonomousCommand();
 
+    void init();
+
  private:
   // Replace with CommandPS4Controller or CommandJoystick if needed
   frc2::CommandXboxController m_driverController{
@@ -32,4 +35,6 @@ class RobotContainer {
   ExampleSubsystem m_subsystem;
 
   void ConfigureBindings();
+
+  VisionSub m_visionSub;
 };

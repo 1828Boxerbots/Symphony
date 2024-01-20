@@ -16,52 +16,66 @@ void VisionSub::Periodic()
     m_targetID = 0;
     m_targetArea = 0.0;
 
+    static int heartBeat = 0;
+    frc::SmartDashboard::PutNumber("VisionSubPeriodic HB", heartBeat++);
+
 units::meter_t testTargDist = 0_in;
 units::meter_t testTargDist2 = 0_in;
 
-    photonlib::PhotonPipelineResult currentResult = m_testCam.GetLatestResult();
+    photon::PhotonPipelineResult currentResult = m_testCam.GetLatestResult();
     bool seeTargets = currentResult.HasTargets();
+
+    frc::SmartDashboard::PutBoolean("VisionSubPeriodic See Targets", seeTargets);
 
     //Check if Targets are Present:
     if(seeTargets == true)
     {
         //Get Total Targets Camera Sees:
-        std::span<const photonlib::PhotonTrackedTarget, 4294967295U> targetArray = currentResult.GetTargets();
+        std::span<const photon::PhotonTrackedTarget, 4294967295U> targetArray = currentResult.GetTargets();
 
         unsigned int targetAmount = targetArray.size();
+
+        frc::SmartDashboard::PutNumber("VisionSubPeriodic numTargets", targetAmount);
 
         //Find Requested Target:
         for(unsigned int i = 0; i < targetAmount; i++)
         {
-            photonlib::PhotonTrackedTarget potentialTarget = targetArray[i];
+            photon::PhotonTrackedTarget potentialTarget = targetArray[i];
             m_targetID = potentialTarget.GetFiducialId();
 
-            if(m_targetID == m_idRequested)
+            if(m_targetID == 3)
             {
                 potentialTarget.GetDetectedCorners();
                 // wpi::SmallVector<std::pair<double, double>, 4> targetCorners = potentialTarget.GetDetectedCorners();
                 // wpi::SmallVector<std::pair<double, double>, 4> targetMinAreaCorners = potentialtarget.GetMinAreaRectCorners();
                 m_targetPitch = potentialTarget.GetPitch();
-                m_targetSkew = potentialTarget.GetSkew();
+                m_targetSkew = potentialTarget.GetSkew(); 
                 m_targetYaw = potentialTarget.GetYaw();
                 m_targetArea = potentialTarget.GetArea();   
-                m_targetDist = photonlib::PhotonUtils::CalculateDistanceToTarget
+                m_targetDist = photon::PhotonUtils::CalculateDistanceToTarget
                 (m_kCamHeight, m_kTargetHeight, m_kCamPitch, (units::degree_t)m_targetPitch);
 
-testTargDist = photonlib::PhotonUtils::CalculateDistanceToTarget (m_kCamHeight, 6.5_in, m_kCamPitch, (units::degree_t)m_targetPitch);
+//testTargDist = photon::PhotonUtils::CalculateDistanceToTarget (m_kCamHeight, 6.5_in, m_kCamPitch, (units::degree_t)m_targetPitch);
 
-testTargDist2 = photonlib::PhotonUtils::CalculateDistanceToTarget (m_kCamHeight, 6.75_in, m_kCamPitch, (units::degree_t)m_targetPitch);
+//testTargDist2 = photon::PhotonUtils::CalculateDistanceToTarget (m_kCamHeight, 6.75_in, m_kCamPitch, (units::degree_t)m_targetPitch);
 
             }
-
-            //Display Target Data:
-            frc::SmartDashboard::PutNumber("Number of Targets", targetAmount);
+            else if (m_targetID == 4)
+            {
+                potentialTarget.GetDetectedCorners();
+                // wpi::SmallVector<std::pair<double, double>, 4> targetCorners = potentialTarget.GetDetectedCorners();
+                // wpi::SmallVector<std::pair<double, double>, 4> targetMinAreaCorners = potentialtarget.GetMinAreaRectCorners();
+                m_targetPitch2 = potentialTarget.GetPitch();
+                m_targetSkew2 = potentialTarget.GetSkew();
+                m_targetYaw2 = potentialTarget.GetYaw();
+                m_targetArea2 = potentialTarget.GetArea();   
+            }
 
             char msg[250];
             char title[250];
 
             //msg = output/variable, and title = input.
-            sprintf(msg, "target #%d ", i);
+            sprintf(msg, "VisionSubPeriodic target #%d ", i);
 
             sprintf(title, "%s target ID", msg);
             frc::SmartDashboard::PutNumber(title, m_targetID);
@@ -75,14 +89,30 @@ testTargDist2 = photonlib::PhotonUtils::CalculateDistanceToTarget (m_kCamHeight,
             sprintf(title, "%s target Pitch", msg);
             frc::SmartDashboard::PutNumber(title, m_targetPitch);
 
+            sprintf(title, "%s target Yaw", msg);
+            frc::SmartDashboard::PutNumber(title, m_targetYaw);
+
             sprintf(title, "%s target Area", msg);
             frc::SmartDashboard::PutNumber(title, m_targetArea); 
 
             sprintf(title, "%s target Distance", msg);
             frc::SmartDashboard::PutNumber(title, (double)m_targetDist); 
 
-sprintf(title, "%s test Distance", msg); frc::SmartDashboard::PutNumber(title, (double)testTargDist); 
-sprintf(title, "%s test Distance2", msg); frc::SmartDashboard::PutNumber(title, (double)testTargDist2); 
+
+            sprintf(title, "%s target 2 Skew", msg);
+            frc::SmartDashboard::PutNumber(title, m_targetSkew2);
+            
+            sprintf(title, "%s target 2 Yaw", msg);
+            frc::SmartDashboard::PutNumber(title, m_targetYaw2);
+
+            sprintf(title, "%s target 2 Pitch", msg);
+            frc::SmartDashboard::PutNumber(title, m_targetPitch2);
+
+            sprintf(title, "%s target 2 Area", msg);
+            frc::SmartDashboard::PutNumber(title, m_targetArea2); 
+
+//sprintf(title, "%s test Distance", msg); frc::SmartDashboard::PutNumber(title, (double)testTargDist); 
+//sprintf(title, "%s test Distance2", msg); frc::SmartDashboard::PutNumber(title, (double)testTargDist2); 
 
         }
     }
@@ -96,10 +126,12 @@ sprintf(title, "%s test Distance2", msg); frc::SmartDashboard::PutNumber(title, 
     frc::SmartDashboard::PutNumber("Request - Target Distance", (double)m_targetDist);  
 }
 
-  double VisionSub::getTargYaw(int id)
+void VisionSub::init() {} 
+
+double VisionSub::getTargYaw(int id)
   {
-//     photonlib::PhotonPipelineResult currentResult = m_testCam.GetLatestResult();
-//     std::span<const photonlib::PhotonTrackedTarget, 4294967295U> targetArray = currentResult.GetTargets();
+//     photon::PhotonPipelineResult currentResult = m_testCam.GetLatestResult();
+//     std::span<const photon::PhotonTrackedTarget, 4294967295U> targetArray = currentResult.GetTargets();
 //     unsigned int getTargAmount = targetArray.size();
 
 //     switch (id)

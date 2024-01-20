@@ -9,11 +9,17 @@
 #include "commands/Autos.h"
 #include "commands/ExampleCommand.h"
 
-RobotContainer::RobotContainer() {
+RobotContainer::RobotContainer() 
+{
   // Initialize all of your commands and subsystems here
 
   // Configure the button bindings
   ConfigureBindings();
+}
+
+void RobotContainer::init()
+{
+  m_visionSub.init();
 }
 
 void RobotContainer::ConfigureBindings() {

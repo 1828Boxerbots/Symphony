@@ -5,8 +5,8 @@
 #pragma once
 
 #include <frc2/command/SubsystemBase.h>
-#include <photonlib/PhotonCamera.h> //Change json to "v2024.2.0" when ready, and change lib name to "photonlib" when ready.
-#include <photonlib/PhotonUtils.h>
+#include <photon/PhotonUtils.h>
+#include <photon/PhotonCamera.h>
 #include <frc/SmartDashboard/SmartDashboard.h>
 
 
@@ -20,6 +20,8 @@ class VisionSub : public frc2::SubsystemBase
    */
   void Periodic() override;
 
+  void init();
+
   double getTargYaw(int id);
   double getTargPitch(int id);
   double getTargSkew(int id);
@@ -28,15 +30,19 @@ class VisionSub : public frc2::SubsystemBase
 
  private:
   //Initialize Camera:
-  photonlib::PhotonCamera m_testCam{"TestCam1"};
+  photon::PhotonCamera m_testCam{"TestCam1 "};
 
   //Initialize Data Variables:
   int m_targetID = 0;
-  int m_idRequested = 1;
+  int m_idRequested = 3;
   double m_targetSkew = 0.0;
   double m_targetPitch = 0.0;
   double m_targetYaw = 0.0;
   double m_targetArea = 0.0;
+  double m_targetSkew2 = 0.0;
+  double m_targetPitch2 = 0.0;
+  double m_targetYaw2 = 0.0;
+  double m_targetArea2 = 0.0;
     
   units::meter_t m_targetDist = 0.0_in;
   const units::meter_t m_kCamHeight = 0.0625_ft;
