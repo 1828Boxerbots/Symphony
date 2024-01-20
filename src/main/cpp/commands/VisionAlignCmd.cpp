@@ -5,6 +5,7 @@
 #include "commands/VisionAlignCmd.h"
 
 VisionAlignCmd::VisionAlignCmd(VisionSub *pVisionSub, DriveSub *pDriveSub, double speed) 
+{
   m_pVisionSub = pVisionSub;
   m_pDriveSub = pDriveSub;
   m_speed = speed;
