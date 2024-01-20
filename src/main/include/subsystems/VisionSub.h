@@ -20,13 +20,13 @@ class VisionSub : public frc2::SubsystemBase
    */
   void Periodic() override;
 
-  void init();
+  void Init();
 
-  double getTargYaw(int id);
-  double getTargPitch(int id);
-  double getTargSkew(int id);
-  double getTargArea(int id);
-  double getTargDist(int id);
+  double GetTargYaw(int id);
+  double GetTargPitch(int id);
+  double GetTargSkew(int id);
+  double GetTargArea(int id);
+  units::meter_t GetTargDist(int id);
 
  private:
   //Initialize Camera:
@@ -34,7 +34,8 @@ class VisionSub : public frc2::SubsystemBase
 
   //Initialize Data Variables:
   int m_targetID = 0;
-  int m_idRequested = 3;
+  const int m_idRequested = 3;
+  const int m_idRequested2 = 4;
   double m_targetSkew = 0.0;
   double m_targetPitch = 0.0;
   double m_targetYaw = 0.0;
@@ -45,6 +46,7 @@ class VisionSub : public frc2::SubsystemBase
   double m_targetArea2 = 0.0;
     
   units::meter_t m_targetDist = 0.0_in;
+  units::meter_t m_targetDist2 = 0.0_in;
   const units::meter_t m_kCamHeight = 0.0625_ft;
   const units::meter_t m_kTargetHeight = 4_in;
   const units::radian_t m_kCamPitch = 0.0_deg;

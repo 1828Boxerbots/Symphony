@@ -7,14 +7,23 @@
 DriveSub::DriveSub() = default;
 
 // This method will be called once per scheduler run
-void DriveSub::Periodic() {}
-
-void DriveSub::driveTank(double left, double right)
+void DriveSub::Periodic()
 {
     
 }
 
-void DriveSub::driveRC(double vertical, double horizontal)
+void DriveSub::Init()
 {
 
 }
+
+void DriveSub::DriveTank(double left, double right)
+{
+    
+}
+
+void DriveSub::DriveRC(double vertical, double horizontal)
+{
+
+}
+

@@ -18,8 +18,9 @@ class DriveSub : public frc2::SubsystemBase
    * Will be called periodically whenever the CommandScheduler runs.
    */
 
-  void driveTank(double left, double right);
-  void driveRC(double vertical, double horizontal);
+  void Init();
+  void DriveTank(double left, double right);
+  void DriveRC(double vertical, double horizontal);
 
 
   void Periodic() override;

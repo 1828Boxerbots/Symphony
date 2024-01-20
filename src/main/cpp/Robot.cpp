@@ -8,7 +8,7 @@
 
 void Robot::RobotInit() 
 {
-  m_container.init();
+  m_container.Init();
 }
 
 /**

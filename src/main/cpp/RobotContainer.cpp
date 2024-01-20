@@ -7,7 +7,6 @@
 #include <frc2/command/button/Trigger.h>
 
 #include "commands/Autos.h"
-#include "commands/ExampleCommand.h"
 
 RobotContainer::RobotContainer() 
 {
@@ -17,25 +16,45 @@ RobotContainer::RobotContainer()
   ConfigureBindings();
 }
 
-void RobotContainer::init()
+void RobotContainer::Init()
 {
-  m_visionSub.init();
+  m_driveSub.Init();
+  //m_driveSub.SetDefaultCommand(DriveCmd(&m_driveSub, &m_driverController).ToPtr);
+
+  m_visionSub.Init();
+  m_shooterSub.Init();
 }
 
 void RobotContainer::ConfigureBindings() {
   // Configure your trigger bindings here
 
-  // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-  frc2::Trigger([this] {
-    return m_subsystem.ExampleCondition();
-  }).OnTrue(ExampleCommand(&m_subsystem).ToPtr());
-
-  // Schedule `ExampleMethodCommand` when the Xbox controller's B button is
-  // pressed, cancelling on release.
-  m_driverController.B().WhileTrue(m_subsystem.ExampleMethodCommand());
+  // // Load
+  // m_driverController.A().WhileTrue(LoadCommand(m_pLoadSub, &m_driverController, 1.0, LoaderSubBase::intake).ToPtr()); // m_aButton.WhenHeld(m_pLoadIntakeCMD);
+  // m_driverController.B().WhileTrue(LoadCommand(m_pLoadSub, &m_driverController, 1.0, LoaderSubBase::intake).ToPtr()); // m_bButton.WhenHeld(m_pLoadUpperCMD);
+  // m_driverController.X().WhileTrue(LoadCommand(m_pLoadSub, &m_driverController, 1.0, LoaderSubBase::lower).ToPtr()); // m_xButton.WhenHeld(m_pLoadLowerCMD);
+  // m_driverController.Y().WhileTrue(LoadCommand(m_pLoadSub, &m_driverController).ToPtr()); // m_yButton.WhenHeld(m_pLoadAllCMD);
+  // // Shoot
+  // m_driverController.RightTrigger().WhileTrue(ShootCommand(m_pShootSub, &m_driverController).ToPtr()); // m_rightTrigger.WhenHeld(m_pShootCMD);
 }
 
-frc2::CommandPtr RobotContainer::GetAutonomousCommand() {
-  // An example command will be run in autonomous
-  return autos::ExampleAuto(&m_subsystem);
+frc2::CommandPtr RobotContainer::GetAutonomousCommand() 
+{
+  switch (GetDPDT())
+  {
+    case 1:
+      // position 2
+      break;
+    case 2:
+      // position 3
+      break;
+    case 0:
+    default:
+      // position 1
+      return autos::Position1CmdGrp(&m_driveSub, &m_visionSub, &m_shooterSub);
+  }
+}
+
+int RobotContainer::GetDPDT() 
+{
+  return 0;
 }
