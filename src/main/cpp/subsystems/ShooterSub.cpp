@@ -7,4 +7,20 @@
 ShooterSub::ShooterSub() = default;
 
 // This method will be called once per scheduler run
-void ShooterSub::Periodic() {}
+void ShooterSub::Periodic() 
+{
+    
+}
+
+void ShooterSub::Init()
+{
+    m_motorR.SetInverted(true);
+
+}
+
+void ShooterSub::Shoot(double speed)
+{
+    m_motorL.Set(speed);
+    m_motorR.Set(speed);
+
+}
