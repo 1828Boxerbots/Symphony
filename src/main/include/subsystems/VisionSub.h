@@ -1,0 +1,48 @@
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
+
+#pragma once
+
+#include <frc2/command/SubsystemBase.h>
+#include <photonlib/PhotonCamera.h> //Change json to "v2024.2.0" when ready, and change lib name to "photonlib" when ready.
+#include <photonlib/PhotonUtils.h>
+#include <frc/SmartDashboard/SmartDashboard.h>
+
+
+class VisionSub : public frc2::SubsystemBase 
+{
+ public:
+  VisionSub();
+
+  /**
+   * Will be called periodically whenever the CommandScheduler runs.
+   */
+  void Periodic() override;
+
+  double getTargYaw(int id);
+  double getTargPitch(int id);
+  double getTargSkew(int id);
+  double getTargArea(int id);
+  double getTargDist(int id);
+
+ private:
+  //Initialize Camera:
+  photonlib::PhotonCamera m_testCam{"TestCam1"};
+
+  //Initialize Data Variables:
+  int m_targetID = 0;
+  int m_idRequested = 1;
+  double m_targetSkew = 0.0;
+  double m_targetPitch = 0.0;
+  double m_targetYaw = 0.0;
+  double m_targetArea = 0.0;
+    
+  units::meter_t m_targetDist = 0.0_in;
+  const units::meter_t m_kCamHeight = 0.0625_ft;
+  const units::meter_t m_kTargetHeight = 4_in;
+  const units::radian_t m_kCamPitch = 0.0_deg;
+
+  // Components (e.g. motor controllers and sensors) should generally be
+  // declared private and exposed only through public methods.
+};
