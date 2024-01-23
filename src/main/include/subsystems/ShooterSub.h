@@ -7,6 +7,7 @@
 #include <frc2/command/SubsystemBase.h>
 #include <frc/motorcontrol/PWMSparkMax.h>
 #include <frc/Encoder.h>
+#include <frc/motorcontrol/Victor.h>
 
 class ShooterSub : public frc2::SubsystemBase {
  public:
@@ -16,16 +17,21 @@ class ShooterSub : public frc2::SubsystemBase {
 
   void Shoot(double speed);
 
-  /**
-   * Will be called periodically whenever the CommandScheduler runs.
-   */
   void Periodic() override;
 
+  void SetMotors(double speed);
+
  private:
- frc::PWMSparkMax m_motorR {2};
- frc::PWMSparkMax m_motorL {3};
+ double m_pulses = 363; //placeholder value, real number of pulses not yet known
+ //frc::PWMSparkMax m_motorR {2};
+ //frc::PWMSparkMax m_motorL {3};
+frc::Victor m_motorR {2}; //for testing on C418, uncomment PWMSparkMaxes for real testing
+frc::Victor m_motorL {3}; //for testing on C418, uncomment PWMSparkMaxes for real testing
+
+
  frc::Encoder m_encoderR {0, 1}; //placeholder port values
  frc::Encoder m_encoderL {2, 3}; //placeholder port values
-  // Components (e.g. motor controllers and sensors) should generally be
-  // declared private and exposed only through public methods.
+
+
+  
 };
