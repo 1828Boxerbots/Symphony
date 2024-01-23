@@ -6,7 +6,9 @@
 
 #include <frc2/command/button/Trigger.h>
 
-#include "commands/Autos.h"
+#include "commands/Autos.h" 
+
+#include "commands/TeleopShootCmd.h"
 
 RobotContainer::RobotContainer() 
 {
@@ -23,6 +25,7 @@ void RobotContainer::Init()
 
   m_visionSub.Init();
   m_shooterSub.Init();
+  m_shooterSub.SetDefaultCommand(TeleopShootCmd(&m_driverController, &m_shooterSub)); //in finished code use driverController2
 }
 
 void RobotContainer::ConfigureBindings() {

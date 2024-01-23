@@ -17,5 +17,13 @@
 namespace OperatorConstants {
 
 inline constexpr int kDriverControllerPort = 0;
+inline constexpr int kSymphonyShooterPWMPortL = 3;
+inline constexpr int kSymphonyShooterPWMPortR = 2;
+inline constexpr int kSymphonyShooterEncoderAL = 2;
+inline constexpr int kSymphonyShooterEncoderBL = 3;
+inline constexpr int kSymphonyShooterEncoderAR = 0;
+inline constexpr int kSymphonyShooterEncoderBR = 1;
+
+
 
 }  // namespace OperatorConstants
