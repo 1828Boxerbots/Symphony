@@ -7,8 +7,8 @@
 #include <frc2/command/SubsystemBase.h>
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <ctre/phoenix/motorcontrol/can/WPI_VictorSPX.h>
-//#include <rev/CANSparkMax.h>
-#include <frc/Encoder.h>
+#include <rev/CANSparkMax.h>
+#include <frc/Encoder.h> // from https://www.chiefdelphi.com/t/2024-software-download-links/448077.  use (https://software-metadata.revrobotics.com/REVLib-2024.json) file.
 #include "Constants.h"
 
 
@@ -31,16 +31,16 @@ class DriveSub : public frc2::SubsystemBase
 
  private:
   ctre::phoenix::motorcontrol::can::WPI_VictorSPX m_motorControlL1 {OperatorConstants::kSymphonyDriveMotorControlL1};
- // rev::CANSparkMax m_motorL1 {kSymphonyDriveMotorIDL1, rev::CANSparkMax::MotorType::kBrushed};
+  rev::CANSparkMax m_motorL1 {OperatorConstants::kSymphonyDriveMotorIDL1, rev::CANSparkMax::MotorType::kBrushed};
 
   ctre::phoenix::motorcontrol::can::WPI_VictorSPX m_motorControlR1 {OperatorConstants::kSymphonyDriveMotorControlR1};
-  //rev::CANSparkMax m_motorR1 {kSymphonyDriveMotorIDR1, rev::CANSparkMax::MotorType::kBrushed};
+  rev::CANSparkMax m_motorR1 {OperatorConstants::kSymphonyDriveMotorIDR1, rev::CANSparkMax::MotorType::kBrushed};
 
   ctre::phoenix::motorcontrol::can::WPI_VictorSPX m_motorControlL2 {OperatorConstants::kSymphonyDriveMotorControlL2};
-  //rev::CANSparkMax m_motorL2 {kSymphonyDriveMotorIDL2, rev::CANSparkMax::MotorType::kBrushed};
+  rev::CANSparkMax m_motorL2 {OperatorConstants::kSymphonyDriveMotorIDL2, rev::CANSparkMax::MotorType::kBrushed};
 
   ctre::phoenix::motorcontrol::can::WPI_VictorSPX m_motorControlR2 {OperatorConstants::kSymphonyDriveMotorControlR2};
-  //rev::CANSparkMax m_motorR2 {kSymphonyDriveMotorIDR2, rev::CANSparkMax::MotorType::kBrushed};
+  rev::CANSparkMax m_motorR2 {OperatorConstants::kSymphonyDriveMotorIDR2, rev::CANSparkMax::MotorType::kBrushed};
 
 
   frc::Encoder m_encoderL{OperatorConstants::kSymphonyDriveEncoderAL, OperatorConstants::kSymphonyDriveEncoderBL};
