@@ -30,6 +30,10 @@ inline constexpr int kSymphonyDriveEncoderAR = 1; //Change value.
 inline constexpr int kSymphonyDriveEncoderAL = 2; //Change value.
 inline constexpr int kSymphonyDriveEncoderBR = 3; //Change value.
 inline constexpr int kSymphonyDriveEncoderBL = 4; //Change value.
+inline constexpr int kSymphonyL1EncoderCounts = 363; //Change value.
+inline constexpr int kSymphonyL2EncoderCounts = 363; //Change value.
+inline constexpr int kSymphonyR1EncoderCounts = 363; //Change value.
+inline constexpr int kSymphonyR2EncoderCounts = 363; //Change value.
 
 
 
