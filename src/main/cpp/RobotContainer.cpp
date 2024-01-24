@@ -9,6 +9,8 @@
 #include "commands/Autos.h" 
 
 #include "commands/TeleopShootCmd.h"
+#include "commands/LoadCmd.h"
+#include "commands/LoadUntilPhotogateCmd.h"
 
 RobotContainer::RobotContainer() 
 {
@@ -26,10 +28,14 @@ void RobotContainer::Init()
   m_visionSub.Init();
   m_shooterSub.Init();
   m_shooterSub.SetDefaultCommand(TeleopShootCmd(&m_driverController, &m_shooterSub)); //in finished code use driverController2
+  m_loaderSub.Init();
 }
 
 void RobotContainer::ConfigureBindings() {
   // Configure your trigger bindings here
+  m_driverController.X().WhileTrue(LoadCmd(&m_driverController, &m_loaderSub, 0.5).ToPtr()); //in finished code use driverController2 and 1.0 speed
+
+  m_driverController.Y().WhileTrue(LoadUntilPhotogateCmd(&m_loaderSub, 0.5).ToPtr()); //in finished code use driverController2 and 1.0 speed
 
   // // Load
   // m_driverController.A().WhileTrue(LoadCommand(m_pLoadSub, &m_driverController, 1.0, LoaderSubBase::intake).ToPtr()); // m_aButton.WhenHeld(m_pLoadIntakeCMD);

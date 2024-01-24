@@ -19,10 +19,13 @@ namespace OperatorConstants {
 inline constexpr int kDriverControllerPort = 0;
 inline constexpr int kSymphonyShooterPWMPortL = 3;
 inline constexpr int kSymphonyShooterPWMPortR = 2;
-inline constexpr int kSymphonyShooterEncoderAL = 2;
-inline constexpr int kSymphonyShooterEncoderBL = 3;
-inline constexpr int kSymphonyShooterEncoderAR = 0;
-inline constexpr int kSymphonyShooterEncoderBR = 1;
+inline constexpr int kSymphonyShooterEncoderAL = 2; //values are for C418
+inline constexpr int kSymphonyShooterEncoderBL = 3; //values are for C418
+inline constexpr int kSymphonyShooterEncoderAR = 0; //values are for C418
+inline constexpr int kSymphonyShooterEncoderBR = 1; //values are for C418
+inline constexpr int kSymphonyLoaderPhotogate = 8; //values are for C418
+inline constexpr int kSymphonyLoaderMotor = 5; //values are for C418
+
 
 
 
