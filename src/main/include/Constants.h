@@ -14,15 +14,34 @@
  * they are needed.
  */
 
-namespace OperatorConstants {
-
+namespace OperatorConstants 
+{
+//Drive:
 inline constexpr int kDriverControllerPort = 0;
+inline constexpr int kSymphonyDriveMotorIDR1 = 1; //Change value.
+inline constexpr int kSymphonyDriveMotorIDL1 = 2; //Change value.
+inline constexpr int kSymphonyDriveMotorIDR2 = 3; //Change value.
+inline constexpr int kSymphonyDriveMotorIDL2 = 4; //Change value.
+inline constexpr int kSymphonyDriveMotorControlR1 = 1; //Change value.
+inline constexpr int kSymphonyDriveMotorControlL1 = 2; //Change value.
+inline constexpr int kSymphonyDriveMotorControlR2 = 3; //Change value.
+inline constexpr int kSymphonyDriveMotorControlL2 = 4; //Change value.
+inline constexpr int kSymphonyDriveEncoderAR = 1; //Change value.
+inline constexpr int kSymphonyDriveEncoderAL = 2; //Change value.
+inline constexpr int kSymphonyDriveEncoderBR = 3; //Change value.
+inline constexpr int kSymphonyDriveEncoderBL = 4; //Change value.
+
+
+
+//Shooter:
 inline constexpr int kSymphonyShooterPWMPortL = 3;
 inline constexpr int kSymphonyShooterPWMPortR = 2;
 inline constexpr int kSymphonyShooterEncoderAL = 2; //values are for C418
 inline constexpr int kSymphonyShooterEncoderBL = 3; //values are for C418
 inline constexpr int kSymphonyShooterEncoderAR = 0; //values are for C418
 inline constexpr int kSymphonyShooterEncoderBR = 1; //values are for C418
+
+//Loader:
 inline constexpr int kSymphonyLoaderPhotogate = 8; //values are for C418
 inline constexpr int kSymphonyLoaderMotor = 5; //values are for C418
 

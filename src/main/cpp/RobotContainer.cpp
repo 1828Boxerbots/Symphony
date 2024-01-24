@@ -11,11 +11,11 @@
 #include "commands/TeleopShootCmd.h"
 #include "commands/LoadCmd.h"
 #include "commands/LoadUntilPhotogateCmd.h"
+#include "commands/TeleopDriveCmd.h"
 
 RobotContainer::RobotContainer() 
 {
   // Initialize all of your commands and subsystems here
-
   // Configure the button bindings
   ConfigureBindings();
 }
