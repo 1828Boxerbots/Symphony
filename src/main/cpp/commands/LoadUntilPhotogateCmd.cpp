@@ -8,7 +8,7 @@ LoadUntilPhotogateCmd::LoadUntilPhotogateCmd(LoaderSub *pSub, double speed)
 {
   AddRequirements(pSub);
   m_pSub = pSub;
-  m_speed = speed;
+  m_speed = -speed;
 
 }
 
