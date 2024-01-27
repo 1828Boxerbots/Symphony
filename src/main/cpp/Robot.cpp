@@ -3,7 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 #include "Robot.h"
-
+#include <frc/smartdashboard/SmartDashboard.h>
 #include <frc2/command/CommandScheduler.h>
 
 void Robot::RobotInit() 
@@ -59,10 +59,13 @@ void Robot::TeleopInit() {
 /**
  * This function is called periodically during operator control.
  */
-void Robot::TeleopPeriodic() {}
+void Robot::TeleopPeriodic()
+ {
+
+  }
 
 /**
- * This function is called periodically during test mode.
+ his function is called periodically during test mode.
  */
 void Robot::TestPeriodic() {}
 

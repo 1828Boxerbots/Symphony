@@ -56,7 +56,14 @@ inline constexpr int kSymphonyBatonPotentiometerPort = 12; //bogus port value, n
 inline constexpr int kSymphonyBatonRestAngle = 90; //bogus value
 inline constexpr int kSymphonyBatonSwingAngle = 13; //bogus value
 
-
+// Climber
+inline constexpr int kSymphonyClimberMotorLeft = 1; 
+inline constexpr int kSymphonyClimberMotorRight = 2; 
+inline constexpr double kSymphonyClimberExtendedAngleLimit = 50.0; 
+inline constexpr double kSymphonyClimberRetractedAngleLimit = 10.0; 
+inline constexpr double kSymphonyClimberMotorSpeed = 1.0; 
+inline constexpr int kSymphonyClimberPotentiometerPort = 1;
+inline constexpr int kSymphonyClimberPotentiometerRestAngle = 0;
 
 
 
