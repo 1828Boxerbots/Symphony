@@ -49,6 +49,15 @@ inline constexpr int kSymphonyShooterEncoderBR = 1; //values are for C418
 inline constexpr int kSymphonyLoaderPhotogate = 8; //values are for C418
 inline constexpr int kSymphonyLoaderMotor = 5; //values are for C418
 
+//Baton:
+inline constexpr int kSymphonyBatonMotorL = 9; //bogus port value, not true at all
+inline constexpr int kSymphonyBatonMotorR = 10; //bogus port value, not true at all
+inline constexpr int kSymphonyBatonPotentiometerPort = 12; //bogus port value, not true at all 
+inline constexpr int kSymphonyBatonRestAngle = 90; //bogus value
+inline constexpr int kSymphonyBatonSwingAngle = 13; //bogus value
+
+
+
 
 
 
