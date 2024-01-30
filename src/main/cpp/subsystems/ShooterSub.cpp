@@ -43,7 +43,7 @@ void ShooterSub::Init()
 void ShooterSub::Shoot(double speed)
 {
     m_motorL.Set(speed);
-    //m_motorR.Set(speed);
+    m_motorR.Set(speed);
 
 }
 

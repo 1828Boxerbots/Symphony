@@ -9,6 +9,7 @@
 #include <frc/motorcontrol/Victor.h>
 #include <frc/DigitalInput.h>
 #include <Constants.h>
+#include <rev/CANSparkMax.h>
 
 class LoaderSub : public frc2::SubsystemBase {
  public:
@@ -25,8 +26,8 @@ class LoaderSub : public frc2::SubsystemBase {
  //frc::PWMSparkMax m_motor {OperatorConstants::kSymphonyLoaderMotor}; //placeholder port, not actually 5
  frc::DigitalInput m_photogate {OperatorConstants::kSymphonyLoaderPhotogate};
 
- frc::Victor m_motor {OperatorConstants::kSymphonyLoaderMotor}; //used for testing with C418
-
+ //frc::Victor m_motor {OperatorConstants::kSymphonyLoaderMotor}; //used for testing with C418
+ rev::CANSparkMax m_motor {OperatorConstants::kSymphonyLoaderMotor, rev::CANSparkMax::MotorType::kBrushed};
 
 
   // Components (e.g. motor controllers and sensors) should generally be
