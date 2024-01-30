@@ -21,7 +21,9 @@ class ClimberSub : public frc2::SubsystemBase {
   void Extend();
   void Retract();
   double GetPAngle();
-  void Stop();
+  void Stop(); 
+  bool IsAtRetractLimit();
+  bool IsAtExtendLimit();
   
 
   /**

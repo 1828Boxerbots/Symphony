@@ -33,7 +33,7 @@ void ClimberSub::Extend()
 {
     double CurrAngle = GetPAngle();
 
-    if(CurrAngle + OperatorConstants::kSymphonyClimberPotentiometerRestAngle >= OperatorConstants::kSymphonyClimberExtendedAngleLimit)
+    if(IsAtExtendLimit())
     {
       Stop();
     }
@@ -48,7 +48,7 @@ void ClimberSub::Retract()
 {
      double CurrAngle = GetPAngle();
 
-    if(CurrAngle + OperatorConstants::kSymphonyClimberPotentiometerRestAngle <= OperatorConstants::kSymphonyClimberRetractedAngleLimit)
+    if(IsAtRetractLimit())
      {
         Stop();
      }
@@ -61,8 +61,8 @@ void ClimberSub::Retract()
 
 double ClimberSub::GetPAngle()
 {
-    double angle = 0;
-    angle =  m_potentiometer.Get();
+    return m_potentiometer.Get();
+    
 }
 
 void ClimberSub::Stop()
@@ -70,4 +70,12 @@ void ClimberSub::Stop()
     SetMotors(0);
 }
 
+bool ClimberSub::IsAtRetractLimit()
+{
+    return GetPAngle() <= OperatorConstants::kSymphonyClimberRetractedAngleLimit;
+}
 
+bool ClimberSub::IsAtExtendLimit()
+{
+    return GetPAngle() >= OperatorConstants::kSymphonyClimberExtendedAngleLimit;
+}
