@@ -32,6 +32,8 @@ class TeleopMoveClimberCmd
 
   private:
 
+  bool m_IsFinished = false;
+
   ClimberSub* m_pClimbSub = nullptr;
   frc::XboxController* m_pController = nullptr;
 

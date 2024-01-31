@@ -29,7 +29,7 @@ void SafeTeleopBatonSwingCmd::Execute()
     m_isFinished = true; 
     return;
   }
-  if (m_pClimbSub->IsAtRetractLimit() == true)
+  if (m_pClimbSub->IsAtRetractLimit() == true) //"Retract limit" is like batons "rest limit"
   {
     if (m_pController->GetLeftBumper() == true)
     {

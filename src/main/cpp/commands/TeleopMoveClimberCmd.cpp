@@ -25,29 +25,39 @@ void TeleopMoveClimberCmd::Initialize()
 void TeleopMoveClimberCmd::Execute() 
 {
  
+  if (m_pClimbSub == nullptr or m_pController == nullptr )
+  {
+    m_IsFinished = true;
+    return;
+
+  }
 
   bool leftbumber = m_pController->GetLeftBumper();
 
-if(leftbumber = true)
+  if(leftbumber = true)
   {
      m_pClimbSub->Retract();
   }
- else
- {
+  else
+  {
     m_pClimbSub->Extend();
- }
-
   }
+
+}
   
 
 // Called once the command ends or is interrupted.
 void TeleopMoveClimberCmd::End(bool interrupted) 
 {
-    m_pClimbSub->Stop();
+  if (m_pClimbSub != nullptr)
+  {
+      m_pClimbSub->Stop();
+  }
 }
 
 // Returns true when the command should end.
 bool TeleopMoveClimberCmd::IsFinished() 
 {
-  return false;
+
+  return m_IsFinished;
 }
