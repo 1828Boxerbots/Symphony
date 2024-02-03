@@ -23,7 +23,7 @@ RobotContainer::RobotContainer()
 void RobotContainer::Init()
 {
   m_driveSub.Init();
-  //m_driveSub.SetDefaultCommand(DriveCmd(&m_driveSub, &m_driverController).ToPtr);
+  //m_driveSub.SetDefaultCommand(TeleopDriveCmd(&m_driveSub, &m_driverController));
 
   m_visionSub.Init();
   m_shooterSub.Init();
