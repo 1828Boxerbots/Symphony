@@ -34,7 +34,7 @@ double BatonSub::GetPotentiometer()
 bool BatonSub::GoToRest()
 {
     bool isAtLimit = IsAtRestLimit();
-    double speed = -m_optimalSpeed;
+    double speed = -OperatorConstants::kSymphonyBatonOptimalSpeed;
     if (isAtLimit == true)
     {
       speed = 0.0;
@@ -47,7 +47,7 @@ bool BatonSub::GoToRest()
 bool BatonSub::GoToSwing()
 {
     bool isAtLimit = IsAtSwingLimit();
-    double speed = m_optimalSpeed;
+    double speed = OperatorConstants::kSymphonyBatonOptimalSpeed;
     if (isAtLimit == true)
     {
       speed = 0.0;

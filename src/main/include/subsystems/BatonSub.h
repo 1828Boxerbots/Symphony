@@ -36,8 +36,6 @@ class BatonSub : public frc2::SubsystemBase {
  rev::CANSparkMax m_motorL{OperatorConstants::kSymphonyBatonMotorL, rev::CANSparkMax::MotorType::kBrushless}; 
  rev::CANSparkMax m_motorR{OperatorConstants::kSymphonyBatonMotorR, rev::CANSparkMax::MotorType::kBrushless}; 
 
- const double m_optimalSpeed = 1.0;
-
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
 };

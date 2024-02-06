@@ -38,8 +38,8 @@ inline constexpr int kSymphonyR2EncoderCounts = 363; //Change value.
 
 
 //Shooter:
-inline constexpr int kSymphonyShooterPWMPortL = 3;
-inline constexpr int kSymphonyShooterPWMPortR = 2;
+inline constexpr int kSymphonyShooterPWMPortL = 3; //actually CAN motor
+inline constexpr int kSymphonyShooterPWMPortR = 2; //actually CAN motor
 inline constexpr int kSymphonyShooterEncoderAL = 2; //values are for C418
 inline constexpr int kSymphonyShooterEncoderBL = 3; //values are for C418
 inline constexpr int kSymphonyShooterEncoderAR = 0; //values are for C418
@@ -55,6 +55,7 @@ inline constexpr int kSymphonyBatonMotorR = 10; //bogus port value, not true at 
 inline constexpr int kSymphonyBatonPotentiometerPort = 12; //bogus port value, not true at all 
 inline constexpr int kSymphonyBatonRestAngle = 90; //bogus value
 inline constexpr int kSymphonyBatonSwingAngle = 13; //bogus value
+inline constexpr int kSymphonyBatonOptimalSpeed = 1.0; //unknown true optimal speed as of now 
 
 // Climber
 inline constexpr int kSymphonyClimberMotorLeft = 1; 
