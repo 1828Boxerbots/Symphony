@@ -34,7 +34,7 @@ void TeleopMoveClimberCmd::Execute()
 
   bool leftbumber = m_pController->GetLeftBumper();
 
-  if(leftbumber = true)
+  if(leftbumber == true)
   {
      m_pClimbSub->Retract();
   }

@@ -33,7 +33,7 @@ void ClimberSub::Extend()
 {
     double CurrAngle = GetPAngle();
 
-    if(IsAtExtendLimit())
+    if(IsAtExtendLimit() == true) 
     {
       Stop();
     }
@@ -48,7 +48,7 @@ void ClimberSub::Retract()
 {
      double CurrAngle = GetPAngle();
 
-    if(IsAtRetractLimit())
+    if(IsAtRetractLimit() == true)
      {
         Stop();
      }
