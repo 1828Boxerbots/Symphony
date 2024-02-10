@@ -7,6 +7,7 @@
 #include <frc2/command/Command.h>
 #include <frc2/command/CommandHelper.h>
 #include "subsystems/ShooterSub.h"
+#include "subsystems/VisionSub.h"
 #include <frc/XboxController.h>
 
 /**
@@ -19,7 +20,7 @@
 class TeleopShootCmd
     : public frc2::CommandHelper<frc2::Command, TeleopShootCmd> {
  public:
-  TeleopShootCmd(frc::XboxController *pController, ShooterSub *pSub);
+  TeleopShootCmd(frc::XboxController *pController, ShooterSub *pShooterSub, VisionSub *pVisionSub);
 
   void Initialize() override;
 
@@ -31,7 +32,7 @@ class TeleopShootCmd
 
   private: 
   frc::XboxController *m_pController = nullptr;
-  ShooterSub *m_pSub = nullptr;
+  ShooterSub *m_pShooterSub = nullptr;
+  VisionSub *m_pVisionSub = nullptr;
   bool m_isFinished = false;
-  double m_speed = 0;
 };

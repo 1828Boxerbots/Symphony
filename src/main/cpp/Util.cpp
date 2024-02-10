@@ -170,4 +170,9 @@ std::string Util::TimeStampStr()
     
     Log("Util Stamp", str);
     return str;
+} 
+
+double Util::ConvertToRadians(double degrees)
+{
+    return degrees * OperatorConstants::PI/180;
 }

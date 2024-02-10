@@ -27,7 +27,7 @@ void RobotContainer::Init()
 
   m_visionSub.Init();
   m_shooterSub.Init();
-  m_shooterSub.SetDefaultCommand(TeleopShootCmd(&m_driverController, &m_shooterSub)); //in finished code use driverController2
+  m_shooterSub.SetDefaultCommand(TeleopShootCmd(&m_driverController, &m_shooterSub, &m_visionSub)); //in finished code use driverController2
   m_loaderSub.Init();
 }
 
@@ -48,19 +48,19 @@ void RobotContainer::ConfigureBindings() {
 
 frc2::CommandPtr RobotContainer::GetAutonomousCommand() 
 {
-  switch (GetDPDT())
-  {
-    case 1:
-      // position 2
-      break;
-    case 2:
-      // position 3
-      break;
-    case 0:
-    default:
+  // // // // // // // switch (GetDPDT())
+  // // // // // // // {
+  // // // // // // //   case 1:
+  // // // // // // //     // position 2
+  // // // // // // //     break;
+  // // // // // // //   case 2:
+  // // // // // // //     // position 3
+  // // // // // // //     break;
+  // // // // // // //   case 0:
+  // // // // // // //   default:
       // position 1
       return autos::Position1CmdGrp(&m_driveSub, &m_visionSub, &m_shooterSub);
-  }
+  // // // // // // // }
 }
 
 int RobotContainer::GetDPDT() 
