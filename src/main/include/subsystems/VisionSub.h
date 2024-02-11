@@ -83,15 +83,14 @@ class VisionSub : public frc2::SubsystemBase
   // declared private and exposed only through public methods.
 
   //Initialize Camera:
-  const std::string m_cameraName = "TestCam1";
-  photon::PhotonCamera m_testCam{m_cameraName};
+  const std::string m_cameraName = "SymphonyCam";
+  photon::PhotonCamera m_robotCam{m_cameraName};
 
   frc::Timer m_timer;
 
-  const units::meter_t m_kCamHeight = 34.9416666667_in;  // TBD TBD - need actual robot specs
-  const units::meter_t m_kTargetHeight = 49.733333333_in;    // TBD TBD - need actual robot specs
-  const units::radian_t m_kCamPitch = 0.0_deg;    // TBD TBD - need actual robot specs
-  const int m_kMaxTargetId = 16;
+  const units::meter_t m_kTargetHeight = 49.733333333_in;    // for testing ONLY
+  const units::meter_t m_kCamHeight = 34.9416666667_in;  // TBD TBD - need actual robot specs;
+  const units::radian_t m_kCamPitch = 0.0_deg;  // TBD TBD - need actual robot specs
 
   // NETWORK TABLE TEST ///////////////////////////////////////////////////////
   nt::DoubleSubscriber m_dblSub;

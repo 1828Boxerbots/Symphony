@@ -11,7 +11,8 @@
 #include <Constants.h>
 #include <rev/CANSparkMax.h>
 
-class ShooterSub : public frc2::SubsystemBase {
+class ShooterSub : public frc2::SubsystemBase 
+{
  public:
   ShooterSub();
 

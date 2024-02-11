@@ -12,7 +12,8 @@
 
 
 
-class ClimberSub : public frc2::SubsystemBase {
+class ClimberSub : public frc2::SubsystemBase 
+{
  public:
   ClimberSub();
 

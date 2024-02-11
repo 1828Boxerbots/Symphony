@@ -38,7 +38,7 @@ void VisionSub::Init()
 
 double VisionSub::GetBestYaw()
 {
-    photon::PhotonPipelineResult result = m_testCam.GetLatestResult();
+    photon::PhotonPipelineResult result = m_robotCam.GetLatestResult();
     if (result.HasTargets() == false)
     {
         return 0.0;
@@ -48,7 +48,7 @@ double VisionSub::GetBestYaw()
 
 double VisionSub::GetYaw()
 {
-    photon::PhotonPipelineResult result = m_testCam.GetLatestResult();
+    photon::PhotonPipelineResult result = m_robotCam.GetLatestResult();
     if (result.HasTargets() == false)
     {
         return 0.0;
@@ -81,26 +81,26 @@ double VisionSub::GetYaw()
 
 bool VisionSub::HasTargets()
 {
-    return m_testCam.GetLatestResult().HasTargets();
+    return m_robotCam.GetLatestResult().HasTargets();
 }
 
 int VisionSub::NumValidTargets(int *pTarget1Id, int *pTarget2Id, double *pYaw1, double *pYaw2)
 {
     int targValidCount = 0;
 
-    if (m_testCam.GetLatestResult().HasTargets() == false)
+    if (m_robotCam.GetLatestResult().HasTargets() == false)
     {
         return 0;
     }
 
-    std::span<const photon::PhotonTrackedTarget, 4294967295U> targets = m_testCam.GetLatestResult().GetTargets();
+    std::span<const photon::PhotonTrackedTarget, 4294967295U> targets = m_robotCam.GetLatestResult().GetTargets();
 
     for(unsigned i = 0; i < targets.size(); i++)
     {        
         int targID = targets[i].GetFiducialId();
 
         // valid target ID's are from 1 thru 16.
-        if(targID >= 1 and targID <= m_kMaxTargetId)
+        if(targID >= 1 and targID <=  OperatorConstants::kMaxTargetId)
         {
             targValidCount++;
 
@@ -108,7 +108,7 @@ int VisionSub::NumValidTargets(int *pTarget1Id, int *pTarget2Id, double *pYaw1, 
             if (targValidCount == 1 and pTarget1Id != nullptr and pYaw1 != nullptr)
             {
                 *pTarget1Id = targets[i].GetFiducialId();
-                *pYaw1 = m_testCam.GetLatestResult().GetBestTarget().GetYaw();
+                *pYaw1 = m_robotCam.GetLatestResult().GetBestTarget().GetYaw();
             }
             else if (targValidCount == 2 and pTarget2Id != nullptr and pYaw2 != nullptr)
             {
@@ -123,7 +123,7 @@ int VisionSub::NumValidTargets(int *pTarget1Id, int *pTarget2Id, double *pYaw1, 
 
 double VisionSub::GetDistanceInMeters()
 {
-    photon::PhotonPipelineResult result = m_testCam.GetLatestResult();
+    photon::PhotonPipelineResult result = m_robotCam.GetLatestResult();
     if (result.HasTargets() == false)
     {
         return 0.0;
@@ -137,7 +137,7 @@ double VisionSub::GetDistanceInMeters()
     for(unsigned i=0; i<targets.size(); ++i)
     {
         Util::Log(std::string("ID #") + std::to_string(i), targets[i].GetFiducialId(), GetName());
-        double dist = (double)((units::inch_t)photon::PhotonUtils::CalculateDistanceToTarget (m_kCamHeight, (units::inch_t)44.9375, m_kCamPitch, (units::degree_t)targets[i].GetPitch()));
+        double dist = (double)((units::inch_t)photon::PhotonUtils::CalculateDistanceToTarget ( m_kCamHeight, m_kTargetHeight, m_kCamPitch, (units::degree_t)targets[i].GetPitch()));
 
         Util::Log(std::string("Dist #") + std::to_string(i), dist, GetName());
         if (targets[i].GetFiducialId() == requiredID)
@@ -151,7 +151,7 @@ double VisionSub::GetDistanceInMeters()
 
 double VisionSub::GetDistanceInInches()
 {
-    photon::PhotonPipelineResult result = m_testCam.GetLatestResult();
+    photon::PhotonPipelineResult result = m_robotCam.GetLatestResult();
     if (result.HasTargets() == false)
     {
         return 0.0;
@@ -243,7 +243,7 @@ units::length::meter_t VisionSub::GetTargetHeight(int id)
 void VisionSub::InitNetworkTableData()
 {
     std::string tableName = "photonvision";
-    std::string topic = m_cameraName + "/targetYaw"; // why doesn't m_testCam.GetCameraName() work?
+    std::string topic = m_cameraName + "/targetYaw"; // why doesn't m_robotCam.GetCameraName() work?
     std::string topicName = "/" + tableName + "/" + topic;
 
     // https://docs.wpilib.org/en/stable/docs/software/networktables/tables-and-topics.html

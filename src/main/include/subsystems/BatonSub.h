@@ -9,7 +9,8 @@
 #include <rev/CANSparkMax.h>
 #include <frc/AnalogPotentiometer.h>
 
-class BatonSub : public frc2::SubsystemBase {
+class BatonSub : public frc2::SubsystemBase 
+{
  public:
   BatonSub();
 
