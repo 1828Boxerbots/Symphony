@@ -12,6 +12,8 @@
 #include "subsystems/DriveSub.h"
 #include "subsystems/ShooterSub.h"
 #include "subsystems/LoaderSub.h"
+#include "subsystems/ClimberSub.h"
+#include "subsystems/BatonSub.h"
 
 /**
  * This class is where the bulk of the robot should be declared.  Since
@@ -31,10 +33,8 @@ class RobotContainer {
 
  private:
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  frc2::CommandXboxController m_driverController{
-      OperatorConstants::kDriverControllerPort};
-  frc2::CommandXboxController m_driverController2{
-      OperatorConstants::kDriverControllerPort};
+  frc2::CommandXboxController m_driverController{OperatorConstants::kDriverControllerPort};
+  //frc2::CommandXboxController m_driverController2{OperatorConstants::kDriverControllerPort};
 
   void ConfigureBindings();
 
@@ -43,6 +43,6 @@ class RobotContainer {
   DriveSub m_driveSub;
   ShooterSub m_shooterSub;
   LoaderSub m_loaderSub;
-  // IntakeSub m_intakeSub;
-  // ClimberSub m_climberSub;
+  ClimberSub m_climberSub;
+  BatonSub m_batonSub;
 };

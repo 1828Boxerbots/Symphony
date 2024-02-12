@@ -54,34 +54,27 @@ class DriveSub : public frc2::SubsystemBase
   private:
   ///////////////////////////////////////////////////////////////////////////////
   // CAN Motors
-  ctre::phoenix::motorcontrol::can::WPI_VictorSPX m_motorControlL1 {OperatorConstants::kSymphonyDriveMotorControlL1};
-  rev::CANSparkMax m_motorL1 {OperatorConstants::kSymphonyDriveMotorIDL1, rev::CANSparkMax::MotorType::kBrushed};
-
-  ctre::phoenix::motorcontrol::can::WPI_VictorSPX m_motorControlR1 {OperatorConstants::kSymphonyDriveMotorControlR1};
-  rev::CANSparkMax m_motorR1 {OperatorConstants::kSymphonyDriveMotorIDR1, rev::CANSparkMax::MotorType::kBrushed};
-
-  ctre::phoenix::motorcontrol::can::WPI_VictorSPX m_motorControlL2 {OperatorConstants::kSymphonyDriveMotorControlL2};
-  rev::CANSparkMax m_motorL2 {OperatorConstants::kSymphonyDriveMotorIDL2, rev::CANSparkMax::MotorType::kBrushed};
-
-  ctre::phoenix::motorcontrol::can::WPI_VictorSPX m_motorControlR2 {OperatorConstants::kSymphonyDriveMotorControlR2};
-  rev::CANSparkMax m_motorR2 {OperatorConstants::kSymphonyDriveMotorIDR2, rev::CANSparkMax::MotorType::kBrushed};
+  rev::CANSparkMax m_motorL1 {OperatorConstants::kSymphonyDriveMotorIDL1, rev::CANSparkMax::MotorType::kBrushless};
+  rev::CANSparkMax m_motorR1 {OperatorConstants::kSymphonyDriveMotorIDR1, rev::CANSparkMax::MotorType::kBrushless};
+  rev::CANSparkMax m_motorL2 {OperatorConstants::kSymphonyDriveMotorIDL2, rev::CANSparkMax::MotorType::kBrushless};
+  rev::CANSparkMax m_motorR2 {OperatorConstants::kSymphonyDriveMotorIDR2, rev::CANSparkMax::MotorType::kBrushless};
 
   // encoders are part of CANSparkMax - keep private
   inline rev::SparkRelativeEncoder GetEncoderL1()
   {
-    return m_motorL1.GetEncoder(rev::CANEncoder::EncoderType::kQuadrature, OperatorConstants::kSymphonyL1EncoderCounts);
+    return m_motorL1.GetEncoder(rev::CANEncoder::EncoderType::kHallSensor, OperatorConstants::NEO_ENCODER_COUNT);
   }
   inline rev::SparkRelativeEncoder GetEncoderL2()
   {
-    return m_motorL2.GetEncoder(rev::CANEncoder::EncoderType::kQuadrature, OperatorConstants::kSymphonyL1EncoderCounts);
+    return m_motorL2.GetEncoder(rev::CANEncoder::EncoderType::kHallSensor, OperatorConstants::NEO_ENCODER_COUNT);
   }
   inline rev::SparkRelativeEncoder GetEncoderR1()
   {
-    return m_motorR1.GetEncoder(rev::CANEncoder::EncoderType::kQuadrature, OperatorConstants::kSymphonyL1EncoderCounts);
+    return m_motorR1.GetEncoder(rev::CANEncoder::EncoderType::kHallSensor, OperatorConstants::NEO_ENCODER_COUNT);
   }
   inline rev::SparkRelativeEncoder GetEncoderR2()
   {
-    return m_motorR2.GetEncoder(rev::CANEncoder::EncoderType::kQuadrature, OperatorConstants::kSymphonyL1EncoderCounts);
+    return m_motorR2.GetEncoder(rev::CANEncoder::EncoderType::kHallSensor, OperatorConstants::NEO_ENCODER_COUNT);
   }
 
   ///////////////////////////////////////////////////////////////////////////////

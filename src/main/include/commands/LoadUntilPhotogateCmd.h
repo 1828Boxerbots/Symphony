@@ -7,6 +7,7 @@
 #include <frc2/command/Command.h>
 #include <frc2/command/CommandHelper.h>
 #include <subsystems/LoaderSub.h>
+#include <frc/XboxController.h>
 
 /**
  * An example command.
@@ -18,7 +19,7 @@
 class LoadUntilPhotogateCmd
     : public frc2::CommandHelper<frc2::Command, LoadUntilPhotogateCmd> {
  public:
-  LoadUntilPhotogateCmd(LoaderSub *pSub, double speed = 1.0);
+  LoadUntilPhotogateCmd(LoaderSub *pSub, frc::XboxController* pController, double speed = 1.0);
 
   void Initialize() override;
 
@@ -30,6 +31,7 @@ class LoadUntilPhotogateCmd
 
   private: 
   LoaderSub *m_pSub = nullptr;
+  frc::XboxController* m_pController = nullptr;
   double m_speed = 0.0;
   bool m_isFinished = false;
   };

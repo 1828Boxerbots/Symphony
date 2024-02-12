@@ -22,28 +22,26 @@ RobotContainer::RobotContainer()
 
 void RobotContainer::Init()
 {
-  m_driveSub.Init();
+  // TODO: As we start testing, incrementally enable each subsystem
+  //m_driveSub.Init();
   //m_driveSub.SetDefaultCommand(TeleopDriveCmd(&m_driveSub, &m_driverController));
 
-  m_visionSub.Init();
-  m_shooterSub.Init();
-  m_shooterSub.SetDefaultCommand(TeleopShootCmd(&m_driverController, &m_shooterSub)); //in finished code use driverController2
-  m_loaderSub.Init();
+  //m_visionSub.Init();
+  //m_shooterSub.Init();
+  //m_loaderSub.Init();
+  //m_batonSub.Init();
+  //m_climberSub.Init();
 }
 
 void RobotContainer::ConfigureBindings() {
-  // Configure your trigger bindings here
-  m_driverController.A().WhileTrue(LoadCmd(&m_driverController, &m_loaderSub, 1.0).ToPtr()); //in finished code use driverController2 and 1.0 speed
+  // Configure button bindings here
 
-  m_driverController.Y().WhileTrue(LoadUntilPhotogateCmd(&m_loaderSub, 1.0).ToPtr()); //in finished code use driverController2 and 1.0 speed
+  // Loader Commands
+  // m_driverController.A().WhileTrue(LoadUntilPhotogateCmd(&m_loaderSub, &m_driverController, 0.25).ToPtr());
+  // m_driverController.B().WhileTrue(LoadCmd(&m_loaderSub, 0.25).ToPtr());
 
-  // // Load
-  // m_driverController.A().WhileTrue(LoadCommand(m_pLoadSub, &m_driverController, 1.0, LoaderSubBase::intake).ToPtr()); // m_aButton.WhenHeld(m_pLoadIntakeCMD);
-  // m_driverController.B().WhileTrue(LoadCommand(m_pLoadSub, &m_driverController, 1.0, LoaderSubBase::intake).ToPtr()); // m_bButton.WhenHeld(m_pLoadUpperCMD);
-  // m_driverController.X().WhileTrue(LoadCommand(m_pLoadSub, &m_driverController, 1.0, LoaderSubBase::lower).ToPtr()); // m_xButton.WhenHeld(m_pLoadLowerCMD);
-  // m_driverController.Y().WhileTrue(LoadCommand(m_pLoadSub, &m_driverController).ToPtr()); // m_yButton.WhenHeld(m_pLoadAllCMD);
-  // // Shoot
-  // m_driverController.RightTrigger().WhileTrue(ShootCommand(m_pShootSub, &m_driverController).ToPtr()); // m_rightTrigger.WhenHeld(m_pShootCMD);
+  // Shooter Command
+  // m_driverController.RightTrigger().WhileTrue(TeleopShootCmd(&m_driverController, &m_shooterSub).ToPtr());
 }
 
 frc2::CommandPtr RobotContainer::GetAutonomousCommand() 

@@ -23,13 +23,7 @@ void TeleopShootCmd::Execute()
     return;
   }
   m_speed = m_pController->GetRightTriggerAxis();
-  if (m_pController->GetLeftBumper() == true)
-  {
-    m_speed = -m_speed;
-  }
   m_pSub->Shoot(m_speed);
-  frc::SmartDashboard::PutNumber("Speed", m_speed);
-  frc::SmartDashboard::PutBoolean("LeftBumper Pressed", m_pController->GetLeftBumper());
 
 }
 

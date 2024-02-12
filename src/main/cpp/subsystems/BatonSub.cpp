@@ -10,9 +10,8 @@ BatonSub::BatonSub() = default;
 // This method will be called once per scheduler run
 void BatonSub::Periodic() 
 {
-    frc::SmartDashboard::PutNumber ("BatonPotentiometer", m_potentiometer.Get());
-    frc::SmartDashboard::PutNumber ("BatonMotorLSpeed", m_motorL.Get());
-    frc::SmartDashboard::PutNumber ("BatonMotorRSpeed", m_motorR.Get());
+    // frc::SmartDashboard::PutNumber ("BatonMotorLSpeed", m_motorL.Get());
+    // frc::SmartDashboard::PutNumber ("BatonMotorRSpeed", m_motorR.Get());
 }
 
 void BatonSub::Swing(double speed)
@@ -25,11 +24,6 @@ void BatonSub::Init()
 {
     m_motorR.SetInverted(true);
 }
-
-double BatonSub::GetPotentiometer()
-{
-    return m_potentiometer.Get();
-} 
 
 bool BatonSub::GoToRest()
 {
@@ -65,10 +59,10 @@ void BatonSub::Stop()
 
 bool BatonSub::IsAtRestLimit()
 {
-   return GetPotentiometer() <= OperatorConstants::kSymphonyBatonRestAngle;
+   return false;
 }
 
 bool BatonSub::IsAtSwingLimit()
 {
-   return GetPotentiometer() >= OperatorConstants::kSymphonyBatonSwingAngle;
+   return false;
 }

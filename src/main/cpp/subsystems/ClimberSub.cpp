@@ -11,15 +11,13 @@ ClimberSub::ClimberSub() = default;
 // This method will be called once per scheduler run
 void ClimberSub::Periodic() 
 {
-    frc::SmartDashboard::PutNumber("CS Potentiameter", m_potentiometer.Get());
-    frc::SmartDashboard::PutNumber("CS MotorL value", m_motorL.Get());
-    frc::SmartDashboard::PutNumber("CS MotorR value", m_motorR.Get());
+    // frc::SmartDashboard::PutNumber("CS MotorL value", m_motorL.Get());
+    // frc::SmartDashboard::PutNumber("CS MotorR value", m_motorR.Get());
 }
-
-
 
 void ClimberSub::Init()
 {
+    // Invert necessary motors
     m_motorR.SetInverted(true);
 }
 
@@ -31,37 +29,30 @@ void ClimberSub::SetMotors(double speed)
 
 void ClimberSub::Extend()
 {
-    double CurrAngle = GetPAngle();
+    // double CurrAngle = GetPAngle();
 
-    if(IsAtExtendLimit() == true) 
-    {
-      Stop();
-    }
-    else
-    {
-     SetMotors(OperatorConstants::kSymphonyClimberExtendedAngleLimit);
-    }
-   
+    // if(IsAtExtendLimit() == true) 
+    // {
+    //   Stop();
+    // }
+    // else
+    // {
+    //  SetMotors(OperatorConstants::kSymphonyClimberExtendedAngleLimit);
+    // }
 }
 
 void ClimberSub::Retract()
 {
-     double CurrAngle = GetPAngle();
+    //  double CurrAngle = GetPAngle();
 
-    if(IsAtRetractLimit() == true)
-     {
-        Stop();
-     }
-     else
-     {
-       SetMotors(-OperatorConstants::kSymphonyClimberMotorSpeed);
-     }
-    
-}
-
-double ClimberSub::GetPAngle()
-{
-    return m_potentiometer.Get();
+    // if(IsAtRetractLimit() == true)
+    //  {
+    //     Stop();
+    //  }
+    //  else
+    //  {
+    //    SetMotors(-OperatorConstants::kSymphonyClimberMotorSpeed);
+    //  }
     
 }
 
@@ -72,10 +63,10 @@ void ClimberSub::Stop()
 
 bool ClimberSub::IsAtRetractLimit()
 {
-    return GetPAngle() <= OperatorConstants::kSymphonyClimberRetractedAngleLimit;
+    return false;
 }
 
 bool ClimberSub::IsAtExtendLimit()
 {
-    return GetPAngle() >= OperatorConstants::kSymphonyClimberExtendedAngleLimit;
+    return false;
 }

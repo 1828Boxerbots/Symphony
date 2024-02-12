@@ -19,17 +19,19 @@ class LoaderSub : public frc2::SubsystemBase {
   void Load(double speed);
   bool GetPhotoGate();
 
+  double GetEncoderSpeed();
 
   void Periodic() override;
 
  private:
- //frc::PWMSparkMax m_motor {OperatorConstants::kSymphonyLoaderMotor}; //placeholder port, not actually 5
- frc::DigitalInput m_photogate {OperatorConstants::kSymphonyLoaderPhotogate};
+  // DIO
+  frc::DigitalInput m_photogate {OperatorConstants::kSymphonyLoaderPhotogate};
 
- //frc::Victor m_motor {OperatorConstants::kSymphonyLoaderMotor}; //used for testing with C418
- rev::CANSparkMax m_motor {OperatorConstants::kSymphonyLoaderMotor, rev::CANSparkMax::MotorType::kBrushed};
+  // Motor Controllers
+  rev::CANSparkMax m_motor {OperatorConstants::kSymphonyLoaderMotorID, rev::CANSparkMax::MotorType::kBrushless};
 
-
-  // Components (e.g. motor controllers and sensors) should generally be
-  // declared private and exposed only through public methods.
+  inline rev::SparkRelativeEncoder GetEncoder()
+  {
+    return m_motor.GetEncoder(rev::CANEncoder::EncoderType::kHallSensor, OperatorConstants::NEO_ENCODER_COUNT);
+  }
 };

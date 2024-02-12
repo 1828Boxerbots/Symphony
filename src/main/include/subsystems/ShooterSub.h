@@ -21,21 +21,21 @@ class ShooterSub : public frc2::SubsystemBase {
 
   void Periodic() override;
 
+  double GetSpeedL();
+  double GetSpeedR();
+
  private:
- double m_pulses = 363; //placeholder value, real number of pulses not yet known
- //frc::PWMSparkMax m_motorR {OperatorConstants::kSymphonyShooterPWMPortR};
- //frc::PWMSparkMax m_motorL {OperatorConstants::kSymphonyShooterPWMPortL};
 
+rev::CANSparkMax m_motorL {OperatorConstants::kSymphonyShooterIDL, rev::CANSparkMax::MotorType::kBrushless};
+rev::CANSparkMax m_motorR {OperatorConstants::kSymphonyShooterIDR, rev::CANSparkMax::MotorType::kBrushless};  
 
-//frc::Victor m_motorR {2}; //for testing on C418, uncomment PWMSparkMaxes for real testing
-//frc::Victor m_motorL {3}; //for testing on C418, uncomment PWMSparkMaxes for real testing
-rev::CANSparkMax m_motorL {OperatorConstants::kSymphonyShooterPWMPortL, rev::CANSparkMax::MotorType::kBrushed};
-rev::CANSparkMax m_motorR {OperatorConstants::kSymphonyShooterPWMPortR, rev::CANSparkMax::MotorType::kBrushed};
+inline rev::SparkRelativeEncoder GetEncoderL()
+{
+  return m_motorL.GetEncoder(rev::CANEncoder::EncoderType::kHallSensor, OperatorConstants::NEO_ENCODER_COUNT);
+}
 
-
- frc::Encoder m_encoderR {OperatorConstants::kSymphonyShooterEncoderAR, OperatorConstants::kSymphonyShooterEncoderBR}; //placeholder port values
- frc::Encoder m_encoderL {OperatorConstants::kSymphonyShooterEncoderAL, OperatorConstants::kSymphonyShooterEncoderBL}; //placeholder port values
-
-
-  
+inline rev::SparkRelativeEncoder GetEncoderR()
+{
+  return m_motorR.GetEncoder(rev::CANEncoder::EncoderType::kHallSensor, OperatorConstants::NEO_ENCODER_COUNT);
+}
 };

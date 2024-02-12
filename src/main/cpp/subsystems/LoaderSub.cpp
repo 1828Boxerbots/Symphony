@@ -10,12 +10,13 @@ LoaderSub::LoaderSub() = default;
 // This method will be called once per scheduler run
 void LoaderSub::Periodic() 
 {
-    bool photogateValue = m_photogate.Get();
-    frc::SmartDashboard::PutNumber("Photogate Value", photogateValue);
+    //bool photogateValue = m_photogate.Get();
+    //frc::SmartDashboard::PutNumber("Photogate Value", photogateValue);
 }
 
 void LoaderSub::Init()
 {
+    // Invert necessary motors
     m_motor.SetInverted(true);
 }
 
@@ -27,4 +28,9 @@ void LoaderSub::Load(double speed)
 bool LoaderSub::GetPhotoGate()
 {
     return m_photogate.Get();
+}
+
+double LoaderSub::GetEncoderSpeed()
+{
+    return GetEncoder().GetVelocity();
 }

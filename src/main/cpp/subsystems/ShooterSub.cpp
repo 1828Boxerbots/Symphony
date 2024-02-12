@@ -5,46 +5,62 @@
 #include "subsystems/ShooterSub.h"
 #include <frc/smartdashboard/SmartDashboard.h>
 
+#include "Util.h"
+
 ShooterSub::ShooterSub() = default;
 
 // This method will be called once per scheduler run
 void ShooterSub::Periodic() 
 {
-    double encoderLDistance = m_encoderL.GetDistance();
-    double encoderRDistance = m_encoderR.GetDistance();
-    double encoderLRaw = m_encoderL.GetRaw();
-    double encoderRRaw = m_encoderR.GetRaw();
-    double encoderLDistPerPulse = m_encoderL.GetDistancePerPulse();
-    double encoderRDistPerPulse = m_encoderR.GetDistancePerPulse();
+    // NOTE: Only enable during debugging (will slow down the hardware)
 
-    frc::SmartDashboard::PutNumber("Left Encoder Distance", encoderLDistance); //unknown if needed
-    frc::SmartDashboard::PutNumber("Right Encoder Distance", encoderRDistance); //unknown if needed
-    frc::SmartDashboard::PutNumber("Left Encoder Raw", encoderLRaw);
-    frc::SmartDashboard::PutNumber("Right Encoder Raw", encoderRRaw);
-    frc::SmartDashboard::PutNumber("Left Encoder DistPerPulse", encoderLDistPerPulse);
-    frc::SmartDashboard::PutNumber("Right Encoder DistPerPulse", encoderRDistPerPulse);
-    frc::SmartDashboard::PutNumber("Pulses Per Encoder", m_pulses);
+    // double encoderLDistance = m_encoderL.GetDistance();
+    // double encoderRDistance = m_encoderR.GetDistance();
+    // double encoderLRaw = m_encoderL.GetRaw();
+    // double encoderRRaw = m_encoderR.GetRaw();
+    // double encoderLDistPerPulse = m_encoderL.GetDistancePerPulse();
+    // double encoderRDistPerPulse = m_encoderR.GetDistancePerPulse();
 
-
+    // frc::SmartDashboard::PutNumber("Left Encoder Distance", encoderLDistance); //unknown if needed
+    // frc::SmartDashboard::PutNumber("Right Encoder Distance", encoderRDistance); //unknown if needed
+    // frc::SmartDashboard::PutNumber("Left Encoder Raw", encoderLRaw);
+    // frc::SmartDashboard::PutNumber("Right Encoder Raw", encoderRRaw);
+    // frc::SmartDashboard::PutNumber("Left Encoder DistPerPulse", encoderLDistPerPulse);
+    // frc::SmartDashboard::PutNumber("Right Encoder DistPerPulse", encoderRDistPerPulse);
+    // frc::SmartDashboard::PutNumber("Pulses Per Encoder", m_pulses);
 }
 
 void ShooterSub::Init()
 {
-    
-    
-    double diameter = 4; //placeholder diameter, real not yet known
-    double distPerPulse = 3.14159 * diameter/m_pulses;
+    // Invert appropriate motors
     m_motorL.SetInverted(true);
-    m_encoderL.SetDistancePerPulse(distPerPulse);
-    m_encoderR.SetDistancePerPulse(distPerPulse);
 
+    // Stop all motors
+    m_motorL.Set(0.0);
+    m_motorR.Set(0.0);
+
+    // Initialize Encoders
+    const double wheelDiameter = 4;
+    double distPerPulse = Util::CalculateDistPerPulse(wheelDiameter, OperatorConstants::NEO_ENCODER_COUNT);
+    
+    // TODO: This needs to be set to velocity conversion NOT distance
+    GetEncoderL().SetPositionConversionFactor(distPerPulse);
+    GetEncoderL().SetInverted(true);
+    GetEncoderR().SetPositionConversionFactor(distPerPulse);
 }
 
 void ShooterSub::Shoot(double speed)
 {
     m_motorL.Set(speed);
     m_motorR.Set(speed);
-
 }
 
+double ShooterSub::GetSpeedL()
+{
+    return GetEncoderL().GetVelocity();
+}
 
+double ShooterSub::GetSpeedR()
+{
+    return GetEncoderR().GetVelocity();
+}

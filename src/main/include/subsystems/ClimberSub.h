@@ -20,7 +20,6 @@ class ClimberSub : public frc2::SubsystemBase {
   void SetMotors(double speed);
   void Extend();
   void Retract();
-  double GetPAngle();
   void Stop(); 
   bool IsAtRetractLimit();
   bool IsAtExtendLimit();
@@ -33,17 +32,6 @@ class ClimberSub : public frc2::SubsystemBase {
 
  private:
 
- ctre::phoenix::motorcontrol::can::WPI_VictorSPX m_motorL{OperatorConstants::kSymphonyClimberMotorLeft};
- ctre::phoenix::motorcontrol::can::WPI_VictorSPX m_motorR{OperatorConstants::kSymphonyClimberMotorRight};
-
- frc::AnalogPotentiometer m_potentiometer{OperatorConstants::kSymphonyClimberPotentiometerPort};
-
- //cmds
-
- //ExtendCmd m_ExtendCmd;
-
-
-
-  // Components (e.g. motor controllers and sensors) should generally be
-  // declared private and exposed only through public methods.
+  ctre::phoenix::motorcontrol::can::WPI_VictorSPX m_motorL{OperatorConstants::kSymphonyClimberMotorIDL};
+  ctre::phoenix::motorcontrol::can::WPI_VictorSPX m_motorR{OperatorConstants::kSymphonyClimberMotorIDR};
 };

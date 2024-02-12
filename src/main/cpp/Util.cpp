@@ -9,6 +9,7 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 
 #include "Util.h"
+#include "Constants.h"
 
 double Util::Limit(double value, double lowerLimit, double higherLimit)
 {
@@ -170,4 +171,9 @@ std::string Util::TimeStampStr()
     
     Log("Util Stamp", str);
     return str;
+}
+
+double Util::CalculateDistPerPulse(const double wheelDiameter, const int countPerRev, const double gearRatio)
+{
+    return OperatorConstants::PI * wheelDiameter * gearRatio / countPerRev;
 }

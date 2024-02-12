@@ -5,12 +5,11 @@
 #include "commands/LoadCmd.h"
 #include <frc/smartdashboard/SmartDashboard.h>
 
-LoadCmd::LoadCmd(frc::XboxController *pController, LoaderSub *pSub, double speed) 
+LoadCmd::LoadCmd(LoaderSub *pSub, double speed) 
 {
   AddRequirements(pSub);
-  m_pController = pController;
   m_pSub = pSub;
-  m_speed = -speed; 
+  m_speed = speed; 
 }
 
 // Called when the command is initially scheduled.
@@ -22,21 +21,15 @@ void LoadCmd::Initialize()
 // Called repeatedly when this Command is scheduled to run
 void LoadCmd::Execute() 
 {
-  if ((m_pSub == nullptr) or (m_pController == nullptr))
+  if ((m_pSub == nullptr))
   {
     m_isFinished = true; 
     return;
   }
 
-  double speed = m_speed;
-
-
-  if (m_pController->GetLeftBumper() == true)
-  {
-    speed = -speed;
-  }
-  m_pSub->Load(speed);
-  frc::SmartDashboard::PutNumber("Loader Speed", speed);
+  // Only run the motor if something has been loaded by LoadUntilPhotogateCMD
+  if (m_pSub->GetPhotoGate())
+    m_pSub->Load(m_speed);
 }
 
 // Called once the command ends or is interrupted.

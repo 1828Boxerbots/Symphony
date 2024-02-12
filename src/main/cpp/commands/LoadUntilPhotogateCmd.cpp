@@ -4,11 +4,12 @@
 
 #include "commands/LoadUntilPhotogateCmd.h"
 
-LoadUntilPhotogateCmd::LoadUntilPhotogateCmd(LoaderSub *pSub, double speed) 
+LoadUntilPhotogateCmd::LoadUntilPhotogateCmd(LoaderSub *pSub, frc::XboxController* pController, double speed) 
 {
   AddRequirements(pSub);
   m_pSub = pSub;
-  m_speed = -speed;
+  m_pController = pController;
+  m_speed = speed;
 
 }
 
@@ -21,13 +22,16 @@ void LoadUntilPhotogateCmd::Initialize()
 // Called repeatedly when this Command is scheduled to run
 void LoadUntilPhotogateCmd::Execute() 
 {
-  if (m_pSub == nullptr)
+  if (m_pSub == nullptr || m_pController == nullptr)
   {
     m_isFinished = true; 
     return;
   }
 
-  m_pSub->Load(m_speed);
+  if (m_pController->GetLeftBumper())
+    m_pSub->Load(-m_speed);
+  else
+    m_pSub->Load(m_speed);
 
   m_isFinished = m_pSub->GetPhotoGate();
 }

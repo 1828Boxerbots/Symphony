@@ -20,8 +20,6 @@ class BatonSub : public frc2::SubsystemBase {
 
   void Init();
 
-  double GetPotentiometer(); 
-
   bool GoToRest();
   bool GoToSwing();
   void Stop();
@@ -32,9 +30,9 @@ class BatonSub : public frc2::SubsystemBase {
 
  private:
  void Swing(double speed);
- frc::AnalogPotentiometer m_potentiometer{OperatorConstants::kSymphonyBatonPotentiometerPort}; 
- rev::CANSparkMax m_motorL{OperatorConstants::kSymphonyBatonMotorL, rev::CANSparkMax::MotorType::kBrushless}; 
- rev::CANSparkMax m_motorR{OperatorConstants::kSymphonyBatonMotorR, rev::CANSparkMax::MotorType::kBrushless}; 
+  
+ rev::CANSparkMax m_motorL{OperatorConstants::kSymphonyBatonMotorIDL, rev::CANSparkMax::MotorType::kBrushless}; 
+ rev::CANSparkMax m_motorR{OperatorConstants::kSymphonyBatonMotorIDR, rev::CANSparkMax::MotorType::kBrushless}; 
 
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.

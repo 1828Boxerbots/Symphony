@@ -37,6 +37,9 @@ void Log(std::string title, const char *value, std::string subsystemName = "");
 void SendErrorAndCode(const char* error, int32_t code);
 // void SendErrorAndCode(const wpi::Twine &error, int32_t code, const char *location);
 
+// Encoder Utils
+double CalculateDistPerPulse(const double wheelDiameter, const int revPerPulse, const double gearRatio = 1.0);
+
 //Other Constants
 constexpr double ToInches = 0.393701;
 constexpr double ToCM = 2.53;

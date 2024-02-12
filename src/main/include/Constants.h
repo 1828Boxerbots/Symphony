@@ -16,57 +16,34 @@
 
 namespace OperatorConstants 
 {
-//Drive:
 inline constexpr int kDriverControllerPort = 0;
-inline constexpr int kSymphonyDriveMotorIDR1 = 1; //Change value.
-inline constexpr int kSymphonyDriveMotorIDL1 = 2; //Change value.
-inline constexpr int kSymphonyDriveMotorIDR2 = 3; //Change value.
-inline constexpr int kSymphonyDriveMotorIDL2 = 4; //Change value.
-inline constexpr int kSymphonyDriveMotorControlR1 = 1; //Change value.
-inline constexpr int kSymphonyDriveMotorControlL1 = 2; //Change value.
-inline constexpr int kSymphonyDriveMotorControlR2 = 3; //Change value.
-inline constexpr int kSymphonyDriveMotorControlL2 = 4; //Change value.
-inline constexpr int kSymphonyDriveEncoderAR = 1; //Change value.
-inline constexpr int kSymphonyDriveEncoderAL = 2; //Change value.
-inline constexpr int kSymphonyDriveEncoderBR = 3; //Change value.
-inline constexpr int kSymphonyDriveEncoderBL = 4; //Change value.
-inline constexpr int kSymphonyL1EncoderCounts = 363; //Change value.
-inline constexpr int kSymphonyL2EncoderCounts = 363; //Change value.
-inline constexpr int kSymphonyR1EncoderCounts = 363; //Change value.
-inline constexpr int kSymphonyR2EncoderCounts = 363; //Change value.
 
-
+//Drive:
+inline constexpr int kSymphonyDriveMotorIDR1 = 0;
+inline constexpr int kSymphonyDriveMotorIDR2 = 1;
+inline constexpr int kSymphonyDriveMotorIDL1 = 2;
+inline constexpr int kSymphonyDriveMotorIDL2 = 3;
 
 //Shooter:
-inline constexpr int kSymphonyShooterPWMPortL = 3; //actually CAN motor
-inline constexpr int kSymphonyShooterPWMPortR = 2; //actually CAN motor
-inline constexpr int kSymphonyShooterEncoderAL = 2; //values are for C418
-inline constexpr int kSymphonyShooterEncoderBL = 3; //values are for C418
-inline constexpr int kSymphonyShooterEncoderAR = 0; //values are for C418
-inline constexpr int kSymphonyShooterEncoderBR = 1; //values are for C418
+inline constexpr int kSymphonyShooterIDL = 4;
+inline constexpr int kSymphonyShooterIDR = 5;
 
 //Loader:
-inline constexpr int kSymphonyLoaderPhotogate = 8; //values are for C418
-inline constexpr int kSymphonyLoaderMotor = 5; //values are for C418
+inline constexpr int kSymphonyLoaderPhotogate = 0;
+inline constexpr int kSymphonyLoaderMotorID = 5;
 
 //Baton:
-inline constexpr int kSymphonyBatonMotorL = 9; //bogus port value, not true at all
-inline constexpr int kSymphonyBatonMotorR = 10; //bogus port value, not true at all
-inline constexpr int kSymphonyBatonPotentiometerPort = 12; //bogus port value, not true at all 
-inline constexpr int kSymphonyBatonRestAngle = 90; //bogus value
-inline constexpr int kSymphonyBatonSwingAngle = 13; //bogus value
-inline constexpr int kSymphonyBatonOptimalSpeed = 1.0; //unknown true optimal speed as of now 
+inline constexpr int kSymphonyBatonMotorIDL = 7; //bogus port value, not true at all
+inline constexpr int kSymphonyBatonMotorIDR = 8; //bogus port value, not true at all 
+inline constexpr int kSymphonyBatonOptimalSpeed = 0.1; //unknown true optimal speed as of now 
 
 // Climber
-inline constexpr int kSymphonyClimberMotorLeft = 1; 
-inline constexpr int kSymphonyClimberMotorRight = 2; 
-inline constexpr double kSymphonyClimberExtendedAngleLimit = 50.0; 
-inline constexpr double kSymphonyClimberRetractedAngleLimit = 10.0; 
-inline constexpr double kSymphonyClimberMotorSpeed = 1.0; 
-inline constexpr int kSymphonyClimberPotentiometerPort = 1;
-inline constexpr int kSymphonyClimberPotentiometerRestAngle = 0;
+inline constexpr int kSymphonyClimberMotorIDL = 9; 
+inline constexpr int kSymphonyClimberMotorIDR = 10;  
+inline constexpr double kSymphonyClimberMotorSpeed = 0.1; 
 
-
-
+// Constants
+inline constexpr int NEO_ENCODER_COUNT = 42;
+inline constexpr double PI = 3.14159;
 
 }  // namespace OperatorConstants
