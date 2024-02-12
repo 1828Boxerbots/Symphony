@@ -40,10 +40,6 @@ inline constexpr int kSymphonyR2EncoderCounts = 363; //Change value.
 //Shooter:
 inline constexpr int kSymphonyShooterPWMPortL = 3; //actually CAN motor
 inline constexpr int kSymphonyShooterPWMPortR = 2; //actually CAN motor
-inline constexpr int kSymphonyShooterEncoderAL = 2; //values are for C418
-inline constexpr int kSymphonyShooterEncoderBL = 3; //values are for C418
-inline constexpr int kSymphonyShooterEncoderAR = 0; //values are for C418
-inline constexpr int kSymphonyShooterEncoderBR = 1; //values are for C418
 
 //Loader:
 inline constexpr int kSymphonyLoaderPhotogate = 8; //values are for C418
