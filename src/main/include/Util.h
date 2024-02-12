@@ -10,6 +10,7 @@
 #include <wpi/SmallString.h>
 
 #include "hal/DriverStation.h"
+#include "Constants.h"
 
 namespace Util
 {
@@ -17,6 +18,7 @@ double Limit(double value, double lowerLimit = -1.0, double higherLimit = 1.0);
 double AbsMin(double input, double minValue);
 double AbsMax(double input, double maxValue);
 double Abs(double input);
+double ConvertToRadians(double degrees);
 
 void DelayInSeconds(units::second_t seconds);
 
@@ -38,7 +40,4 @@ void SendErrorAndCode(const char* error, int32_t code);
 // void SendErrorAndCode(const wpi::Twine &error, int32_t code, const char *location);
 
 //Other Constants
-constexpr double ToInches = 0.393701;
-constexpr double ToCM = 2.53;
-constexpr double PI = 3.141592653589793238462643383279502884197169399375105820974944;
 }

@@ -3,7 +3,6 @@
 // the WPILib BSD license file in the root directory of this project.
 
 #pragma once
-#include <units/length.h>
 
 /**
  * The Constants header provides a convenient place for teams to hold robot-wide
@@ -69,6 +68,11 @@ inline constexpr int kSymphonyClimberPotentiometerRestAngle = 0;
 
 // Vision:
 inline constexpr int kMaxTargetId = 16;
+
+//pi
+constexpr double ToInches = 0.393701;
+constexpr double ToCM = 2.53;
+constexpr double PI = 3.141592653589793238462643383279502884197169399375105820974944;
 
 
 }  // namespace OperatorConstants

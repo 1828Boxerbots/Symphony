@@ -33,10 +33,6 @@ class VisionSub : public frc2::SubsystemBase
   /// @brief Resets all vision data to 0.0's
   void ResetVisionData();
 
-  /// @brief Determine's the distance from robot to target AprilTag
-  /// @return distance in meters to target AprilTag ID.
-  units::meter_t GetTargDist();
-
   /// @brief returns YAW of VALID target found.  if more than one target, calculate best ID
   /// @return YAW value (in degrees)
   double GetYaw();

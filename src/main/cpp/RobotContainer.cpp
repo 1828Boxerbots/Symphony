@@ -12,8 +12,6 @@
 #include "commands/LoadCmd.h"
 #include "commands/LoadUntilPhotogateCmd.h"
 #include "commands/TeleopDriveCmd.h"
-#include "commands/VisionAlignCmd.h"
-#include "commands/VisionRangeCmd.h"
 
 RobotContainer::RobotContainer() 
 {
@@ -29,7 +27,7 @@ void RobotContainer::Init()
 
   m_visionSub.Init();
   m_shooterSub.Init();
-  m_shooterSub.SetDefaultCommand(TeleopShootCmd(&m_driverController, &m_shooterSub)); //in finished code use driverController2
+  m_shooterSub.SetDefaultCommand(TeleopShootCmd(&m_driverController, &m_shooterSub, &m_visionSub)); //in finished code use driverController2
   m_loaderSub.Init();
 }
 
@@ -39,9 +37,6 @@ void RobotContainer::ConfigureBindings() {
 
   m_driverController.Y().WhileTrue(LoadUntilPhotogateCmd(&m_loaderSub, 1.0).ToPtr()); //in finished code use driverController2 and 1.0 speed
 
-  // // Vision
-  // m_driverController.A().WhileTrue(VisionAlignCmd(&m_visionSub, &m_driveSub, 0.3, 5.0).ToPtr());
-  // m_driverController.B().WhileTrue(VisionRangeCmd(&m_visionSub, &m_driveSub, 0.2, 12.0, 0.4).ToPtr());
   // // Load
   // m_driverController.A().WhileTrue(LoadCommand(m_pLoadSub, &m_driverController, 1.0, LoaderSubBase::intake).ToPtr()); // m_aButton.WhenHeld(m_pLoadIntakeCMD);
   // m_driverController.B().WhileTrue(LoadCommand(m_pLoadSub, &m_driverController, 1.0, LoaderSubBase::intake).ToPtr()); // m_bButton.WhenHeld(m_pLoadUpperCMD);
@@ -53,19 +48,19 @@ void RobotContainer::ConfigureBindings() {
 
 frc2::CommandPtr RobotContainer::GetAutonomousCommand() 
 {
-  switch (GetDPDT())
-  {
-    case 1:
-      // position 2
-      break;
-    case 2:
-      // position 3
-      break;
-    case 0:
-    default:
+  // // // // // // // switch (GetDPDT())
+  // // // // // // // {
+  // // // // // // //   case 1:
+  // // // // // // //     // position 2
+  // // // // // // //     break;
+  // // // // // // //   case 2:
+  // // // // // // //     // position 3
+  // // // // // // //     break;
+  // // // // // // //   case 0:
+  // // // // // // //   default:
       // position 1
       return autos::Position1CmdGrp(&m_driveSub, &m_visionSub, &m_shooterSub);
-  }
+  // // // // // // // }
 }
 
 int RobotContainer::GetDPDT() 
