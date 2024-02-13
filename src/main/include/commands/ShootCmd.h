@@ -19,7 +19,7 @@
 class ShootCmd
     : public frc2::CommandHelper<frc2::Command, ShootCmd> {
  public:
-  ShootCmd(double speed, ShooterSub *pShooterSub, VisionSub *pVisionSub);
+  ShootCmd(ShooterSub *pShooterSub, VisionSub *pVisionSub, double speed = -0.1);
 
   void Initialize() override;
 
