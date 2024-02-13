@@ -25,7 +25,7 @@ void TeleopShootCmd::Execute()
     return;
   }
 
-  double speed = m_pShooterSub->CalculateSpeed((double)m_pVisionSub->GetDistanceInMeters()); //Remove parameter to get distance, there should not be a parameter
+  double speed = m_pShooterSub->CalculateSpeed((double)m_pVisionSub->GetDistanceInInches() * OperatorConstants::MetersPerInch); //Remove parameter to get distance, there should not be a parameter
 
   if (m_pController->GetLeftBumper() == true)
   {

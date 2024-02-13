@@ -18,7 +18,7 @@ void ShootCmd::Initialize() {}
 // Called repeatedly when this Command is scheduled to run
 void ShootCmd::Execute() 
 {
-  m_speed = m_pShooterSub->CalculateSpeed((double)m_pVisionSub->GetDistanceInMeters()); //Remove parameter to get distance, there should not be a parameter
+  m_speed = m_pShooterSub->CalculateSpeed((double)m_pVisionSub->GetDistanceInInches() * OperatorConstants::MetersPerInch); //Remove parameter to get distance, there should not be a parameter
   if ((m_pShooterSub != nullptr) and (m_pVisionSub != nullptr))
   {
     m_pShooterSub->Shoot(m_speed); 
