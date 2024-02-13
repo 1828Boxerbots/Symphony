@@ -12,6 +12,8 @@
 #include "commands/LoadCmd.h"
 #include "commands/LoadUntilPhotogateCmd.h"
 #include "commands/TeleopDriveCmd.h"
+#include "commands/VisionAlignCmd.h"
+#include "commands/VisionRangeCmd.h"
 
 RobotContainer::RobotContainer() 
 {
@@ -33,9 +35,12 @@ void RobotContainer::Init()
 
 void RobotContainer::ConfigureBindings() {
   // Configure your trigger bindings here
-  m_driverController.A().WhileTrue(LoadCmd(&m_driverController, &m_loaderSub, 1.0).ToPtr()); //in finished code use driverController2 and 1.0 speed
+  //m_driverController.A().WhileTrue(LoadCmd(&m_driverController, &m_loaderSub, 1.0).ToPtr()); //in finished code use driverController2 and 1.0 speed
 
-  m_driverController.Y().WhileTrue(LoadUntilPhotogateCmd(&m_loaderSub, 1.0).ToPtr()); //in finished code use driverController2 and 1.0 speed
+  //m_driverController.Y().WhileTrue(LoadUntilPhotogateCmd(&m_loaderSub, 1.0).ToPtr()); //in finished code use driverController2 and 1.0 speed
+
+  // Vision:
+  m_driverController.A().WhileTrue(VisionAlignCmd(&m_visionSub, &m_driveSub, 0.2, 5.0).ToPtr());
 
   // // Load
   // m_driverController.A().WhileTrue(LoadCommand(m_pLoadSub, &m_driverController, 1.0, LoaderSubBase::intake).ToPtr()); // m_aButton.WhenHeld(m_pLoadIntakeCMD);
