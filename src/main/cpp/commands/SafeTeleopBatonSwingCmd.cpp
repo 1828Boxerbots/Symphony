@@ -18,7 +18,7 @@ SafeTeleopBatonSwingCmd::SafeTeleopBatonSwingCmd(frc::XboxController *pControlle
 // Called when the command is initially scheduled.
 void SafeTeleopBatonSwingCmd::Initialize() 
 {
-
+  m_isFinished = false;
 }
 
 // Called repeatedly when this Command is scheduled to run
@@ -33,11 +33,11 @@ void SafeTeleopBatonSwingCmd::Execute()
   {
     if (m_pController->GetLeftBumper() == true)
     {
-      m_pBatonSub->GoToRest();
+      m_isFinished = m_pBatonSub->GoToRest();
     }
     else
     {
-      m_pBatonSub->GoToSwing();
+      m_isFinished = m_pBatonSub->GoToSwing();
     }
   }
   else

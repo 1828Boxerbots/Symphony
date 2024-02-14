@@ -18,7 +18,7 @@ SafeTeleopMoveClimberCmd::SafeTeleopMoveClimberCmd(frc::XboxController *pControl
 // Called when the command is initially scheduled.
 void SafeTeleopMoveClimberCmd::Initialize() 
 {
-
+   m_isFinished = false;
 }
 
 // Called repeatedly when this Command is scheduled to run
@@ -27,7 +27,7 @@ void SafeTeleopMoveClimberCmd::Execute()
   if ((m_pBatonSub == nullptr) or (m_pController == nullptr) or (m_pClimbSub == nullptr))
   {
     m_isFinished = true; 
-    return;
+    return;  
   }
 
   // Check if Baton is at Rest 
@@ -37,12 +37,12 @@ void SafeTeleopMoveClimberCmd::Execute()
     if (m_pController->GetLeftBumper() == true)
     {
       //if pressed retract
-      m_pClimbSub->Retract();
+     m_isFinished = m_pClimbSub->Retract();
     }
     else
     {
       //if not pressed extend
-      m_pClimbSub->Extend();
+     m_isFinished = m_pClimbSub->Extend();
     }
   }
   else

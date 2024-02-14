@@ -17,8 +17,7 @@ TeleopMoveClimberCmd::TeleopMoveClimberCmd(ClimberSub* pClimbSub, frc::XboxContr
 void TeleopMoveClimberCmd::Initialize() 
 {
     
-   
-
+   m_IsFinished = false;
 }
 
 // Called repeatedly when this Command is scheduled to run
@@ -36,11 +35,11 @@ void TeleopMoveClimberCmd::Execute()
 
   if(leftbumber == true)
   {
-     m_pClimbSub->Retract();
+    m_IsFinished = m_pClimbSub->Retract();
   }
   else
   {
-    m_pClimbSub->Extend();
+    m_IsFinished = m_pClimbSub->Extend();
   }
 
 }
@@ -52,6 +51,7 @@ void TeleopMoveClimberCmd::End(bool interrupted)
   if (m_pClimbSub != nullptr)
   {
       m_pClimbSub->Stop();
+   
   }
 }
 

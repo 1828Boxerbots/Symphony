@@ -10,7 +10,8 @@ BatonSub::BatonSub() = default;
 // This method will be called once per scheduler run
 void BatonSub::Periodic() 
 {
-    frc::SmartDashboard::PutNumber ("BatonPotentiometer", m_potentiometer.Get());
+    frc::SmartDashboard::PutNumber ("BatonSub Swing Magnet", m_SwingMagnet.Get());
+    frc::SmartDashboard::PutNumber ("BatonSub Rest Magnet", m_RestMagnet.Get());
     frc::SmartDashboard::PutNumber ("BatonMotorLSpeed", m_motorL.Get());
     frc::SmartDashboard::PutNumber ("BatonMotorRSpeed", m_motorR.Get());
 }
@@ -26,10 +27,6 @@ void BatonSub::Init()
     m_motorR.SetInverted(true);
 }
 
-double BatonSub::GetPotentiometer()
-{
-    return m_potentiometer.Get();
-} 
 
 bool BatonSub::GoToRest()
 {
@@ -39,8 +36,9 @@ bool BatonSub::GoToRest()
     {
       speed = 0.0;
     }
-    m_motorL.Set(speed);
-    m_motorR.Set(speed);
+  m_motorL.Set(speed);
+  m_motorR.Set(speed);
+
     return isAtLimit;
 }
 
@@ -52,8 +50,9 @@ bool BatonSub::GoToSwing()
     {
       speed = 0.0;
     }
-    m_motorL.Set(speed);
-    m_motorR.Set(speed);
+  m_motorL.Set(speed);
+  m_motorR.Set(speed);
+
     return isAtLimit;
 } 
 
@@ -65,10 +64,12 @@ void BatonSub::Stop()
 
 bool BatonSub::IsAtRestLimit()
 {
-   return GetPotentiometer() <= OperatorConstants::kSymphonyBatonRestAngle;
+  bool Rest = m_RestMagnet.Get();
+  return Rest;
 }
 
 bool BatonSub::IsAtSwingLimit()
 {
-   return GetPotentiometer() >= OperatorConstants::kSymphonyBatonSwingAngle;
+ bool Swing = m_SwingMagnet.Get();
+  return Swing;
 }

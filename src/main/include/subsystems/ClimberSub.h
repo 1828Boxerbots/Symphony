@@ -8,7 +8,8 @@
 
 #include <frc2/command/SubsystemBase.h>
 #include <ctre/phoenix/motorcontrol/can/WPI_VictorSPX.h>
-#include <frc/AnalogPotentiometer.h>
+#include <frc/DigitalInput.h>
+
 
 
 
@@ -18,12 +19,12 @@ class ClimberSub : public frc2::SubsystemBase {
 
   void Init();
   void SetMotors(double speed);
-  void Extend();
-  void Retract();
-  double GetPAngle();
+  bool Extend(); //same as go to swing for baton sub
+  bool Retract(); // same as go to rest for baton sub
   void Stop(); 
   bool IsAtRetractLimit();
   bool IsAtExtendLimit();
+  bool IsAtClimbSensor();
   
 
   /**
@@ -33,10 +34,15 @@ class ClimberSub : public frc2::SubsystemBase {
 
  private:
 
- ctre::phoenix::motorcontrol::can::WPI_VictorSPX m_motorL{OperatorConstants::kSymphonyClimberMotorLeft};
- ctre::phoenix::motorcontrol::can::WPI_VictorSPX m_motorR{OperatorConstants::kSymphonyClimberMotorRight};
+ bool m_isClimbable = false; //Suposed to me made true when Climb arm gets fully extended 
 
- frc::AnalogPotentiometer m_potentiometer{OperatorConstants::kSymphonyClimberPotentiometerPort};
+frc::DigitalInput m_retractMagnet{OperatorConstants::kSymphonyClimberExtendMagnetPort};
+frc::DigitalInput m_extendMagnet{OperatorConstants::kSymphonyClimberRetractMagnetPort};
+frc::DigitalInput m_climbingMagnet{OperatorConstants::kSymphonyClimberClimbingMagnetPort};
+
+ctre::phoenix::motorcontrol::can::WPI_VictorSPX m_motorL{OperatorConstants::kSymphonyClimberMotorLeft};
+ctre::phoenix::motorcontrol::can::WPI_VictorSPX m_motorR{OperatorConstants::kSymphonyClimberMotorRight};
+
 
  //cmds
 

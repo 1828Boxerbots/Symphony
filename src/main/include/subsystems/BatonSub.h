@@ -7,7 +7,8 @@
 #include <frc2/command/SubsystemBase.h>
 #include <Constants.h>
 #include <rev/CANSparkMax.h>
-#include <frc/AnalogPotentiometer.h>
+#include <frc/DigitalInput.h>
+
 
 class BatonSub : public frc2::SubsystemBase {
  public:
@@ -32,7 +33,9 @@ class BatonSub : public frc2::SubsystemBase {
 
  private:
  void Swing(double speed);
- frc::AnalogPotentiometer m_potentiometer{OperatorConstants::kSymphonyBatonPotentiometerPort}; 
+
+frc::DigitalInput m_SwingMagnet{OperatorConstants::kSymphonyBatonSwingMagnetPort};
+frc::DigitalInput m_RestMagnet{OperatorConstants::kSymphonyBatonRestMagnetPort};
  rev::CANSparkMax m_motorL{OperatorConstants::kSymphonyBatonMotorL, rev::CANSparkMax::MotorType::kBrushless}; 
  rev::CANSparkMax m_motorR{OperatorConstants::kSymphonyBatonMotorR, rev::CANSparkMax::MotorType::kBrushless}; 
 

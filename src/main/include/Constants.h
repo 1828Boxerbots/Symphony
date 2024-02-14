@@ -52,19 +52,22 @@ inline constexpr int kSymphonyLoaderMotor = 5; //values are for C418
 //Baton:
 inline constexpr int kSymphonyBatonMotorL = 9; //bogus port value, not true at all
 inline constexpr int kSymphonyBatonMotorR = 10; //bogus port value, not true at all
-inline constexpr int kSymphonyBatonPotentiometerPort = 12; //bogus port value, not true at all 
-inline constexpr int kSymphonyBatonRestAngle = 90; //bogus value
-inline constexpr int kSymphonyBatonSwingAngle = 13; //bogus value
-inline constexpr int kSymphonyBatonOptimalSpeed = 1.0; //unknown true optimal speed as of now 
+inline constexpr int kSymphonyBatonSwingMagnetPort = 1;  //bogus port value, not true at all
+inline constexpr int kSymphonyBatonRestMagnetPort = 2;  //bogus port value, not true at all
+inline constexpr int kSymphonyBatonOptimalSpeed = 1; //unknown true optimal speed as of now 
+
+
 
 // Climber
 inline constexpr int kSymphonyClimberMotorLeft = 1; 
 inline constexpr int kSymphonyClimberMotorRight = 2; 
-inline constexpr double kSymphonyClimberExtendedAngleLimit = 50.0; 
-inline constexpr double kSymphonyClimberRetractedAngleLimit = 10.0; 
 inline constexpr double kSymphonyClimberMotorSpeed = 1.0; 
-inline constexpr int kSymphonyClimberPotentiometerPort = 1;
-inline constexpr int kSymphonyClimberPotentiometerRestAngle = 0;
+inline constexpr int kSymphonyClimberExtendMagnetPort = 3;  //bogus port value, not true at all
+inline constexpr int kSymphonyClimberRetractMagnetPort = 4;  //bogus port value, not true at all
+inline constexpr int kSymphonyClimberClimbingMagnetPort = 5;  //bogus port value, not true at all
+
+
+
 
 
 
