@@ -92,16 +92,16 @@ void DriveSub::Init()
     const double gearRatio = 8.46 / 1;
     double distPerPulse = Util::CalculateDistPerPulse(wheelDiameter, OperatorConstants::NEO_ENCODER_COUNT, gearRatio);
 
-    GetEncoderL1().SetPositionConversionFactor(distPerPulse);
-    GetEncoderL2().SetPositionConversionFactor(distPerPulse);
-    GetEncoderR1().SetPositionConversionFactor(distPerPulse);
-    GetEncoderR1().SetInverted(true);
-    GetEncoderR2().SetPositionConversionFactor(distPerPulse);
-    GetEncoderR2().SetInverted(true);
+    // m_leftEncoder1.SetPositionConversionFactor(distPerPulse);
+    // m_leftEncoder2.SetPositionConversionFactor(distPerPulse);
+    // m_rightEncoder1.SetPositionConversionFactor(distPerPulse);
+    // m_rightEncoder1.SetInverted(true);
+    // m_rightEncoder2.SetPositionConversionFactor(distPerPulse);
+    // m_rightEncoder2.SetInverted(true);
 
     // initialize imu
-    m_imu.Calibrate();
-    m_imu.Reset();
+    // m_imu.Calibrate();
+    // m_imu.Reset();
 }
 
 void DriveSub::DriveTank(double left, double right)
@@ -119,54 +119,54 @@ void DriveSub::DriveRC(double vertical, double horizontal)
 
 ///////////////////////////////////////////////////////////////////////////////
 // ENCODERS
-double DriveSub::GetDistanceL1()
-{
-    return GetEncoderL1().GetPosition();
-}
-double DriveSub::GetDistanceL2()
-{
-    return GetEncoderL2().GetPosition();
-}
-double DriveSub::GetDistanceR1()
-{
-    return GetEncoderR1().GetPosition();
-}
-double DriveSub::GetDistanceR2()
-{
-    return GetEncoderR2().GetPosition();
-}
-double DriveSub::GetSpeedL1()
-{
-    return GetEncoderL1().GetVelocity();
-}
-double DriveSub::GetSpeedL2()
-{
-    return GetEncoderL2().GetVelocity();
-}
-double DriveSub::GetSpeedR1()
-{
-    return GetEncoderR1().GetVelocity();
-}
-double DriveSub::GetSpeedR2()
-{
-    return GetEncoderR2().GetVelocity();
-}
+// double DriveSub::GetDistanceL1()
+// {
+//     return m_leftEncoder1.GetPosition();
+// }
+// double DriveSub::GetDistanceL2()
+// {
+//     return m_leftEncoder2.GetPosition();
+// }
+// double DriveSub::GetDistanceR1()
+// {
+//     return m_rightEncoder1.GetPosition();
+// }
+// double DriveSub::GetDistanceR2()
+// {
+//     return m_rightEncoder2.GetPosition();
+// }
+// double DriveSub::GetSpeedL1()
+// {
+//     return m_leftEncoder1.GetVelocity();
+// }
+// double DriveSub::GetSpeedL2()
+// {
+//     return m_leftEncoder2.GetVelocity();
+// }
+// double DriveSub::GetSpeedR1()
+// {
+//     return m_rightEncoder1.GetVelocity();
+// }
+// double DriveSub::GetSpeedR2()
+// {
+//     return m_rightEncoder2.GetVelocity();
+// }
 
 ///////////////////////////////////////////////////////////////////////////////
 // IMU
-double DriveSub::GetAngle()
-{
-    return GetAngleX();
-}
-double DriveSub::GetAngleX()
-{
-    return (double)m_imu.GetGyroAngleX();;
-}
-double DriveSub::GetAngleY()
-{
-    return (double)m_imu.GetGyroAngleY();;
-}
-double DriveSub::GetAngleZ()
-{
-    return (double)m_imu.GetGyroAngleZ();;
-}
+// double DriveSub::GetAngle()
+// {
+//     return GetAngleX();
+// }
+// double DriveSub::GetAngleX()
+// {
+//     return (double)m_imu.GetGyroAngleX();;
+// }
+// double DriveSub::GetAngleY()
+// {
+//     return (double)m_imu.GetGyroAngleY();;
+// }
+// double DriveSub::GetAngleZ()
+// {
+//     return (double)m_imu.GetGyroAngleZ();;
+// }

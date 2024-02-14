@@ -44,9 +44,9 @@ void ShooterSub::Init()
     double distPerPulse = Util::CalculateDistPerPulse(wheelDiameter, OperatorConstants::NEO_ENCODER_COUNT);
     
     // TODO: This needs to be set to velocity conversion NOT distance
-    GetEncoderL().SetPositionConversionFactor(distPerPulse);
-    GetEncoderL().SetInverted(true);
-    GetEncoderR().SetPositionConversionFactor(distPerPulse);
+    // GetEncoderL().SetPositionConversionFactor(distPerPulse);
+    // GetEncoderL().SetInverted(true);
+    // GetEncoderR().SetPositionConversionFactor(distPerPulse);
 }
 
 void ShooterSub::Shoot(double speed)
@@ -55,12 +55,12 @@ void ShooterSub::Shoot(double speed)
     m_motorR.Set(speed);
 }
 
-double ShooterSub::GetSpeedL()
-{
-    return GetEncoderL().GetVelocity();
-}
+// double ShooterSub::GetSpeedL()
+// {
+//     return GetEncoderL().GetVelocity();
+// }
 
-double ShooterSub::GetSpeedR()
-{
-    return GetEncoderR().GetVelocity();
-}
+// double ShooterSub::GetSpeedR()
+// {
+//     return GetEncoderR().GetVelocity();
+// }

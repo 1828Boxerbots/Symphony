@@ -20,7 +20,7 @@
 class TeleopDriveCmd : public frc2::CommandHelper<frc2::Command, TeleopDriveCmd> 
 {
  public:
-  TeleopDriveCmd(DriveSub *pDriveSub, frc::XboxController *pController);
+  TeleopDriveCmd(DriveSub *pDriveSub, frc::XboxController *pControllerz);
 
   void Initialize() override;
 
@@ -33,10 +33,6 @@ class TeleopDriveCmd : public frc2::CommandHelper<frc2::Command, TeleopDriveCmd>
   private:
   DriveSub* m_pDriveSub = nullptr;
   frc::XboxController* m_pController = nullptr;
-  double m_yRight= 0;
-  double m_yLeft= 0;
-  double m_xRight= 0;
-  double m_xLeft= 0;
   bool m_isFinished = false;
 
 };

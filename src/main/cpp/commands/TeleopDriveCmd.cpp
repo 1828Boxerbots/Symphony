@@ -4,10 +4,12 @@
 
 #include "commands/TeleopDriveCmd.h"
 
+#include <iostream>
+
 TeleopDriveCmd::TeleopDriveCmd(DriveSub *pDriveSub, frc::XboxController *pController) 
 {
-  pDriveSub = m_pDriveSub;
-  pController = m_pController;
+  m_pDriveSub = pDriveSub;
+  m_pController = pController;
   // Use addRequirements() here to declare subsystem dependencies.
   AddRequirements(m_pDriveSub);
 }
@@ -20,12 +22,12 @@ void TeleopDriveCmd::Initialize()
 // Called repeatedly when this Command is scheduled to run
 void TeleopDriveCmd::Execute() 
 {
-  if (m_pDriveSub == nullptr and m_pController == nullptr)
+  if (m_pDriveSub != nullptr && m_pController != nullptr)
   {
-    m_yLeft = m_pController->GetLeftY();
-    m_xRight = m_pController->GetRightX();
+    double leftY = m_pController->GetLeftY();
+    double rightX = m_pController->GetRightX();
 
-    m_pDriveSub->DriveRC(m_yLeft, m_xRight);
+    m_pDriveSub->DriveRC(-leftY, rightX);
   }
 }
 

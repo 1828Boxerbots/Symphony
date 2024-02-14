@@ -27,24 +27,24 @@ class DriveSub : public frc2::SubsystemBase
 
   /// @brief gets yaw position (in degrees) from start position
   /// @return angle in degrees
-  double GetAngle();
-  double GetAngleX();
-  double GetAngleY();
-  double GetAngleZ();
+  // double GetAngle();
+  // double GetAngleX();
+  // double GetAngleY();
+  // double GetAngleZ();
 
   /// @brief gets the current distance traveled from left encoders
   /// @return distance in inches
-  double GetDistanceL1();
-  double GetDistanceL2();
-  double GetSpeedL1();
-  double GetSpeedL2();
+  // double GetDistanceL1();
+  // double GetDistanceL2();
+  // double GetSpeedL1();
+  // double GetSpeedL2();
 
   /// @brief gets the current distance traveled from right encoder2
   /// @return distance in inches
-  double GetDistanceR1();
-  double GetDistanceR2();
-  double GetSpeedR1();
-  double GetSpeedR2();
+  // double GetDistanceR1();
+  // double GetDistanceR2();
+  // double GetSpeedR1();
+  // double GetSpeedR2();
 
 
   void Periodic() override;
@@ -59,25 +59,12 @@ class DriveSub : public frc2::SubsystemBase
   rev::CANSparkMax m_motorL2 {OperatorConstants::kSymphonyDriveMotorIDL2, rev::CANSparkMax::MotorType::kBrushless};
   rev::CANSparkMax m_motorR2 {OperatorConstants::kSymphonyDriveMotorIDR2, rev::CANSparkMax::MotorType::kBrushless};
 
-  // encoders are part of CANSparkMax - keep private
-  inline rev::SparkRelativeEncoder GetEncoderL1()
-  {
-    return m_motorL1.GetEncoder(rev::CANEncoder::EncoderType::kHallSensor, OperatorConstants::NEO_ENCODER_COUNT);
-  }
-  inline rev::SparkRelativeEncoder GetEncoderL2()
-  {
-    return m_motorL2.GetEncoder(rev::CANEncoder::EncoderType::kHallSensor, OperatorConstants::NEO_ENCODER_COUNT);
-  }
-  inline rev::SparkRelativeEncoder GetEncoderR1()
-  {
-    return m_motorR1.GetEncoder(rev::CANEncoder::EncoderType::kHallSensor, OperatorConstants::NEO_ENCODER_COUNT);
-  }
-  inline rev::SparkRelativeEncoder GetEncoderR2()
-  {
-    return m_motorR2.GetEncoder(rev::CANEncoder::EncoderType::kHallSensor, OperatorConstants::NEO_ENCODER_COUNT);
-  }
+  //rev::SparkMaxRelativeEncoder m_leftEncoder1 = m_motorL1.GetEncoder(rev::SparkRelativeEncoder::Type::kHallSensor);
+  //rev::SparkMaxRelativeEncoder m_leftEncoder2 = m_motorL2.GetEncoder(rev::SparkRelativeEncoder::Type::kHallSensor);
+  //rev::SparkMaxRelativeEncoder m_rightEncoder1 = m_motorR1.GetEncoder(rev::SparkRelativeEncoder::Type::kHallSensor);
+  //rev::SparkMaxRelativeEncoder m_rightEncoder2 = m_motorR2.GetEncoder(rev::SparkRelativeEncoder::Type::kHallSensor);
 
   ///////////////////////////////////////////////////////////////////////////////
   // IMU
-  frc::ADIS16448_IMU m_imu;
+  //frc::ADIS16448_IMU m_imu;
 };

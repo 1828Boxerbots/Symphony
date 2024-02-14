@@ -23,11 +23,11 @@ RobotContainer::RobotContainer()
 void RobotContainer::Init()
 {
   // TODO: As we start testing, incrementally enable each subsystem
-  //m_driveSub.Init();
-  //m_driveSub.SetDefaultCommand(TeleopDriveCmd(&m_driveSub, &m_driverController));
+  m_driveSub.Init();
+  m_driveSub.SetDefaultCommand(TeleopDriveCmd(&m_driveSub, &m_driverController));
 
   //m_visionSub.Init();
-  //m_shooterSub.Init();
+  m_shooterSub.Init();
   //m_loaderSub.Init();
   //m_batonSub.Init();
   //m_climberSub.Init();
@@ -41,7 +41,7 @@ void RobotContainer::ConfigureBindings() {
   // m_driverController.B().WhileTrue(LoadCmd(&m_loaderSub, 0.25).ToPtr());
 
   // Shooter Command
-  // m_driverController.RightTrigger().WhileTrue(TeleopShootCmd(&m_driverController, &m_shooterSub).ToPtr());
+  m_driverController.RightTrigger().WhileTrue(TeleopShootCmd(&m_driverController, &m_shooterSub).ToPtr());
 }
 
 frc2::CommandPtr RobotContainer::GetAutonomousCommand() 

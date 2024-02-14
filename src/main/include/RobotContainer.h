@@ -42,7 +42,7 @@ class RobotContainer {
   VisionSub m_visionSub;
   DriveSub m_driveSub;
   ShooterSub m_shooterSub;
-  LoaderSub m_loaderSub;
-  ClimberSub m_climberSub;
-  BatonSub m_batonSub;
+  //LoaderSub m_loaderSub;
+  //ClimberSub m_climberSub;
+  //BatonSub m_batonSub;
 };

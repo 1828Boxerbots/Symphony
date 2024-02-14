@@ -21,21 +21,21 @@ class ShooterSub : public frc2::SubsystemBase {
 
   void Periodic() override;
 
-  double GetSpeedL();
-  double GetSpeedR();
+  // double GetSpeedL();
+  // double GetSpeedR();
 
  private:
 
 rev::CANSparkMax m_motorL {OperatorConstants::kSymphonyShooterIDL, rev::CANSparkMax::MotorType::kBrushless};
 rev::CANSparkMax m_motorR {OperatorConstants::kSymphonyShooterIDR, rev::CANSparkMax::MotorType::kBrushless};  
 
-inline rev::SparkRelativeEncoder GetEncoderL()
-{
-  return m_motorL.GetEncoder(rev::CANEncoder::EncoderType::kHallSensor, OperatorConstants::NEO_ENCODER_COUNT);
-}
+// inline rev::SparkRelativeEncoder GetEncoderL()
+// {
+//   return m_motorL.GetEncoder(rev::CANEncoder::EncoderType::kHallSensor, OperatorConstants::NEO_ENCODER_COUNT);
+// }
 
-inline rev::SparkRelativeEncoder GetEncoderR()
-{
-  return m_motorR.GetEncoder(rev::CANEncoder::EncoderType::kHallSensor, OperatorConstants::NEO_ENCODER_COUNT);
-}
+// inline rev::SparkRelativeEncoder GetEncoderR()
+// {
+//   return m_motorR.GetEncoder(rev::CANEncoder::EncoderType::kHallSensor, OperatorConstants::NEO_ENCODER_COUNT);
+// }
 };
