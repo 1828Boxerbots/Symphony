@@ -4,25 +4,36 @@
 
 #include "commands/ShootCmd.h"
 
-ShootCmd::ShootCmd(double speed, ShooterSub *pSub) 
+ShootCmd::ShootCmd(ShooterSub *pShooterSub, VisionSub *pVisionSub, double speed) 
 {
-  AddRequirements(pSub);
+  AddRequirements(pShooterSub);
+  AddRequirements(pVisionSub);
+  m_pShooterSub = pShooterSub;
+  m_pVisionSub = pVisionSub;
   m_speed = speed;
-  m_pSub = pSub;
 }
 
 // Called when the command is initially scheduled.
-void ShootCmd::Initialize() {}
+void ShootCmd::Initialize() 
+{
+    if (m_speed < 0.0)
+  {
+    m_speed = m_pShooterSub->CalculateSpeed((double)m_pVisionSub->GetDistanceInInches() * OperatorConstants::MetersPerInch); //Remove parameter to get distance, there should not be a parameter
+  }
+}
 
 // Called repeatedly when this Command is scheduled to run
 void ShootCmd::Execute() 
 {
-  if (m_pSub != nullptr)
+  if ((m_pShooterSub != nullptr) and (m_pVisionSub != nullptr))
   {
-    m_pSub->Shoot(m_speed);
+    m_pShooterSub->Shoot(m_speed); 
   }
   
-  m_isFinished = true;
+  if (m_pShooterSub->GetSpeed() >= m_speed)
+  {
+    m_isFinished = true;
+  }
 }
 
 // Called once the command ends or is interrupted.

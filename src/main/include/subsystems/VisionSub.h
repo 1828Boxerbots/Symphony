@@ -8,7 +8,10 @@
 #include <photon/PhotonUtils.h>
 #include <photon/PhotonCamera.h>
 #include <frc/SmartDashboard/SmartDashboard.h>
+#include <frc/Timer.h>
+#include <string>
 
+#include "Constants.h"
 
 class VisionSub : public frc2::SubsystemBase 
 {
@@ -20,37 +23,74 @@ class VisionSub : public frc2::SubsystemBase
    */
   void Periodic() override;
 
+  /// @brief Initializes all hardware and library components
   void Init();
 
-  double GetTargYaw(int id);
-  double GetTargPitch(int id);
-  double GetTargSkew(int id);
-  double GetTargArea(int id);
-  units::meter_t GetTargDist(int id);
+  /// @brief Determines from Periodic() data, which target ID is most likely to be used
+  /// @return the appropriate ID to center/move towards
+  int GetTargID();
+
+  /// @brief Resets all vision data to 0.0's
+  void ResetVisionData();
+
+  /// @brief returns YAW of VALID target found.  if more than one target, calculate best ID
+  /// @return YAW value (in degrees)
+  double GetYaw();
+
+  /// @brief returns YAW of BestTarget found
+  /// @return YAW value (in degrees) of BestTarget found
+  double GetBestYaw();
+
+  /// @brief returns if there are ANY targets found in FOV
+  /// @return TRUE=one or more targets found.  FALSE=no targets found
+  bool HasTargets();
+
+  /// @brief returns number of VALID targets (where ID is >=1 and <=16)
+  /// @param pTarget1Id output parameter for ID of aprilTag #1
+  /// @param pTarget2Id output parameter for ID of aprilTag #2
+  /// @param pYaw1 output parameter for yaw of aprilTag #1
+  /// @param pYaw2 output parameter for yaw of aprilTag #2
+  /// @return quantity of targets found, within ( >=1 and <=16 )
+  int NumValidTargets(int *pTarget1Id = nullptr, int *pTarget2Id = nullptr, double *pYaw1 = nullptr, double *pYaw2 = nullptr);
+
+  /// @brief gets distance to target
+  /// @return distance to target in meters
+  double GetDistanceInMeters();
+  double GetDistanceInInches();
+
+
+  // NETWORK TABLE TEST ///////////////////////////////////////////////////////
+  // TBD TBD TBD - test only
+  /// @brief initializes data for network table data acquisition
+  void InitNetworkTableData();
+
+  /// @brief returns network data from subscriptions
+  /// @return value for given data
+  double GetNetworkTableData();
+  // NETWORK TABLE TEST ///////////////////////////////////////////////////////
 
  private:
-  //Initialize Camera:
-  photon::PhotonCamera m_testCam{"TestCam1 "};
-
-  //Initialize Data Variables:
-  int m_targetID = 0;
-  const int m_idRequested = 3;
-  const int m_idRequested2 = 4;
-  double m_targetSkew = 0.0;
-  double m_targetPitch = 0.0;
-  double m_targetYaw = 0.0;
-  double m_targetArea = 0.0;
-  double m_targetSkew2 = 0.0;
-  double m_targetPitch2 = 0.0;
-  double m_targetYaw2 = 0.0;
-  double m_targetArea2 = 0.0;
-    
-  units::meter_t m_targetDist = 0.0_in;
-  units::meter_t m_targetDist2 = 0.0_in;
-  const units::meter_t m_kCamHeight = 0.0625_ft;
-  const units::meter_t m_kTargetHeight = 4_in;
-  const units::radian_t m_kCamPitch = 0.0_deg;
-
+  /// @brief returns target height (center of aprilTag), for given April-Tag ID
+  /// @param id = April-Tag ID
+  /// @return height of target, from robot (Symphony) drawings
+  units::length::meter_t GetTargetHeight(int id); // in meters
+  
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
+
+  //Initialize Camera:
+  const std::string m_cameraName = "SymphonyCam";
+  photon::PhotonCamera m_robotCam{m_cameraName};
+
+  frc::Timer m_timer;
+
+  const units::meter_t m_kTargetHeight = 49.733333333_in;    // for testing ONLY
+  const units::meter_t m_kCamHeight = 34.9416666667_in;  // TBD TBD - need actual robot specs;
+  const units::radian_t m_kCamPitch = 0.0_deg;  // TBD TBD - need actual robot specs
+
+  // NETWORK TABLE TEST ///////////////////////////////////////////////////////
+  nt::DoubleSubscriber m_dblSub;
+  nt::DoubleSubscriber m_dblSub2;
+  nt::DoubleSubscriber m_dblSub3;
+  // NETWORK TABLE TEST ///////////////////////////////////////////////////////
 };

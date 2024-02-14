@@ -18,10 +18,10 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class VisionAlignCmd : public frc2::CommandHelper<frc2::Command, VisionAlignCmd> 
+class VisionRangeCmd : public frc2::CommandHelper<frc2::Command, VisionRangeCmd> 
 {
  public:
-  VisionAlignCmd(VisionSub *pVisionSub, DriveSub *pDriveSub, double speed, double deadZone);
+  VisionRangeCmd(VisionSub *pVisionSub, DriveSub *pDriveSub, double speed, double range, double deadZone);
 
   void Initialize() override;
 
@@ -35,8 +35,9 @@ class VisionAlignCmd : public frc2::CommandHelper<frc2::Command, VisionAlignCmd>
   VisionSub* m_pVisionSub = nullptr;
   DriveSub* m_pDriveSub = nullptr;
   double m_speed = 0.0;
+  double m_range = 0.0;
   double m_deadZone = 0.0;
-  double m_targYaw =0.0;
+  double m_targDist =0.0;
   bool m_isFinished = false;
   const double kMinDeadZone = 0.1;
 

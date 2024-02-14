@@ -40,10 +40,6 @@ inline constexpr int kSymphonyR2EncoderCounts = 363; //Change value.
 //Shooter:
 inline constexpr int kSymphonyShooterPWMPortL = 3; //actually CAN motor
 inline constexpr int kSymphonyShooterPWMPortR = 2; //actually CAN motor
-inline constexpr int kSymphonyShooterEncoderAL = 2; //values are for C418
-inline constexpr int kSymphonyShooterEncoderBL = 3; //values are for C418
-inline constexpr int kSymphonyShooterEncoderAR = 0; //values are for C418
-inline constexpr int kSymphonyShooterEncoderBR = 1; //values are for C418
 
 //Loader:
 inline constexpr int kSymphonyLoaderPhotogate = 8; //values are for C418
@@ -69,7 +65,14 @@ inline constexpr int kSymphonyClimberClimbingMagnetPort = 5;  //bogus port value
 
 
 
+// Vision:
+inline constexpr int kMaxTargetId = 16;
 
+//Useful Constants
+constexpr double ToInches = 0.393701;
+constexpr double ToCM = 2.53;
+constexpr double PI = 3.141592653589793238462643383279502884197169399375105820974944;
+constexpr double MetersPerInch = 0.0254;
 
 
 }  // namespace OperatorConstants

@@ -11,7 +11,8 @@
 #include <Constants.h>
 #include <rev/CANSparkMax.h>
 
-class LoaderSub : public frc2::SubsystemBase {
+class LoaderSub : public frc2::SubsystemBase 
+{
  public:
   LoaderSub();
 

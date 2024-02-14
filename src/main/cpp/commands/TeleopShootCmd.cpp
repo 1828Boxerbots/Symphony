@@ -3,12 +3,17 @@
 // the WPILib BSD license file in the root directory of this project.
 
 #include "commands/TeleopShootCmd.h"
-#include "frc/smartdashboard/SmartDashboard.h"
+#include "Util.h"
 
-TeleopShootCmd::TeleopShootCmd(frc::XboxController *pController, ShooterSub *pSub) {
-  AddRequirements(pSub);
+TeleopShootCmd::TeleopShootCmd(frc::XboxController *pController, ShooterSub *pShooterSub, VisionSub *pVisionSub) 
+{
+  AddRequirements(pShooterSub);
+  AddRequirements(pVisionSub);
   m_pController = pController;
-  m_pSub = pSub;
+  m_pShooterSub = pShooterSub;
+  m_pVisionSub = pVisionSub;
+
+  SetName("TeleopShootCmd");
 }
 
 // Called when the command is initially scheduled.
@@ -17,26 +22,33 @@ void TeleopShootCmd::Initialize() {}
 // Called repeatedly when this Command is scheduled to run
 void TeleopShootCmd::Execute() 
 {
-  if ((m_pSub == nullptr) or (m_pController == nullptr))
+  if ((m_pShooterSub == nullptr) or (m_pController == nullptr) or (m_pVisionSub == nullptr))
   {
     m_isFinished = true; 
     return;
   }
-  m_speed = m_pController->GetRightTriggerAxis();
-  if (m_pController->GetLeftBumper() == true)
-  {
-    m_speed = -m_speed;
-  }
-  m_pSub->Shoot(m_speed);
-  frc::SmartDashboard::PutNumber("Speed", m_speed);
-  frc::SmartDashboard::PutBoolean("LeftBumper Pressed", m_pController->GetLeftBumper());
 
+  double speed = 0.0;
+  bool bumperPressed = m_pController->GetLeftBumper();
+
+  if (bumperPressed == true)
+  {
+    speed = m_pController->GetRightTriggerAxis();
+  }
+  else
+  {
+      speed = m_pShooterSub->CalculateSpeed((double)m_pVisionSub->GetDistanceInInches() * OperatorConstants::MetersPerInch); //Remove parameter to get distance, there should not be a parameter
+  }
+  m_pShooterSub->Shoot(speed);
+
+  Util::Log("Speed", speed, GetName());
+  Util::Log("LeftBumper pressed", bumperPressed, GetName());
 }
 
 // Called once the command ends or is interrupted.
 void TeleopShootCmd::End(bool interrupted) 
 {
-  m_pSub->Shoot(0.0);
+  m_pShooterSub->Shoot(0.0);
   
 }
 
