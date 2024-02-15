@@ -15,7 +15,7 @@ TeleopDriveCmd::TeleopDriveCmd(DriveSub *pDriveSub, frc::XboxController *pContro
 // Called when the command is initially scheduled.
 void TeleopDriveCmd::Initialize() 
 {
-  m_pDriveSub->DriveTank(0.0,0.0);
+  m_isFinished = false;
 }
 
 // Called repeatedly when this Command is scheduled to run
@@ -23,17 +23,23 @@ void TeleopDriveCmd::Execute()
 {
   if (m_pDriveSub == nullptr and m_pController == nullptr)
   {
-    m_yRight = m_pController->GetRightY();
+    m_isFinished = true;
+    return;
+  }
     m_yLeft = m_pController->GetLeftY();
     m_xRight = m_pController->GetRightX();
-    m_xLeft = m_pController->GetLeftX();
 
     m_pDriveSub->DriveRC(m_yLeft, m_xRight);
-  }
 }
 
 // Called once the command ends or is interrupted.
-void TeleopDriveCmd::End(bool interrupted) {}
+void TeleopDriveCmd::End(bool interrupted) 
+{
+  if (m_pDriveSub != nullptr)
+  {
+    m_pDriveSub->DriveTank(0.0, 0.0);
+  }
+}
 
 // Returns true when the command should end.
 bool TeleopDriveCmd::IsFinished() 
