@@ -13,6 +13,7 @@
 #include "commands/LoadUntilPhotogateCmd.h"
 #include "commands/TeleopDriveCmd.h"
 #include "commands/VisionAlignCmd.h"
+#include "commands/AutoForwardCmd.h"
 
 RobotContainer::RobotContainer() 
 {
@@ -32,7 +33,8 @@ void RobotContainer::Init()
   m_loaderSub.Init();
 }
 
-void RobotContainer::ConfigureBindings() {
+void RobotContainer::ConfigureBindings() 
+{
   // Configure your trigger bindings here
   //m_driverController.A().WhileTrue(LoadCmd(&m_driverController, &m_loaderSub, 1.0).ToPtr()); //in finished code use driverController2 and 1.0 speed
 
@@ -52,19 +54,19 @@ void RobotContainer::ConfigureBindings() {
 
 frc2::CommandPtr RobotContainer::GetAutonomousCommand() 
 {
-  // // // // // // // switch (GetDPDT())
-  // // // // // // // {
-  // // // // // // //   case 1:
-  // // // // // // //     // position 2
-  // // // // // // //     break;
-  // // // // // // //   case 2:
-  // // // // // // //     // position 3
-  // // // // // // //     break;
-  // // // // // // //   case 0:
-  // // // // // // //   default:
-      // position 1
-      return autos::Position1CmdGrp(&m_driveSub, &m_visionSub, &m_shooterSub);
-  // // // // // // // }
+  switch (GetDPDT())
+  {
+    case 1:
+      // position 2 - in front of Amp (at side)
+      return autos::Position2CmdGrp(&m_driveSub, &m_loaderSub, &m_visionSub, &m_shooterSub, &m_batonSub);
+    case 2:
+      // just move out of starting area, to get 1 point
+      return AutoForwardCmd(&m_driveSub, 2.0_m, 1.0).ToPtr();
+    case 0:
+    default:
+      // position 1 - in front of Speaker
+      return autos::Position1CmdGrp(&m_driveSub, &m_loaderSub, &m_visionSub, &m_shooterSub);
+  }
 }
 
 int RobotContainer::GetDPDT() 

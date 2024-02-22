@@ -9,8 +9,11 @@
 #include "subsystems/DriveSub.h"
 #include "subsystems/VisionSub.h"
 #include "subsystems/ShooterSub.h"
+#include "subsystems/LoaderSub.h"
+#include "subsystems/BatonSub.h"
 
 namespace autos 
 {
-    frc2::CommandPtr Position1CmdGrp(DriveSub* pDriveSub, VisionSub *pVisionSub, ShooterSub *pShooterSub);
+    frc2::CommandPtr Position1CmdGrp(DriveSub* pDriveSub, LoaderSub *pLoaderSub, VisionSub *pVisionSub, ShooterSub *pShooterSub);
+    frc2::CommandPtr Position2CmdGrp(DriveSub* pDriveSub, LoaderSub *pLoaderSub, VisionSub *pVisionSub, ShooterSub *pShooterSub, BatonSub *pBatonSub);
 }  // namespace autos
