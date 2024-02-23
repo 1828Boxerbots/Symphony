@@ -2,9 +2,9 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-#include "commands/ShootCmd.h"
+#include "commands/AmpShootCmd.h"
 
-ShootCmd::ShootCmd(double speed, ShooterSub *pSub) 
+AmpShootCmd::AmpShootCmd(double speed, ShooterSub *pSub) 
 {
   AddRequirements(pSub);
   m_speed = speed;
@@ -12,23 +12,26 @@ ShootCmd::ShootCmd(double speed, ShooterSub *pSub)
 }
 
 // Called when the command is initially scheduled.
-void ShootCmd::Initialize() {}
+void AmpShootCmd::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
-void ShootCmd::Execute() 
+void AmpShootCmd::Execute() 
 {
-  if (m_pSub != nullptr)
+  if (m_pSub == nullptr)
   {
-    m_pSub->Shoot(m_speed);
+    m_isFinished = true;
   }
   
-  m_isFinished = true;
+  m_pSub->Shoot(-m_speed);
 }
 
 // Called once the command ends or is interrupted.
-void ShootCmd::End(bool interrupted) {}
+void AmpShootCmd::End(bool interrupted) \
+{
+  m_pSub->Shoot(0.0);
+}
 
 // Returns true when the command should end.
-bool ShootCmd::IsFinished() {
+bool AmpShootCmd::IsFinished() {
   return m_isFinished;
 }

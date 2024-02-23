@@ -29,9 +29,4 @@ class LoaderSub : public frc2::SubsystemBase {
 
   // Motor Controllers
   rev::CANSparkMax m_motor {OperatorConstants::kSymphonyLoaderMotorID, rev::CANSparkMax::MotorType::kBrushless};
-
-  inline rev::SparkRelativeEncoder GetEncoder()
-  {
-    return m_motor.GetEncoder(rev::CANEncoder::EncoderType::kHallSensor, OperatorConstants::NEO_ENCODER_COUNT);
-  }
 };

@@ -31,6 +31,10 @@ class RobotContainer {
   int GetDPDT();
   void Init();
 
+  // Called by teleop init in order to make sure sensors are zeroed
+  // for each subsystem that relies on sensors being zeroed.
+  void ZeroSensors();
+
  private:
   // Replace with CommandPS4Controller or CommandJoystick if needed
   frc2::CommandXboxController m_driverController{OperatorConstants::kDriverControllerPort};
@@ -42,7 +46,7 @@ class RobotContainer {
   VisionSub m_visionSub;
   DriveSub m_driveSub;
   ShooterSub m_shooterSub;
-  //LoaderSub m_loaderSub;
+  LoaderSub m_loaderSub;
   //ClimberSub m_climberSub;
-  //BatonSub m_batonSub;
+  BatonSub m_batonSub;
 };

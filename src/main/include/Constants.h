@@ -29,13 +29,13 @@ inline constexpr int kSymphonyShooterIDL = 5;
 inline constexpr int kSymphonyShooterIDR = 6;
 
 //Loader:
-inline constexpr int kSymphonyLoaderPhotogate = 0;
+inline constexpr int kSymphonyLoaderPhotogate = 7;
 inline constexpr int kSymphonyLoaderMotorID = 7;
 
 //Baton:
 inline constexpr int kSymphonyBatonMotorIDL = 8; //bogus port value, not true at all
 inline constexpr int kSymphonyBatonMotorIDR = 9; //bogus port value, not true at all 
-inline constexpr int kSymphonyBatonOptimalSpeed = 0.1; //unknown true optimal speed as of now 
+inline constexpr int kBatonUpperHallEffect = 0;
 
 // Climber
 inline constexpr int kSymphonyClimberMotorIDL = 10; 

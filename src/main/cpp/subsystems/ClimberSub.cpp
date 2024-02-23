@@ -18,7 +18,8 @@ void ClimberSub::Periodic()
 void ClimberSub::Init()
 {
     // Invert necessary motors
-    m_motorR.SetInverted(true);
+    m_motorL.SetInverted(true);
+    m_motorR.SetInverted(false);
 }
 
 void ClimberSub::SetMotors(double speed)

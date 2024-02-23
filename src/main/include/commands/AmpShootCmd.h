@@ -6,8 +6,7 @@
 
 #include <frc2/command/Command.h>
 #include <frc2/command/CommandHelper.h>
-#include <subsystems/LoaderSub.h>
-#include <frc/XboxController.h>
+#include "subsystems/ShooterSub.h"
 
 /**
  * An example command.
@@ -16,10 +15,10 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class LoadUntilPhotogateCmd
-    : public frc2::CommandHelper<frc2::Command, LoadUntilPhotogateCmd> {
+class AmpShootCmd
+    : public frc2::CommandHelper<frc2::Command, AmpShootCmd> {
  public:
-  LoadUntilPhotogateCmd(LoaderSub *pSub, frc::XboxController* pController, double speed = 1.0);
+  AmpShootCmd(double speed, ShooterSub *pSub);
 
   void Initialize() override;
 
@@ -29,9 +28,8 @@ class LoadUntilPhotogateCmd
 
   bool IsFinished() override;
 
-  private: 
-  LoaderSub *m_pSub = nullptr;
-  frc::XboxController* m_pController = nullptr;
-  double m_speed = 0.0;
+  private:
+  double m_speed = 0;
+  ShooterSub *m_pSub = nullptr;
   bool m_isFinished = false;
-  };
+};

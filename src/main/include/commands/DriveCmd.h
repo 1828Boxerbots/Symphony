@@ -6,9 +6,9 @@
 
 #include <frc2/command/Command.h>
 #include <frc2/command/CommandHelper.h>
-#include "subsystems/BatonSub.h"
+#include <frc/smartdashboard/SmartDashboard.h>
 #include <frc/XboxController.h>
-#include "subsystems/ClimberSub.h"
+#include "subsystems/DriveSub.h"
 
 /**
  * An example command.
@@ -17,10 +17,10 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class SafeTeleopMoveClimberCmd
-    : public frc2::CommandHelper<frc2::Command, SafeTeleopMoveClimberCmd> {
+class DriveCmd : public frc2::CommandHelper<frc2::Command, DriveCmd> 
+{
  public:
-  SafeTeleopMoveClimberCmd(frc::XboxController *pController, BatonSub *pSub, ClimberSub *pClimbSub);
+  DriveCmd(DriveSub *pDriveSub, frc::XboxController *pControllerz);
 
   void Initialize() override;
 
@@ -31,8 +31,8 @@ class SafeTeleopMoveClimberCmd
   bool IsFinished() override;
 
   private:
-  frc::XboxController *m_pController = nullptr;
-  BatonSub *m_pBatonSub = nullptr; 
+  DriveSub* m_pDriveSub = nullptr;
+  frc::XboxController* m_pController = nullptr;
   bool m_isFinished = false;
-  ClimberSub *m_pClimbSub = nullptr;
+
 };

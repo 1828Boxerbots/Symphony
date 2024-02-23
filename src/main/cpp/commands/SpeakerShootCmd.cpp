@@ -2,20 +2,20 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-#include "commands/TeleopShootCmd.h"
+#include "commands/SpeakerShootCmd.h"
 #include "frc/smartdashboard/SmartDashboard.h"
 
-TeleopShootCmd::TeleopShootCmd(frc::XboxController *pController, ShooterSub *pSub) {
+SpeakerShootCmd::SpeakerShootCmd(frc::XboxController *pController, ShooterSub *pSub) {
   AddRequirements(pSub);
   m_pController = pController;
   m_pSub = pSub;
 }
 
 // Called when the command is initially scheduled.
-void TeleopShootCmd::Initialize() {}
+void SpeakerShootCmd::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
-void TeleopShootCmd::Execute() 
+void SpeakerShootCmd::Execute() 
 {
   if ((m_pSub == nullptr) or (m_pController == nullptr))
   {
@@ -23,18 +23,18 @@ void TeleopShootCmd::Execute()
     return;
   }
   m_speed = m_pController->GetRightTriggerAxis();
-  m_pSub->Shoot(m_speed);
+  m_pSub->Shoot(-m_speed);
 
 }
 
 // Called once the command ends or is interrupted.
-void TeleopShootCmd::End(bool interrupted) 
+void SpeakerShootCmd::End(bool interrupted) 
 {
   m_pSub->Shoot(0.0);
   
 }
 
 // Returns true when the command should end.
-bool TeleopShootCmd::IsFinished() {
+bool SpeakerShootCmd::IsFinished() {
   return m_isFinished;
 }

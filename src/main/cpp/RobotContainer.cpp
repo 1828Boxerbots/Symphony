@@ -7,11 +7,11 @@
 #include <frc2/command/button/Trigger.h>
 
 #include "commands/Autos.h" 
-
-#include "commands/TeleopShootCmd.h"
-#include "commands/LoadCmd.h"
-#include "commands/LoadUntilPhotogateCmd.h"
-#include "commands/TeleopDriveCmd.h"
+#include "commands/DriveCmd.h"
+#include "commands/AmpShootCmd.h"
+#include "commands/SpeakerShootCmd.h"
+#include "commands/PickupNoteCmd.h"
+#include "commands/BatonSwingCmd.h"
 
 RobotContainer::RobotContainer() 
 {
@@ -22,26 +22,28 @@ RobotContainer::RobotContainer()
 
 void RobotContainer::Init()
 {
-  // TODO: As we start testing, incrementally enable each subsystem
   m_driveSub.Init();
-  m_driveSub.SetDefaultCommand(TeleopDriveCmd(&m_driveSub, &m_driverController));
+  m_driveSub.SetDefaultCommand(DriveCmd(&m_driveSub, &m_driverController));
 
-  //m_visionSub.Init();
+  m_visionSub.Init();
   m_shooterSub.Init();
-  //m_loaderSub.Init();
-  //m_batonSub.Init();
+  m_loaderSub.Init();
+  m_batonSub.Init();
   //m_climberSub.Init();
 }
 
 void RobotContainer::ConfigureBindings() {
   // Configure button bindings here
 
-  // Loader Commands
-  // m_driverController.A().WhileTrue(LoadUntilPhotogateCmd(&m_loaderSub, &m_driverController, 0.25).ToPtr());
-  // m_driverController.B().WhileTrue(LoadCmd(&m_loaderSub, 0.25).ToPtr());
+  // Loader Command
+  m_driverController.B().WhileTrue(PickupNoteCmd(&m_loaderSub, &m_driverController).ToPtr());
 
-  // Shooter Command
-  m_driverController.RightTrigger().WhileTrue(TeleopShootCmd(&m_driverController, &m_shooterSub).ToPtr());
+  // Shooter Commands
+  m_driverController.RightTrigger().WhileTrue(SpeakerShootCmd(&m_driverController, &m_shooterSub).ToPtr());
+  m_driverController.RightBumper().WhileTrue(AmpShootCmd(0.75, &m_shooterSub).ToPtr());
+
+  // Baton Command
+  m_driverController.X().ToggleOnTrue(BatonSwingCmd(&m_batonSub, 0.1).ToPtr());
 }
 
 frc2::CommandPtr RobotContainer::GetAutonomousCommand() 
@@ -64,4 +66,9 @@ frc2::CommandPtr RobotContainer::GetAutonomousCommand()
 int RobotContainer::GetDPDT() 
 {
   return 0;
+}
+
+void RobotContainer::ZeroSensors()
+{
+  m_batonSub.ZeroSensors();
 }

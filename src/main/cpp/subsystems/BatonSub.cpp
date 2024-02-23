@@ -10,46 +10,18 @@ BatonSub::BatonSub() = default;
 // This method will be called once per scheduler run
 void BatonSub::Periodic() 
 {
-    // frc::SmartDashboard::PutNumber ("BatonMotorLSpeed", m_motorL.Get());
-    // frc::SmartDashboard::PutNumber ("BatonMotorRSpeed", m_motorR.Get());
+    // NOTE: Only used for outputing values to smart dashboard during debugging
+    frc::SmartDashboard::PutNumber("Encoder Rotations", m_EncoderL.GetPosition());
+    frc::SmartDashboard::PutBoolean("Upper Hall Effect", m_UpperHallEffect.Get());
 }
-
-void BatonSub::Swing(double speed)
-{
-    m_motorL.Set(speed);
-    m_motorR.Set(speed);
-} 
 
 void BatonSub::Init()
 {
     m_motorR.SetInverted(true);
-}
 
-bool BatonSub::GoToRest()
-{
-    bool isAtLimit = IsAtRestLimit();
-    double speed = -OperatorConstants::kSymphonyBatonOptimalSpeed;
-    if (isAtLimit == true)
-    {
-      speed = 0.0;
-    }
-    m_motorL.Set(speed);
-    m_motorR.Set(speed);
-    return isAtLimit;
+    m_PIDLeft.SetOutputRange(m_kMinOutput, m_kMaxOutput);
+    m_EncoderL.SetPosition(0.0);    // Reset the encoder at the rest position
 }
-
-bool BatonSub::GoToSwing()
-{
-    bool isAtLimit = IsAtSwingLimit();
-    double speed = OperatorConstants::kSymphonyBatonOptimalSpeed;
-    if (isAtLimit == true)
-    {
-      speed = 0.0;
-    }
-    m_motorL.Set(speed);
-    m_motorR.Set(speed);
-    return isAtLimit;
-} 
 
 void BatonSub::Stop()
 {
@@ -57,12 +29,23 @@ void BatonSub::Stop()
     m_motorR.Set(0.0);
 } 
 
-bool BatonSub::IsAtRestLimit()
+void BatonSub::MoveToExtended(double speed)
 {
-   return false;
+
 }
 
-bool BatonSub::IsAtSwingLimit()
+void BatonSub::MoveToStowed(double speed)
 {
-   return false;
+    
+}
+
+void BatonSub::SetMotor(double speed)
+{
+    m_motorL.Set(speed);
+    m_motorR.Set(speed);
+} 
+
+void BatonSub::ZeroSensors()
+{
+    m_EncoderL.SetPosition(0.0);
 }

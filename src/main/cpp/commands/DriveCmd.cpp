@@ -2,11 +2,11 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-#include "commands/TeleopDriveCmd.h"
+#include "commands/DriveCmd.h"
 
 #include <iostream>
 
-TeleopDriveCmd::TeleopDriveCmd(DriveSub *pDriveSub, frc::XboxController *pController) 
+DriveCmd::DriveCmd(DriveSub *pDriveSub, frc::XboxController *pController) 
 {
   m_pDriveSub = pDriveSub;
   m_pController = pController;
@@ -15,12 +15,12 @@ TeleopDriveCmd::TeleopDriveCmd(DriveSub *pDriveSub, frc::XboxController *pContro
 }
 
 // Called when the command is initially scheduled.
-void TeleopDriveCmd::Initialize() 
+void DriveCmd::Initialize() 
 {
 }
 
 // Called repeatedly when this Command is scheduled to run
-void TeleopDriveCmd::Execute() 
+void DriveCmd::Execute() 
 {
   if (m_pDriveSub != nullptr && m_pController != nullptr)
   {
@@ -32,10 +32,10 @@ void TeleopDriveCmd::Execute()
 }
 
 // Called once the command ends or is interrupted.
-void TeleopDriveCmd::End(bool interrupted) {}
+void DriveCmd::End(bool interrupted) {}
 
 // Returns true when the command should end.
-bool TeleopDriveCmd::IsFinished() 
+bool DriveCmd::IsFinished() 
 {
   return m_isFinished;
 }
