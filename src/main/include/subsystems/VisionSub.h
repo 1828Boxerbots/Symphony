@@ -58,6 +58,8 @@ class VisionSub : public frc2::SubsystemBase
   double GetDistanceInMeters();
   double GetDistanceInInches();
 
+  double CalculateDeadZone(double distance1, double calcAngle1, double distance2, double calcAngle2);
+
 
   // NETWORK TABLE TEST ///////////////////////////////////////////////////////
   // TBD TBD TBD - test only

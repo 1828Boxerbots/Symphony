@@ -6,8 +6,8 @@
 
 TeleopDriveCmd::TeleopDriveCmd(DriveSub *pDriveSub, frc::XboxController *pController) 
 {
-  pDriveSub = m_pDriveSub;
-  pController = m_pController;
+  m_pDriveSub = pDriveSub;
+  m_pController = pController;
   // Use addRequirements() here to declare subsystem dependencies.
   AddRequirements(m_pDriveSub);
 }
