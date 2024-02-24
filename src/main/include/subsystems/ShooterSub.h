@@ -11,6 +11,8 @@
 #include <Constants.h>
 #include <rev/CANSparkMax.h>
 
+#include <utility>
+
 class ShooterSub : public frc2::SubsystemBase {
  public:
   ShooterSub();
@@ -21,21 +23,13 @@ class ShooterSub : public frc2::SubsystemBase {
 
   void Periodic() override;
 
-  // double GetSpeedL();
-  // double GetSpeedR();
+  std::pair<double, double> GetMotorRPM();
 
  private:
 
-rev::CANSparkMax m_motorL {OperatorConstants::kSymphonyShooterIDL, rev::CANSparkMax::MotorType::kBrushless};
-rev::CANSparkMax m_motorR {OperatorConstants::kSymphonyShooterIDR, rev::CANSparkMax::MotorType::kBrushless};  
+    rev::CANSparkMax m_motorL {OperatorConstants::kSymphonyShooterIDL, rev::CANSparkMax::MotorType::kBrushless};
+    rev::CANSparkMax m_motorR {OperatorConstants::kSymphonyShooterIDR, rev::CANSparkMax::MotorType::kBrushless};  
 
-// inline rev::SparkRelativeEncoder GetEncoderL()
-// {
-//   return m_motorL.GetEncoder(rev::CANEncoder::EncoderType::kHallSensor, OperatorConstants::NEO_ENCODER_COUNT);
-// }
-
-// inline rev::SparkRelativeEncoder GetEncoderR()
-// {
-//   return m_motorR.GetEncoder(rev::CANEncoder::EncoderType::kHallSensor, OperatorConstants::NEO_ENCODER_COUNT);
-// }
+    rev::SparkRelativeEncoder m_EncoderLeft = m_motorL.GetEncoder(rev::SparkRelativeEncoder::Type::kHallSensor);
+    rev::SparkRelativeEncoder m_EncoderRight = m_motorR.GetEncoder(rev::SparkRelativeEncoder::Type::kHallSensor);
 };

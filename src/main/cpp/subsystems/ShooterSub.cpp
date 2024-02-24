@@ -28,6 +28,9 @@ void ShooterSub::Periodic()
     // frc::SmartDashboard::PutNumber("Left Encoder DistPerPulse", encoderLDistPerPulse);
     // frc::SmartDashboard::PutNumber("Right Encoder DistPerPulse", encoderRDistPerPulse);
     // frc::SmartDashboard::PutNumber("Pulses Per Encoder", m_pulses);
+
+    frc::SmartDashboard::PutNumber("Left Speed", m_EncoderLeft.GetVelocity());
+    frc::SmartDashboard::PutNumber("Right Speed", m_EncoderRight.GetVelocity());
 }
 
 void ShooterSub::Init()
@@ -55,12 +58,10 @@ void ShooterSub::Shoot(double speed)
     m_motorR.Set(speed);
 }
 
-// double ShooterSub::GetSpeedL()
-// {
-//     return GetEncoderL().GetVelocity();
-// }
+std::pair<double, double> ShooterSub::GetMotorRPM()
+{
+    double leftRPM = m_EncoderLeft.GetVelocity();
+    double rightRPM = m_EncoderRight.GetVelocity();
 
-// double ShooterSub::GetSpeedR()
-// {
-//     return GetEncoderR().GetVelocity();
-// }
+    return std::pair<double, double>(leftRPM, rightRPM);
+}

@@ -7,6 +7,7 @@
 #include <frc2/command/Command.h>
 #include <frc2/command/CommandHelper.h>
 #include "subsystems/ShooterSub.h"
+#include "subsystems/LoaderSub.h"
 
 /**
  * An example command.
@@ -18,7 +19,7 @@
 class AmpShootCmd
     : public frc2::CommandHelper<frc2::Command, AmpShootCmd> {
  public:
-  AmpShootCmd(double speed, ShooterSub *pSub);
+  AmpShootCmd(double speed, ShooterSub *shootSub, LoaderSub* loadSub);
 
   void Initialize() override;
 
@@ -29,7 +30,9 @@ class AmpShootCmd
   bool IsFinished() override;
 
   private:
+  ShooterSub *m_pShooterSub = nullptr;
+  LoaderSub* m_pLoaderSub = nullptr;
+
   double m_speed = 0;
-  ShooterSub *m_pSub = nullptr;
   bool m_isFinished = false;
 };

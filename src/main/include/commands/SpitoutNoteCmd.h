@@ -6,7 +6,8 @@
 
 #include <frc2/command/Command.h>
 #include <frc2/command/CommandHelper.h>
-#include "subsystems/BatonSub.h"
+#include <subsystems/LoaderSub.h>
+#include <frc/XboxController.h>
 
 /**
  * An example command.
@@ -15,17 +16,10 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-enum BatonMovemementMode
-{
-  EXTEND,
-  RETRACT,
-  STOP
-};
-
-class BatonSwingCmd
-    : public frc2::CommandHelper<frc2::Command, BatonSwingCmd> {
+class SpitoutNoteCmd
+    : public frc2::CommandHelper<frc2::Command, SpitoutNoteCmd> {
  public:
-  BatonSwingCmd(BatonSub *pSub);
+  SpitoutNoteCmd(LoaderSub *pSub, double speed = 1.0);
 
   void Initialize() override;
 
@@ -35,9 +29,9 @@ class BatonSwingCmd
 
   bool IsFinished() override;
 
-  private:
-    BatonSub *m_pSub = nullptr; 
-    
-    bool m_isFinished = false;
-    BatonMovemementMode m_Mode;
+  private: 
+  LoaderSub *m_pSub = nullptr;
+  
+  double m_speed = 0;
+  bool m_isFinished = false;
 };

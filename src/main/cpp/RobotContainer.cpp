@@ -11,6 +11,7 @@
 #include "commands/AmpShootCmd.h"
 #include "commands/SpeakerShootCmd.h"
 #include "commands/PickupNoteCmd.h"
+#include "commands/SpitoutNoteCmd.h"
 #include "commands/BatonSwingCmd.h"
 
 RobotContainer::RobotContainer() 
@@ -33,17 +34,16 @@ void RobotContainer::Init()
 }
 
 void RobotContainer::ConfigureBindings() {
-  // Configure button bindings here
-
-  // Loader Command
-  m_driverController.B().WhileTrue(PickupNoteCmd(&m_loaderSub, &m_driverController, 0.7).ToPtr());
+  // Loader Commands
+  m_driverController.B().ToggleOnTrue(PickupNoteCmd(&m_loaderSub, 0.7).ToPtr());
+  m_driverController.Y().WhileTrue(SpitoutNoteCmd(&m_loaderSub, 0.7).ToPtr());
 
   // Shooter Commands
-  m_driverController.RightTrigger().WhileTrue(SpeakerShootCmd(&m_driverController, &m_shooterSub).ToPtr());
-  m_driverController.RightBumper().WhileTrue(AmpShootCmd(0.7, &m_shooterSub).ToPtr());
+  m_driverController.RightTrigger().WhileTrue(SpeakerShootCmd(&m_driverController, &m_shooterSub, &m_loaderSub).ToPtr());
+  m_driverController.LeftTrigger().WhileTrue(AmpShootCmd(0.7, &m_shooterSub, &m_loaderSub).ToPtr());
 
   // Baton Command
-  m_driverController.X().OnTrue(BatonSwingCmd(&m_batonSub, 0.1).ToPtr());
+  m_driverController.X().OnTrue(BatonSwingCmd(&m_batonSub).ToPtr());
 }
 
 frc2::CommandPtr RobotContainer::GetAutonomousCommand() 

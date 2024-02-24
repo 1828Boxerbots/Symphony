@@ -45,5 +45,6 @@ inline constexpr double kSymphonyClimberMotorSpeed = 0.1;
 // Constants
 inline constexpr int NEO_ENCODER_COUNT = 42;
 inline constexpr double PI = 3.14159;
+inline constexpr double NEO_MAX_RPM = 5676;
 
 }  // namespace OperatorConstants

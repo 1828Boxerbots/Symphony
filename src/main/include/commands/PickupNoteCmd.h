@@ -19,7 +19,7 @@
 class PickupNoteCmd
     : public frc2::CommandHelper<frc2::Command, PickupNoteCmd> {
  public:
-  PickupNoteCmd(LoaderSub *pSub, frc::XboxController* controller, double speed = 1.0);
+  PickupNoteCmd(LoaderSub *pSub, double speed = 1.0);
 
   void Initialize() override;
 
@@ -31,7 +31,7 @@ class PickupNoteCmd
 
   private: 
   LoaderSub *m_pSub = nullptr;
-  frc::XboxController* m_pController;
+  
   double m_speed = 0;
   bool m_isFinished = false;
 };

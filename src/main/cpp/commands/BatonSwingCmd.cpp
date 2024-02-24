@@ -8,10 +8,9 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <iostream>
 
-BatonSwingCmd::BatonSwingCmd(BatonSub *pSub, double speed) 
+BatonSwingCmd::BatonSwingCmd(BatonSub *pSub) 
 {
   m_pSub = pSub;
-  m_Speed = speed;
 
   AddRequirements(m_pSub);
 }
