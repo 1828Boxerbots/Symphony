@@ -36,14 +36,14 @@ void RobotContainer::ConfigureBindings() {
   // Configure button bindings here
 
   // Loader Command
-  m_driverController.B().WhileTrue(PickupNoteCmd(&m_loaderSub, &m_driverController).ToPtr());
+  m_driverController.B().WhileTrue(PickupNoteCmd(&m_loaderSub, &m_driverController, 0.7).ToPtr());
 
   // Shooter Commands
   m_driverController.RightTrigger().WhileTrue(SpeakerShootCmd(&m_driverController, &m_shooterSub).ToPtr());
-  m_driverController.RightBumper().WhileTrue(AmpShootCmd(0.75, &m_shooterSub).ToPtr());
+  m_driverController.RightBumper().WhileTrue(AmpShootCmd(0.7, &m_shooterSub).ToPtr());
 
   // Baton Command
-  m_driverController.X().ToggleOnTrue(BatonSwingCmd(&m_batonSub, 0.1).ToPtr());
+  m_driverController.X().OnTrue(BatonSwingCmd(&m_batonSub, 0.1).ToPtr());
 }
 
 frc2::CommandPtr RobotContainer::GetAutonomousCommand() 

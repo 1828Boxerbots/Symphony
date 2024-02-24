@@ -10,9 +10,10 @@
 
 BatonSwingCmd::BatonSwingCmd(BatonSub *pSub, double speed) 
 {
-  AddRequirements(pSub);
   m_pSub = pSub;
   m_Speed = speed;
+
+  AddRequirements(m_pSub);
 }
 
 // Called when the command is initially scheduled.
@@ -25,9 +26,13 @@ void BatonSwingCmd::Initialize()
     return;
   }
 
-  if (m_pSub->GetEncoderPos() >= -1.0 && m_pSub->GetEncoderPos() <= 1.0 && m_pSub->GetUpperHallTripped())
+  m_isFinished = false;
+
+  if (m_pSub->GetUpperHallTripped() && m_pSub->GetEncoderPos() <= 1.0)
+  {
     m_Mode = BatonMovemementMode::EXTEND;
-  else if (m_pSub->GetEncoderPos() >= 22.0 && m_pSub->GetEncoderPos() <= 23.0 && !m_pSub->GetUpperHallTripped())
+  }
+  else if (!m_pSub->GetUpperHallTripped() || m_pSub->GetEncoderPos() >= 21.0)
     m_Mode = BatonMovemementMode::RETRACT;
   else
     m_Mode = BatonMovemementMode::STOP;
@@ -39,21 +44,20 @@ void BatonSwingCmd::Execute()
   switch (m_Mode)
   {
   case BatonMovemementMode::EXTEND:
-    std::cout << "Running (UP)" << std::endl;
+    m_pSub->SetPosition(22.0);
 
-    if (!m_pSub->GetUpperHallTripped())
+    if (!m_pSub->GetUpperHallTripped() || m_pSub->GetEncoderPos() >= 24.0)
       m_Mode = BatonMovemementMode::STOP;
 
     break;
   case BatonMovemementMode::RETRACT:
-    std::cout << "Running (DOWN)" << std::endl;
+    m_pSub->SetPosition(0.0);
 
-    // if (m_pSub->GetEncoderPos() >= 0.0 && m_pSub->GetEncoderPos() <= 1.0)
-    //   m_Mode = BatonMovemementMode::STOP;
+    if (m_pSub->GetEncoderPos() <= 0.2)
+      m_Mode = BatonMovemementMode::STOP;
 
     break;
   case BatonMovemementMode::STOP:
-    std::cout << "Finished" << std::endl;
     m_pSub->Stop();
     m_isFinished = true;
     break;

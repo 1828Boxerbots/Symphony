@@ -28,11 +28,24 @@ void PickupNoteCmd::Execute()
     return;
   }
 
-  double speed = m_speed;
-  if (m_pController->GetLeftBumper())
-    speed = -speed;
-
-  m_pSub->Load(speed);
+  if (m_pController->GetLeftBumperPressed())
+  {
+    if (m_pSub->GetPhotoGate())
+    {
+      m_pSub->Load(0.25);
+    }
+    else
+    {
+      m_pSub->Load(-m_speed);
+    }
+  }
+  else
+  {
+    if (!m_pSub->GetPhotoGate())
+    {
+      m_pSub->Load(m_speed);
+    }
+  }
 }
 
 // Called once the command ends or is interrupted.
