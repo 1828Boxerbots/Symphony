@@ -4,13 +4,13 @@
 
 #include "commands/VisionAlignCmd.h"
 
-VisionAlignCmd::VisionAlignCmd(VisionSub *pVisionSub, DriveSub *pDriveSub, double speed, bool isAlign)
+VisionAlignCmd::VisionAlignCmd(VisionSub *pVisionSub, DriveSub *pDriveSub, double speed, bool isUnalign)
 {
   SetName("VisionAlignCmd");
   m_pVisionSub = pVisionSub;
   m_pDriveSub = pDriveSub;
   m_speed = fabsf(speed);
-  m_isUnalign = isAlign;
+  m_isUnalign = isUnalign;
 
   // Use addRequirements() here to declare subsystem dependencies.
   AddRequirements(m_pVisionSub);

@@ -23,7 +23,7 @@ frc2::CommandPtr autos::Position1CmdGrp(DriveSub* pDriveSub, LoaderSub *pLoaderS
 
     VisionAlignCmd(pVisionSub, pDriveSub, 0.5)                            // will turn until it sees the speaker's AprilTag
     , AutoVisionShootCmd(pShooterSub, pVisionSub)                               // depending on vision distance, set shooter motor
-    //Turn back the amount turned when aligning, will set it back straight.
+    , VisionAlignCmd(pVisionSub, pDriveSub, 0.5, true)                           //turns back to initial position
     , AutoBackupAndLoadToPhotoGateCmd(pDriveSub, pLoaderSub, 2.0_m, 1.0, 1.0)   // backup to pick up next game-piece and cross line (disregard distance for now)
     , AutoForwardCmd(pDriveSub, 1.0_m, 1.0)                                     // move forward to line (disregard distance for now)
     , AutoTurnCmd(pDriveSub, +90.0, 0.5)                                        // turn towards amp (cw)
@@ -74,7 +74,7 @@ frc2::CommandPtr autos::Position3CmdGrp(DriveSub* pDriveSub, LoaderSub *pLoaderS
 
       VisionAlignCmd(pVisionSub, pDriveSub, 0.5)                            // will turn until it sees the speaker's AprilTag
     , AutoVisionShootCmd(pShooterSub, pVisionSub)                               // depending on vision distance, set shooter motor
-    //Turn back the amount turned when aligning, will set it back straight.
+    , VisionAlignCmd(pVisionSub, pDriveSub, 0.5, true)                          // turns nback to initial position
     , AutoBackupAndLoadToPhotoGateCmd(pDriveSub, pLoaderSub, 2.0_m, 1.0, 1.0)   // backup to pick up next game-piece and cross line (disregard distance for now)
     , AutoForwardCmd(pDriveSub, 1.0_m, 1.0)                                     // move forward to line (disregard distance for now)
     , AutoTurnCmd(pDriveSub, +90.0, 0.5)                                        // turn towards amp (cw)
