@@ -32,8 +32,8 @@ class AutoForwardCmd
 
   private:
     DriveSub *m_pDrive = nullptr;
-    units::meter_t m_distanceInMeters = 0.0_m;
-    units::meter_t m_startDistance = 0.0_m;
+    units::meter_t m_distanceInInches = 0.0_in;
+    units::meter_t m_startDistance = 0.0_in;
     double m_speed = 1.0;
 
     bool m_isFinished = false;

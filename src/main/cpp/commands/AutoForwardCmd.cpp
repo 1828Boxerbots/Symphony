@@ -4,10 +4,10 @@
 
 #include "Commands/AutoForwardCmd.h"
 
-AutoForwardCmd::AutoForwardCmd(DriveSub *pDrive, units::meter_t distanceInMeters, double speed) 
+AutoForwardCmd::AutoForwardCmd(DriveSub *pDrive, units::meter_t distanceInInches, double speed) 
 {
   m_pDrive = pDrive;
-  m_distanceInMeters = (units::meter_t)fabsf((double)distanceInMeters); // distance always positive
+  m_distanceInInches = (units::meter_t)fabsf((double)distanceInInches); // distance always positive
   m_speed = speed;
 
   // Use addRequirements() here to declare subsystem dependencies.
@@ -33,7 +33,7 @@ void AutoForwardCmd::Initialize()
 // Called repeatedly when this Command is scheduled to run
 void AutoForwardCmd::Execute() 
 {
-  if (m_pDrive == nullptr or m_distanceInMeters == 0.0_m)
+  if (m_pDrive == nullptr or m_distanceInInches == 0.0_in)
   {
     m_isFinished = true;
     return;
@@ -42,14 +42,14 @@ void AutoForwardCmd::Execute()
   m_pDrive->DriveTank(m_speed, m_speed);
   if (m_speed > 0.0)
   {
-    m_isFinished = ((units::meter_t)m_pDrive->GetDistanceL1() - m_startDistance > m_distanceInMeters);
+    m_isFinished = ((units::meter_t)m_pDrive->GetDistanceL1() - m_startDistance > m_distanceInInches);
     // m_isFinished = ((units::meter_t)m_pDrive->GetDistanceL2() - m_startDistance > m_distanceInMeters);
     // m_isFinished = ((units::meter_t)m_pDrive->GetDistanceR1() - m_startDistance > m_distanceInMeters);
     // m_isFinished = ((units::meter_t)m_pDrive->GetDistanceR2() - m_startDistance > m_distanceInMeters);
   }
   else
   {
-    m_isFinished = ((units::meter_t)m_pDrive->GetDistanceL1() - m_startDistance < -m_distanceInMeters);
+    m_isFinished = ((units::meter_t)m_pDrive->GetDistanceL1() - m_startDistance < -m_distanceInInches);
     // m_isFinished = ((units::meter_t)m_pDrive->GetDistanceL2() - m_startDistance < -m_distanceInMeters);
     // m_isFinished = ((units::meter_t)m_pDrive->GetDistanceR1() - m_startDistance < -m_distanceInMeters);
     // m_isFinished = ((units::meter_t)m_pDrive->GetDistanceR2() - m_startDistance < -m_distanceInMeters);
