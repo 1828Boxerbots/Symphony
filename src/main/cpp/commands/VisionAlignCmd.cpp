@@ -4,12 +4,13 @@
 
 #include "commands/VisionAlignCmd.h"
 
-VisionAlignCmd::VisionAlignCmd(VisionSub *pVisionSub, DriveSub *pDriveSub, double speed)
+VisionAlignCmd::VisionAlignCmd(VisionSub *pVisionSub, DriveSub *pDriveSub, double speed, bool isAlign)
 {
   SetName("VisionAlignCmd");
   m_pVisionSub = pVisionSub;
   m_pDriveSub = pDriveSub;
   m_speed = fabsf(speed);
+  m_isUnalign = isAlign;
 
   // Use addRequirements() here to declare subsystem dependencies.
   AddRequirements(m_pVisionSub);
@@ -27,10 +28,35 @@ void VisionAlignCmd::Initialize()
     return;
   }
 
-  m_deadZone = fabsf(m_pVisionSub->CalculateDeadZone(12.0,5.0,60.0,2.0));
-  if(m_deadZone <= kMinDeadZone)
+  if(m_isUnalign == false)
   {
-    m_deadZone = kMinDeadZone;
+    m_deadZone = fabsf(m_pVisionSub->CalculateDeadZone(12.0,5.0,60.0,2.0));
+    if(m_deadZone <= kMinDeadZone)
+    {
+      m_deadZone = kMinDeadZone;
+    }
+
+    double initialYaw = 0.0;
+
+    if (m_pVisionSub->NumValidTargets() == 1)
+    {
+      initialYaw == m_pVisionSub->GetBestYaw();
+      m_pVisionSub->InputInitialYaw(initialYaw);
+    }
+    else if (m_pVisionSub->NumValidTargets() > 1)
+    {
+      initialYaw = m_pVisionSub->GetYaw();
+      m_pVisionSub->InputInitialYaw(initialYaw);
+    }
+  }
+
+  if(m_isUnalign == true)
+  {
+    m_deadZone  = 0.5;
+    if(m_deadZone <= kMinDeadZone)
+    {
+      m_deadZone = kMinDeadZone;
+    }
   }
 }
 
@@ -64,30 +90,59 @@ void VisionAlignCmd::Execute()
     yaw = m_pVisionSub->GetYaw();
   }
 
-  // if at center, then stop
-  if((yaw < m_deadZone) and (yaw > -m_deadZone))
+  if(m_isUnalign == false)
   {
-    //m_isFinished = true;
-    m_pDriveSub->DriveTank(0.0, 0.0);
-    return;
-  }
+    // if at center, then stop
+    if((yaw < m_deadZone) and (yaw > -m_deadZone))
+    {
+      //m_isFinished = true;
+      m_pDriveSub->DriveTank(0.0, 0.0);
+      return;
+    }
   
-  // double speed = m_speed;
-  // speed = m_controller.Calculate(yaw, m_deadZone);
+    // double speed = m_speed;
+    // speed = m_controller.Calculate(yaw, m_deadZone);
 
-  // if target is left of robot
-  if(yaw < 0.0)
-  {
-    //Turn left.
-    m_pDriveSub->DriveTank(-m_speed, m_speed);
+    // if target is left of robot
+    if(yaw < 0.0)
+    {
+      //Turn left.
+      m_pDriveSub->DriveTank(-m_speed, m_speed);
+    }
+    // if target is right of robot
+    else if(yaw > 0.0)
+    {
+      //Turn right.
+      m_pDriveSub->DriveTank(m_speed, -m_speed);
+    }
   }
-  // if target is right of robot
-  else if(yaw > 0.0)
+  else if(m_isUnalign == true)
   {
-    //Turn right.
-    m_pDriveSub->DriveTank(m_speed, -m_speed);
-  }
+    double initialYaw = m_pVisionSub->GetInitialYaw();
 
+    if((yaw < (initialYaw+m_deadZone)) and (yaw > (initialYaw-m_deadZone)))
+    {
+      //m_isFinished = true;
+      m_pDriveSub->DriveTank(0.0, 0.0);
+      return;
+    }
+  
+    // double speed = m_speed;
+    // speed = m_controller.Calculate(yaw, m_deadZone);
+
+    // if target is left of robot
+    if(yaw < initialYaw)
+    {
+      //Turn left.
+      m_pDriveSub->DriveTank(-m_speed, m_speed);
+    }
+    // if target is right of robot
+    else if(yaw > initialYaw)
+    {
+      //Turn right.
+      m_pDriveSub->DriveTank(m_speed, -m_speed);
+    }
+  }
 }
 
 

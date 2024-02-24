@@ -58,18 +58,10 @@ class VisionSub : public frc2::SubsystemBase
   double GetDistanceInMeters();
   double GetDistanceInInches();
 
+  void InputInitialYaw(double initialYaw);
+  double GetInitialYaw();
+
   double CalculateDeadZone(double distance1, double calcAngle1, double distance2, double calcAngle2);
-
-
-  // NETWORK TABLE TEST ///////////////////////////////////////////////////////
-  // TBD TBD TBD - test only
-  /// @brief initializes data for network table data acquisition
-  void InitNetworkTableData();
-
-  /// @brief returns network data from subscriptions
-  /// @return value for given data
-  double GetNetworkTableData();
-  // NETWORK TABLE TEST ///////////////////////////////////////////////////////
 
  private:
   /// @brief returns target height (center of aprilTag), for given April-Tag ID
@@ -90,9 +82,5 @@ class VisionSub : public frc2::SubsystemBase
   const units::meter_t m_kCamHeight = 34.9416666667_in;  // TBD TBD - need actual robot specs;
   const units::radian_t m_kCamPitch = 0.0_deg;  // TBD TBD - need actual robot specs
 
-  // NETWORK TABLE TEST ///////////////////////////////////////////////////////
-  nt::DoubleSubscriber m_dblSub;
-  nt::DoubleSubscriber m_dblSub2;
-  nt::DoubleSubscriber m_dblSub3;
-  // NETWORK TABLE TEST ///////////////////////////////////////////////////////
+  double m_initialYaw = 0.0;
 };

@@ -20,8 +20,6 @@ void VisionSub::Periodic()
     
     Util::Log("dist(in inches)", (double)GetDistanceInInches(), GetName());
 
-    Util::Log("NetworkTableData", GetNetworkTableData(), GetName());
-
     double total = (double)m_timer.Get() - start;
     Util::Log("periodic(msec)", total*1000.0, GetName());
 }
@@ -32,8 +30,6 @@ void VisionSub::Init()
 
     m_timer.Reset();
     m_timer.Start();
-
-    InitNetworkTableData(); // TBD TBD TBD TBD TBD TBD TBD TBD TBD
 }
 
 double VisionSub::GetBestYaw()
@@ -109,6 +105,7 @@ int VisionSub::NumValidTargets(int *pTarget1Id, int *pTarget2Id, double *pYaw1, 
             {
                 *pTarget1Id = targets[i].GetFiducialId();
                 *pYaw1 = m_robotCam.GetLatestResult().GetBestTarget().GetYaw();
+                
             }
             else if (targValidCount == 2 and pTarget2Id != nullptr and pYaw2 != nullptr)
             {
@@ -199,6 +196,19 @@ double VisionSub::GetDistanceInInches()
     return 0.0;
 }
 
+void VisionSub::InputInitialYaw(double initialYaw)
+{
+    if(initialYaw != m_initialYaw)
+    {
+        m_initialYaw == initialYaw;
+    }
+}
+
+double VisionSub::GetInitialYaw()
+{
+    return m_initialYaw;
+}
+
 units::length::meter_t VisionSub::GetTargetHeight(int id)
 {
     // for given target-ID, return height (needed for distance calculation)
@@ -245,7 +255,7 @@ double VisionSub::CalculateDeadZone(double distance1, double calcAngle1, double 
     double slope = 0.0;
     double yIntercept = 0.0;
 
-    if (distance1 != 0.0 and distance2 != 0.0)
+    if (distance1 != 0.0 or distance2 != 0.0)
     {
         slope = ((calcAngle1-calcAngle2)/(distance1-distance2));
 
@@ -266,45 +276,4 @@ double VisionSub::CalculateDeadZone(double distance1, double calcAngle1, double 
     double calcDeadZone = ((slope*GetDistanceInInches())+yIntercept);
 
     return calcDeadZone;
-}
-
-void VisionSub::InitNetworkTableData()
-{
-    std::string tableName = "photonvision";
-    std::string topic = m_cameraName + "/targetYaw"; // why doesn't m_robotCam.GetCameraName() work?
-    std::string topicName = "/" + tableName + "/" + topic;
-
-    // https://docs.wpilib.org/en/stable/docs/software/networktables/tables-and-topics.html
-    nt::NetworkTableInstance inst = nt::NetworkTableInstance::GetDefault();
-
-    // get a topic from a NetworkTableInstance
-    // the topic name in this case is the full name
-    nt::DoubleTopic dblTopic = inst.GetDoubleTopic(topicName);
-
-    // get a topic from a NetworkTable
-    // the topic name in this case is the name within the table;
-    std::shared_ptr<nt::NetworkTable> table = inst.GetTable(tableName);
-    nt::DoubleTopic dblTopic2 = table->GetDoubleTopic(topic);
-
-    // get a type-specific topic from a generic Topic
-    nt::Topic genericTopic = inst.GetTopic(topicName);
-    nt::DoubleTopic dblTopic3{genericTopic};
-
-    // NOTE: dblTopic, dblTopic2, dblTopic3 should all have SAME value
-
-    // start subscribing; the return value must be retained.
-    // the parameter is the default value if no value is available when get() is called
-    m_dblSub = dblTopic.Subscribe(0.0);
-    m_dblSub2 = dblTopic2.Subscribe(0.0);
-    m_dblSub3 = dblTopic3.Subscribe(0.0);
-}
-double VisionSub::GetNetworkTableData()
-{
-    double dbl = m_dblSub.Get(-666.0);
-    Util::Log("netTable topic1 yaw", dbl, GetName());
-    dbl = m_dblSub2.Get(-777.0);
-    Util::Log("netTable topic2 yaw", dbl, GetName());
-    dbl = m_dblSub3.Get(-888.0);
-    Util::Log("netTable topic3 yaw", dbl, GetName());
-    return dbl;
 }
