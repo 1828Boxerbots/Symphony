@@ -14,46 +14,82 @@
 #include <frc2/command/Commands.h>
 #include <frc2/command/SequentialCommandGroup.h>
 
-frc2::CommandPtr autos::Position1CmdGrp(DriveSub* pDriveSub, LoaderSub *pLoaderSub, VisionSub *pVisionSub, ShooterSub *pShooterSub)
+frc2::CommandPtr autos::Position1CmdGrp(DriveSub* pDriveSub, LoaderSub *pLoaderSub, VisionSub *pVisionSub, ShooterSub *pShooterSub, BatonSub *pBatonSub)
 {
-  // return frc2::SequentialCommandGroup(
-  //   VisionAlignCmd(pVisionSub, pDriveSub, 0.5, 10.0)                            // look for AprilTag
-  //   , AutoVisionShootCmd(pShooterSub, pVisionSub)                               // depending on vision distance, set shooter motor
 
-  //   , AutoBackupAndLoadToPhotoGateCmd(pDriveSub, pLoaderSub, 2.0_m, 1.0, 1.0)   // backup to pick up next game-piece
-  //   , AutoForwardCmd(pDriveSub, 1.0_m, 1.0)                                     // move forward to get between 5.0_m and 10.0_m shooting range
-  //   , VisionAlignCmd(pVisionSub, pDriveSub, 0.5, 10.0)                          // look for AprilTag
-  //   , AutoVisionShootCmd(pShooterSub, pVisionSub)                               // depending on vision distance, set shooter motor
+  return frc2::SequentialCommandGroup(
 
-  //   , AutoForwardCmd(pDriveSub, -2.0_m, 1.0)                                    // backup to get out of starting area
-  // ).ToPtr();
+    //----------shooting into speaker-----------
+
+    VisionAlignCmd(pVisionSub, pDriveSub, 0.5)                            // will turn until it sees the speaker's AprilTag
+    , AutoVisionShootCmd(pShooterSub, pVisionSub)                               // depending on vision distance, set shooter motor
+    //Turn back the amount turned when aligning, will set it back straight.
+    , AutoBackupAndLoadToPhotoGateCmd(pDriveSub, pLoaderSub, 2.0_m, 1.0, 1.0)   // backup to pick up next game-piece and cross line (disregard distance for now)
+    , AutoForwardCmd(pDriveSub, 1.0_m, 1.0)                                     // move forward to line (disregard distance for now)
+    , AutoTurnCmd(pDriveSub, +90.0, 0.5)                                        // turn towards amp (cw)
+    , AutoForwardCmd(pDriveSub, 1.0_m, 1.0)                                     // scoot up to get inbto shooting range of amp (disregard distance for now)
+
+    //----------shooting into amp---------------
+
+    , VisionAlignCmd(pVisionSub, pDriveSub, 0.5)                          // look for AprilTag
+     , BatonSwingCmd(true, pBatonSub)                                           // lift up baton
+    , ShootCmd(pShooterSub, pVisionSub, 1.0)                                    // shoot into amp with baton
+    , BatonSwingCmd(false, pBatonSub)                                           // drop baton
+
+//end
+  ).ToPtr();
 }
 
 frc2::CommandPtr autos::Position2CmdGrp(DriveSub* pDriveSub, LoaderSub *pLoaderSub, VisionSub *pVisionSub, ShooterSub *pShooterSub, BatonSub *pBatonSub)
 {
-  // return frc2::SequentialCommandGroup(
-  //   VisionAlignCmd(pVisionSub, pDriveSub, 0.5, 0)                               // look for AprilTag
-  //   , BatonSwingCmd(true, pBatonSub)                                           // lift up baton
-  //   , ShootCmd(pShooterSub, pVisionSub, 1.0)                                    // shoot to baton
-  //   , BatonSwingCmd(false, pBatonSub)                                           // drop baton
+  return frc2::SequentialCommandGroup(
 
-  //   // back out of shoot range
-  //   , AutoForwardCmd(pDriveSub, 0.25_m, -1.0)                                   // backup
+     //----------shooting into speaker-----------
 
-  //   // go towards next game-piece
-  //   , AutoTurnCmd(pDriveSub, -90.0, 0.5)                                        // turn away, to get next note
-  //   , AutoBackupAndLoadToPhotoGateCmd(pDriveSub, pLoaderSub, 2.0_m,1.0, 1.0)    // backup to pick up next game-piece
 
-  //   // ------------------------------------------------------------------------
-  //   // can we determine how far we went backwards to pick up game-piece ?
-  //   // ------------------------------------------------------------------------
-  //   , AutoForwardCmd(pDriveSub, 0.25_m, 1.0)                                    // backup
-  //   , AutoTurnCmd(pDriveSub, +90.0, 0.5)                                        // turn towards amp
-  //   // move fwards
-  //   , AutoForwardCmd(pDriveSub, 0.25_m, 1.0)                                    // backup
-  //   // 
-  //   , BatonSwingCmd(true, pBatonSub)                                            // lift up baton
-  //   , ShootCmd(pShooterSub, pVisionSub, 1.0)                                    // shoot to baton
-  //   , BatonSwingCmd(false, pBatonSub)                                           // drop baton
-  // ).ToPtr();
+    VisionAlignCmd(pVisionSub, pDriveSub, 0.5 )                               // look for speaker's AprilTag
+    , ShootCmd(pShooterSub, pVisionSub, 1.0)                                    // shoot into speaker
+    , AutoBackupAndLoadToPhotoGateCmd(pDriveSub, pLoaderSub, 2.0_m, 1.0, 1.0)   // backup to pick up next game-piece and cross line (disregard distance for now)
+    , AutoForwardCmd(pDriveSub, 1.0_m, 1.0)                                     // move forward to line (disregard distance for now)
+
+
+    //----------shooting into amp---------------
+
+    , AutoTurnCmd(pDriveSub, +90.0, 0.5)                                        // turn towards amp (cw)
+    , AutoForwardCmd(pDriveSub, 1.0_m, 1.0)                                     // move to get into shooting range of amp  (disregard distance for now)
+    , VisionAlignCmd(pVisionSub, pDriveSub, 0.5)                            // look for amp's AprilTag
+    , BatonSwingCmd(true, pBatonSub)                                           // lift up baton
+    , ShootCmd(pShooterSub, pVisionSub, 1.0)                                    // shoot into amp with baton
+    , BatonSwingCmd(false, pBatonSub)                                           // drop baton
+
+//end
+  ).ToPtr();
 }
+
+
+frc2::CommandPtr autos::Position3CmdGrp(DriveSub* pDriveSub, LoaderSub *pLoaderSub, VisionSub *pVisionSub, ShooterSub *pShooterSub, BatonSub *pBatonSub)
+{
+ return frc2::SequentialCommandGroup(
+
+
+      VisionAlignCmd(pVisionSub, pDriveSub, 0.5)                            // will turn until it sees the speaker's AprilTag
+    , AutoVisionShootCmd(pShooterSub, pVisionSub)                               // depending on vision distance, set shooter motor
+    //Turn back the amount turned when aligning, will set it back straight.
+    , AutoBackupAndLoadToPhotoGateCmd(pDriveSub, pLoaderSub, 2.0_m, 1.0, 1.0)   // backup to pick up next game-piece and cross line (disregard distance for now)
+    , AutoForwardCmd(pDriveSub, 1.0_m, 1.0)                                     // move forward to line (disregard distance for now)
+    , AutoTurnCmd(pDriveSub, +90.0, 0.5)                                        // turn towards amp (cw)
+    , AutoForwardCmd(pDriveSub, 1.0_m, 1.0)                                     // Move more than pos 1 to get into shooting range of amp (disregard distance for now)
+
+    //----------shooting into amp---------------
+
+    , VisionAlignCmd(pVisionSub, pDriveSub, 0.5)                          // look for AprilTag
+     , BatonSwingCmd(true, pBatonSub)                                           // lift up baton
+    , ShootCmd(pShooterSub, pVisionSub, 1.0)                                    // shoot into amp with baton
+    , BatonSwingCmd(false, pBatonSub)                                           // drop baton
+ 
+ //end
+
+
+ ).ToPtr();
+}
+

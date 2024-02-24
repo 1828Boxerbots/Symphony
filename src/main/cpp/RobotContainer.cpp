@@ -65,7 +65,7 @@ frc2::CommandPtr RobotContainer::GetAutonomousCommand()
     case 0:
     default:
       // position 1 - in front of Speaker
-      return autos::Position1CmdGrp(&m_driveSub, &m_loaderSub, &m_visionSub, &m_shooterSub);
+      return autos::Position1CmdGrp(&m_driveSub, &m_loaderSub, &m_visionSub, &m_shooterSub, &m_batonSub);
   }
 }
 
