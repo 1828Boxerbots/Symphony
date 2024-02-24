@@ -93,3 +93,17 @@ frc2::CommandPtr autos::Position3CmdGrp(DriveSub* pDriveSub, LoaderSub *pLoaderS
  ).ToPtr();
 }
 
+ frc2::CommandPtr autos::PositionDefaultCmdGrp(DriveSub* pDriveSub)
+ {
+   return frc2::SequentialCommandGroup(
+
+   AutoForwardCmd(pDriveSub, 41.0_in, 1.0)    
+
+
+ ).ToPtr();
+
+
+
+ }
+
+

@@ -17,5 +17,6 @@ namespace autos
     frc2::CommandPtr Position1CmdGrp(DriveSub* pDriveSub, LoaderSub *pLoaderSub, VisionSub *pVisionSub, ShooterSub *pShooterSub, BatonSub *pBatonSub);
     frc2::CommandPtr Position2CmdGrp(DriveSub* pDriveSub, LoaderSub *pLoaderSub, VisionSub *pVisionSub, ShooterSub *pShooterSub, BatonSub *pBatonSub);
     frc2::CommandPtr Position3CmdGrp(DriveSub* pDriveSub, LoaderSub *pLoaderSub, VisionSub *pVisionSub, ShooterSub *pShooterSub, BatonSub *pBatonSub);
+    frc2::CommandPtr PositionDefaultCmdGrp(DriveSub* pDriveSub); //default position, jujust moves forward to break line
 
 }  // namespace autos
