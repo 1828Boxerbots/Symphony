@@ -25,6 +25,12 @@ class DriveSub : public frc2::SubsystemBase
   void DriveTank(double left, double right);
   void DriveRC(double vertical, double horizontal);
 
+  void DriveDistancePID(double distance);
+  void SetPIDSpeed(double speed);
+  double GetAvgDistance();
+
+  void ZeroSensors();
+
   void Periodic() override;
 
   // Components (e.g. motor controllers and sensors) should generally be
@@ -37,10 +43,21 @@ class DriveSub : public frc2::SubsystemBase
   rev::CANSparkMax m_motorL2 {OperatorConstants::kSymphonyDriveMotorIDL2, rev::CANSparkMax::MotorType::kBrushless};
   rev::CANSparkMax m_motorR2 {OperatorConstants::kSymphonyDriveMotorIDR2, rev::CANSparkMax::MotorType::kBrushless};
 
-  //rev::SparkMaxRelativeEncoder m_leftEncoder1 = m_motorL1.GetEncoder(rev::SparkRelativeEncoder::Type::kHallSensor);
-  //rev::SparkMaxRelativeEncoder m_leftEncoder2 = m_motorL2.GetEncoder(rev::SparkRelativeEncoder::Type::kHallSensor);
-  //rev::SparkMaxRelativeEncoder m_rightEncoder1 = m_motorR1.GetEncoder(rev::SparkRelativeEncoder::Type::kHallSensor);
-  //rev::SparkMaxRelativeEncoder m_rightEncoder2 = m_motorR2.GetEncoder(rev::SparkRelativeEncoder::Type::kHallSensor);
+  rev::SparkMaxRelativeEncoder m_leftEncoder1 = m_motorL1.GetEncoder(rev::SparkRelativeEncoder::Type::kHallSensor);
+  rev::SparkMaxRelativeEncoder m_leftEncoder2 = m_motorL2.GetEncoder(rev::SparkRelativeEncoder::Type::kHallSensor);
+  rev::SparkMaxRelativeEncoder m_rightEncoder1 = m_motorR1.GetEncoder(rev::SparkRelativeEncoder::Type::kHallSensor);
+  rev::SparkMaxRelativeEncoder m_rightEncoder2 = m_motorR2.GetEncoder(rev::SparkRelativeEncoder::Type::kHallSensor);
+
+  rev::SparkPIDController m_leftPID1 = m_motorL1.GetPIDController();
+  rev::SparkPIDController m_leftPID2 = m_motorL2.GetPIDController();
+  rev::SparkPIDController m_rightPID1 = m_motorR1.GetPIDController();
+  rev::SparkPIDController m_rightPID2 = m_motorR2.GetPIDController();
+
+  double m_kP= 0.08;
+  double m_kI = 0;
+  double m_kD = 1;
+  double m_kIZ = 0;
+  double m_kF = 0;
 
   ///////////////////////////////////////////////////////////////////////////////
   // IMU

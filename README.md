@@ -8,5 +8,5 @@ Code repository containing FRC code for 2024 Robot (Crescendo).
 - [x] Fix baton calc (take average of both encoders as the set point)
 - [x] Implement more accurate load factor to auto shoot calc
 - [ ] Add documentation comments to the code
-- [ ] Simple autonomous (move forward from 3 positions to cross the line)
-- [ ] Tune PIDs using SysID
+- [x] Simple autonomous (move forward from 3 positions to cross the line)
+- ~~[ ] Tune PIDs using SysID~~

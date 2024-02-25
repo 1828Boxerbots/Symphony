@@ -6,7 +6,6 @@
 
 #include <frc2/command/button/Trigger.h>
 
-#include "commands/Autos.h" 
 #include "commands/DriveCmd.h"
 #include "commands/AmpShootCmd.h"
 #include "commands/SpeakerShootCmd.h"
@@ -14,6 +13,8 @@
 #include "commands/SpitoutNoteCmd.h"
 #include "commands/BatonSwingCmd.h"
 #include "commands/VisionAlignCmd.h"
+
+#include "commands/AutonomousPos1CmdGrp.h"
 
 RobotContainer::RobotContainer() 
 {
@@ -63,7 +64,7 @@ frc2::CommandPtr RobotContainer::GetAutonomousCommand()
     case 0:
     default:
       // position 1
-      return autos::Position1CmdGrp(&m_driveSub, &m_visionSub, &m_shooterSub);
+      return AutonomousPos1CmdGrp(&m_driveSub).ToPtr();
   }
 }
 
@@ -76,4 +77,5 @@ void RobotContainer::ZeroSensors()
 {
   m_batonSub.ZeroSensors();
   m_shooterSub.ZeroSensors();
+  m_driveSub.ZeroSensors();
 }

@@ -175,5 +175,8 @@ std::string Util::TimeStampStr()
 
 double Util::CalculateDistPerPulse(const double wheelDiameter, const int countPerRev, const double gearRatio)
 {
-    return OperatorConstants::PI * wheelDiameter * gearRatio / countPerRev;
+    double pulsePerRev = countPerRev / gearRatio;
+    double circumference = OperatorConstants::PI * wheelDiameter;
+
+    return pulsePerRev * circumference;
 }
