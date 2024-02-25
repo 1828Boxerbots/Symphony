@@ -86,22 +86,6 @@ void DriveSub::Init()
     m_motorR2.Set(0.0);
     m_motorL1.Set(0.0);
     m_motorL2.Set(0.0);
-
-    // initialize encoders
-    const double wheelDiameter = 6.0; // inches
-    const double gearRatio = 8.46 / 1;
-    double distPerPulse = Util::CalculateDistPerPulse(wheelDiameter, OperatorConstants::NEO_ENCODER_COUNT, gearRatio);
-
-    // m_leftEncoder1.SetPositionConversionFactor(distPerPulse);
-    // m_leftEncoder2.SetPositionConversionFactor(distPerPulse);
-    // m_rightEncoder1.SetPositionConversionFactor(distPerPulse);
-    // m_rightEncoder1.SetInverted(true);
-    // m_rightEncoder2.SetPositionConversionFactor(distPerPulse);
-    // m_rightEncoder2.SetInverted(true);
-
-    // initialize imu
-    // m_imu.Calibrate();
-    // m_imu.Reset();
 }
 
 void DriveSub::DriveTank(double left, double right)
@@ -114,7 +98,10 @@ void DriveSub::DriveTank(double left, double right)
 
 void DriveSub::DriveRC(double vertical, double horizontal)
 {
-    DriveTank(vertical+horizontal, vertical-horizontal);
+    double dampFactor = 0.8;
+    double dampedHoriz = horizontal * dampFactor;
+
+    DriveTank(vertical+dampedHoriz, vertical-dampedHoriz);
 }
 
 ///////////////////////////////////////////////////////////////////////////////

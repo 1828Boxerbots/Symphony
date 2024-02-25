@@ -24,8 +24,16 @@ void DriveCmd::Execute()
 {
   if (m_pDriveSub != nullptr && m_pController != nullptr)
   {
+    double deadzone = 0.05;
+
     double leftY = m_pController->GetLeftY();
     double rightX = m_pController->GetRightX();
+
+    if (leftY < deadzone && leftY > -deadzone)
+      leftY = 0.0;
+
+    if (rightX < deadzone && rightX > -deadzone)
+      rightX = 0.0;
 
     m_pDriveSub->DriveRC(-leftY, rightX);
   }

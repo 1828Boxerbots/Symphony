@@ -43,7 +43,7 @@ void RobotContainer::ConfigureBindings() {
   m_driverController.LeftTrigger().WhileTrue(AmpShootCmd(0.7, &m_shooterSub, &m_loaderSub).ToPtr());
 
   // Baton Command
-  m_driverController.X().OnTrue(BatonSwingCmd(&m_batonSub).ToPtr());
+  m_driverController.A().OnTrue(BatonSwingCmd(&m_batonSub).ToPtr());
 }
 
 frc2::CommandPtr RobotContainer::GetAutonomousCommand() 
@@ -71,4 +71,5 @@ int RobotContainer::GetDPDT()
 void RobotContainer::ZeroSensors()
 {
   m_batonSub.ZeroSensors();
+  m_shooterSub.ZeroSensors();
 }

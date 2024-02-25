@@ -25,28 +25,6 @@ class DriveSub : public frc2::SubsystemBase
   void DriveTank(double left, double right);
   void DriveRC(double vertical, double horizontal);
 
-  /// @brief gets yaw position (in degrees) from start position
-  /// @return angle in degrees
-  // double GetAngle();
-  // double GetAngleX();
-  // double GetAngleY();
-  // double GetAngleZ();
-
-  /// @brief gets the current distance traveled from left encoders
-  /// @return distance in inches
-  // double GetDistanceL1();
-  // double GetDistanceL2();
-  // double GetSpeedL1();
-  // double GetSpeedL2();
-
-  /// @brief gets the current distance traveled from right encoder2
-  /// @return distance in inches
-  // double GetDistanceR1();
-  // double GetDistanceR2();
-  // double GetSpeedR1();
-  // double GetSpeedR2();
-
-
   void Periodic() override;
 
   // Components (e.g. motor controllers and sensors) should generally be

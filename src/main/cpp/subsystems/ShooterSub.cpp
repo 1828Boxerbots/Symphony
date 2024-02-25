@@ -29,8 +29,8 @@ void ShooterSub::Periodic()
     // frc::SmartDashboard::PutNumber("Right Encoder DistPerPulse", encoderRDistPerPulse);
     // frc::SmartDashboard::PutNumber("Pulses Per Encoder", m_pulses);
 
-    frc::SmartDashboard::PutNumber("Left Speed", m_EncoderLeft.GetVelocity());
-    frc::SmartDashboard::PutNumber("Right Speed", m_EncoderRight.GetVelocity());
+    // frc::SmartDashboard::PutNumber("Left Speed", m_EncoderLeft.GetVelocity());
+    // frc::SmartDashboard::PutNumber("Right Speed", m_EncoderRight.GetVelocity());
 }
 
 void ShooterSub::Init()
@@ -41,15 +41,6 @@ void ShooterSub::Init()
     // Stop all motors
     m_motorL.Set(0.0);
     m_motorR.Set(0.0);
-
-    // Initialize Encoders
-    const double wheelDiameter = 4;
-    double distPerPulse = Util::CalculateDistPerPulse(wheelDiameter, OperatorConstants::NEO_ENCODER_COUNT);
-    
-    // TODO: This needs to be set to velocity conversion NOT distance
-    // GetEncoderL().SetPositionConversionFactor(distPerPulse);
-    // GetEncoderL().SetInverted(true);
-    // GetEncoderR().SetPositionConversionFactor(distPerPulse);
 }
 
 void ShooterSub::Shoot(double speed)
@@ -64,4 +55,10 @@ std::pair<double, double> ShooterSub::GetMotorRPM()
     double rightRPM = m_EncoderRight.GetVelocity();
 
     return std::pair<double, double>(leftRPM, rightRPM);
+}
+
+void ShooterSub::ZeroSensors()
+{
+    m_EncoderLeft.SetPosition(0.0);
+    m_EncoderRight.SetPosition(0.0);
 }

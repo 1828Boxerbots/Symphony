@@ -24,6 +24,7 @@ class ShooterSub : public frc2::SubsystemBase {
   void Periodic() override;
 
   std::pair<double, double> GetMotorRPM();
+  void ZeroSensors();
 
  private:
 
