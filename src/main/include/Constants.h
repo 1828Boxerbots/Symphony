@@ -48,7 +48,9 @@ inline constexpr int kSymphonyAutoSwithPort2 = 2;   // TODO: Figure out the real
 
 // Constants
 inline constexpr int NEO_ENCODER_COUNT = 42;
-inline constexpr double PI = 3.14159;
+inline constexpr double ToInches = 0.393701;
+inline constexpr double ToCM = 2.53;
+inline constexpr double PI = 3.141592653589793238462643383279502884197169399375105820974944;
 inline constexpr double NEO_MAX_OPENLOAD_RPM = 5676;    // The max RPM of NEO motor without any load
 inline constexpr double NEO_LOAD_FACTOR = 0.05;         // Estimated from calculated load factors
 

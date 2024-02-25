@@ -16,12 +16,21 @@ class LoaderSub : public frc2::SubsystemBase {
   LoaderSub();
 
   void Init();
+  
+  void Periodic() override;
+
+  /// @brief Sets the speed of the loader motor.
+  /// @param speed The speed to move at.
   void Load(double speed);
+
+  /// @brief Retrieves the status of the photogate.
+  /// @return True if the photogate is not tripped, false when tripped.
   bool GetPhotoGate();
 
+  /// @brief Gets the current speed of the loader motor.
+  /// @return The current RPM of the motor.
   double GetEncoderSpeed();
 
-  void Periodic() override;
 
  private:
   // DIO

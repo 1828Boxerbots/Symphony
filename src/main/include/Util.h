@@ -13,35 +13,88 @@
 
 namespace Util
 {
-double Limit(double value, double lowerLimit = -1.0, double higherLimit = 1.0);
-double AbsMin(double input, double minValue);
-double AbsMax(double input, double maxValue);
-double Abs(double input);
+    /// @brief Clamps the input between the provided limits.
+    /// @param value The value to clamp.
+    /// @param lowerLimit The lower bound of the range to clamp to.
+    /// @param higherLimit The upper bound of the range to clamp to.
+    /// @return The value either clamped to be witing range, or the original
+    ///         if already in range.
+    double Limit(double value, double lowerLimit = -1.0, double higherLimit = 1.0);
 
-void DelayInSeconds(units::second_t seconds);
+    /// @brief Finds the mimimum absolute value.
+    /// @param input The value to compare.
+    /// @param minValue The minimum value to report.
+    /// @return The original value or the mimimum allowed value.
+    double AbsMin(double input, double minValue);
 
-//Returns string of current time from year-month-day_hour-min-std::string
-std::string TimeStampStr();
+    /// @brief Finds the maximum absolute value.
+    /// @param input The value to compare.
+    /// @param maxValue The maximum value to report.
+    /// @return The original value or the maximum allowed value.
+    double AbsMax(double input, double maxValue);
 
-bool CompareDouble(double value, double requiredValue, double tolerance = 0.001);
+    /// @brief Finds the absolute value.
+    /// @param input The value to convert to absolute value.
+    /// @return The original input without the sign if it had one.
+    double Abs(double input);
+    
+    /// @brief Delays execution of the current thread for the number of seconds
+    ///         specified.
+    /// @param seconds The number of seconds to wait for.
+    void DelayInSeconds(units::second_t seconds);
+    
+    /// @brief Formats a string that represents a timestamp in YYYY-MM-DD-HH-mm.
+    /// @return The formatted string.
+    std::string TimeStampStr();
+    
+    /// @brief Compares the value of doubles using the specified tolerances.
+    /// @param value The value to be verified that is is considered the desired number.
+    /// @param requiredValue The desired value that the input should be equal to.
+    /// @param tolerance The accuraccy that a number must be within to be equal.
+    /// @return True if the number is equal within tolerance. False otherwise.
+    bool CompareDouble(double value, double requiredValue, double tolerance = 0.001);
+    
+    /// @brief Logs the value to the smartdashboard.
+    /// @param title The title to apply to the logged value.
+    /// @param value The value to log.
+    /// @param subsystemName The name of the subsystem it belongs to.
+    void Log(std::string title, double value, std::string subsystemName = "");
 
-//Log Functions
-void Log(std::string title, double value, std::string subsystemName = "");
-void Log(std::string title, int value, std::string subsystemName = "");
-void Log(std::string title, unsigned int value, std::string subsystemName = "");
-void Log(std::string title, bool value, std::string subsystemName = "");
-void Log(std::string title, std::string value, std::string subsystemName = "");
-void Log(std::string title, const char *value, std::string subsystemName = "");
+    /// @brief Logs the value to the smartdashboard.
+    /// @param title The title to apply to the logged value.
+    /// @param value The value to log.
+    /// @param subsystemName The name of the subsystem it belongs to.
+    void Log(std::string title, int value, std::string subsystemName = "");
 
-//Experimental Functions
-void SendErrorAndCode(const char* error, int32_t code);
-// void SendErrorAndCode(const wpi::Twine &error, int32_t code, const char *location);
+    /// @brief Logs the value to the smartdashboard.
+    /// @param title The title to apply to the logged value.
+    /// @param value The value to log.
+    /// @param subsystemName The name of the subsystem it belongs to.
+    void Log(std::string title, unsigned int value, std::string subsystemName = "");
 
-// Encoder Utils
-double CalculateDistPerPulse(const double wheelDiameter, const int revPerPulse, const double gearRatio = 1.0);
+    /// @brief Logs the value to the smartdashboard.
+    /// @param title The title to apply to the logged value.
+    /// @param value The value to log.
+    /// @param subsystemName The name of the subsystem it belongs to.
+    void Log(std::string title, bool value, std::string subsystemName = "");
 
-//Other Constants
-constexpr double ToInches = 0.393701;
-constexpr double ToCM = 2.53;
-constexpr double PI = 3.141592653589793238462643383279502884197169399375105820974944;
+    /// @brief Logs the value to the smartdashboard.
+    /// @param title The title to apply to the logged value.
+    /// @param value The value to log.
+    /// @param subsystemName The name of the subsystem it belongs to.
+    void Log(std::string title, std::string value, std::string subsystemName = "");
+
+    /// @brief Logs the value to the smartdashboard.
+    /// @param title The title to apply to the logged value.
+    /// @param value The value to log.
+    /// @param subsystemName The name of the subsystem it belongs to.
+    void Log(std::string title, const char *value, std::string subsystemName = "");
+    
+    /// @brief Used to calculate the distance per pulse for encoders attached to wheels. Used to
+    ///         convert the rotations of an encoder to linear distance.
+    /// @param wheelDiameter The diameter of the wheels attached to system.
+    /// @param revPerPulse The number of revolutions per pulse.
+    /// @param gearRatio The gear ratio of the system.
+    /// @return 
+    double CalculateDistPerPulse(const double wheelDiameter, const int revPerPulse, const double gearRatio = 1.0);
 }

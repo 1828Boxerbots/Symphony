@@ -22,16 +22,34 @@ class DriveSub : public frc2::SubsystemBase
    */
 
   void Init();
-  void DriveTank(double left, double right);
-  void DriveRC(double vertical, double horizontal);
-
-  void DriveDistancePID(double distance);
-  void SetPIDSpeed(double speed);
-  double GetAvgDistance();
-
-  void ZeroSensors();
 
   void Periodic() override;
+
+  /// @brief Called to set the motors to each of their required speeds.
+  /// @param left The speed of the left motors.
+  /// @param right The speed of the right motors.
+  void DriveTank(double left, double right);
+
+  /// @brief Takes in vertical and horizontal input values and translates them to motor values.
+  /// @param vertical The vertical component of the speed.
+  /// @param horizontal The horizontal component of the speed.
+  void DriveRC(double vertical, double horizontal);
+
+  /// @brief Moves the robot using a PID to reach a specified distance.
+  /// @param distance The distance to move to.
+  void DriveDistancePID(double distance);
+
+  /// @brief Sets the max and min speed of the PID controller.
+  /// @param speed The speed to set the PID to.
+  void SetPIDSpeed(double speed);
+
+  /// @brief Calculates the avg distance travelled between all four drive encoders.
+  /// @return The average encoder distance.
+  double GetAvgDistance();
+
+  /// @brief Called to zero sensitive sensors.
+  void ZeroSensors();
+
 
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.

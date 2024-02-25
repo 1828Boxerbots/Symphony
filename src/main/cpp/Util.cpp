@@ -132,17 +132,6 @@ void Util::Log(std::string title, const char *value, std::string subsystemName)
     frc::SmartDashboard::PutString(subsystemName + " " + title, newvalue);
 }
 
-/* 
-*  Specialized error reporting (Adam's test)
-*  
-*  Allows you to report to the driver station with a custom error code.
-*/
-void Util::SendErrorAndCode(const char* error, int32_t code)
-{
-    wpi::SmallString<128> temp;
-    HAL_SendError(1, code, 0, error, "", "", 1);
-}
-
 // /* 
 // *  Overload of the other error function (Adam's test)
 // *  

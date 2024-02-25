@@ -22,13 +22,22 @@ class BatonSub : public frc2::SubsystemBase {
 
   void Init();
 
-  void Stop();
+  /// @brief Moves the baton to the specified location using PIDs and the
+  ///        value of the encoders.
+  /// @param pos The position (in rotations) to move the baton to.
   void SetPosition(double pos);
-  void SetMotors(double speed);
 
+  /// @brief Retrieves the current state of the upper hall effect sensor. The
+  ///        sensor returns high signal by default.
+  /// @return True if the sensor is not tripped. False if a magnetic field is
+  ///         detected nearby.
   inline bool GetUpperHallTripped() const { return m_UpperHallEffect.Get(); }
+
+  /// @brief Calculates the average number of rotations between each encoder.
+  /// @return The average number of rotations.
   double GetAvgEncoderPos();
 
+  /// @brief Called to zero any sensitive sensors.
   void ZeroSensors();
 
  private:

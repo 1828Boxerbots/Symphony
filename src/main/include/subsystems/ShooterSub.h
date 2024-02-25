@@ -15,16 +15,23 @@
 
 class ShooterSub : public frc2::SubsystemBase {
  public:
-  ShooterSub();
+    ShooterSub();
 
-  void Init();
+    void Init();
 
-  void Shoot(double speed);
+    void Periodic() override;
 
-  void Periodic() override;
+    /// @brief Used to set the speed of the shooter motors.
+    /// @param speed The speed at which the motors will move.
+    void Shoot(double speed);
 
-  std::pair<double, double> GetMotorRPM();
-  void ZeroSensors();
+    /// @brief Returns the current RPM of both shooter motors.
+    /// @return A std::pair that contains the motor RPM. The first element is
+    ///         the left motor RPM and the second element is the right motor.
+    std::pair<double, double> GetMotorRPM();
+
+    /// @brief Called to reset any subsystem sensitive sensors.
+    void ZeroSensors();
 
  private:
 

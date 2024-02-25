@@ -17,18 +17,12 @@ class ClimberSub : public frc2::SubsystemBase {
   ClimberSub();
 
   void Init();
-  void SetMotors(double speed);
-  void Extend();
-  void Retract();
-  void Stop(); 
-  bool IsAtRetractLimit();
-  bool IsAtExtendLimit();
-  
 
-  /**
-   * Will be called periodically whenever the CommandScheduler runs.
-   */
   void Periodic() override;
+
+  /// @brief Sets the speed of the climb motors.
+  /// @param speed The speed to move the motors at.
+  void SetMotors(double speed);
 
  private:
 
