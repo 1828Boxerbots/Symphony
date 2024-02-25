@@ -33,8 +33,8 @@ inline constexpr int kSymphonyLoaderPhotogate = 7;
 inline constexpr int kSymphonyLoaderMotorID = 7;
 
 //Baton:
-inline constexpr int kSymphonyBatonMotorIDL = 8; //bogus port value, not true at all
-inline constexpr int kSymphonyBatonMotorIDR = 9; //bogus port value, not true at all 
+inline constexpr int kSymphonyBatonMotorIDL = 8;
+inline constexpr int kSymphonyBatonMotorIDR = 9; 
 inline constexpr int kBatonUpperHallEffect = 0;
 
 // Climber
@@ -42,9 +42,14 @@ inline constexpr int kSymphonyClimberMotorIDL = 10;
 inline constexpr int kSymphonyClimberMotorIDR = 11;  
 inline constexpr double kSymphonyClimberMotorSpeed = 0.1; 
 
+// Autonomous Selector
+inline constexpr int kSymphonyAutoSwithPort1 = 1;   // TODO: Figure out the real port value
+inline constexpr int kSymphonyAutoSwithPort2 = 2;   // TODO: Figure out the real port value
+
 // Constants
 inline constexpr int NEO_ENCODER_COUNT = 42;
 inline constexpr double PI = 3.14159;
-inline constexpr double NEO_MAX_RPM = 5676;
+inline constexpr double NEO_MAX_OPENLOAD_RPM = 5676;    // The max RPM of NEO motor without any load
+inline constexpr double NEO_LOAD_FACTOR = 0.05;         // Estimated from calculated load factors
 
 }  // namespace OperatorConstants

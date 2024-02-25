@@ -31,10 +31,12 @@ void AmpShootCmd::Execute()
   
   m_pShooterSub->Shoot(-m_speed);
 
+  double targetRPM = OperatorConstants::NEO_MAX_OPENLOAD_RPM * m_speed; // Calculates the target RPM with no load
+  double loadFactor = targetRPM * OperatorConstants::NEO_LOAD_FACTOR;   // Calculates the affect of load on the motors
+  targetRPM -= loadFactor;                                              // Applies the load factor to give target RPM with load factor
+  
   // The first item is left motor, right is second
   std::pair<double, double> motorRPM = m_pShooterSub->GetMotorRPM();
-  double loadFactor = 300;
-  double targetRPM = OperatorConstants::NEO_MAX_RPM * m_speed - loadFactor;
   double avgRPM = ((fabs(motorRPM.first) + fabs(motorRPM.second)) / 2.0);
 
   std::cout << avgRPM << "/" << targetRPM << std::endl;

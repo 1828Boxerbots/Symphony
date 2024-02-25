@@ -13,6 +13,7 @@
 #include "commands/PickupNoteCmd.h"
 #include "commands/SpitoutNoteCmd.h"
 #include "commands/BatonSwingCmd.h"
+#include "commands/VisionAlignCmd.h"
 
 RobotContainer::RobotContainer() 
 {
@@ -44,6 +45,9 @@ void RobotContainer::ConfigureBindings() {
 
   // Baton Command
   m_driverController.A().OnTrue(BatonSwingCmd(&m_batonSub).ToPtr());
+
+  // Auto Align Command
+  m_driverController.X().OnTrue(VisionAlignCmd(&m_visionSub, &m_driveSub, 0.25).ToPtr());
 }
 
 frc2::CommandPtr RobotContainer::GetAutonomousCommand() 

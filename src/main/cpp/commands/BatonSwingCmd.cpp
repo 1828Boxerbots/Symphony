@@ -27,11 +27,11 @@ void BatonSwingCmd::Initialize()
 
   m_isFinished = false;
 
-  if (m_pSub->GetUpperHallTripped() && m_pSub->GetEncoderPos() <= 1.0)
+  if (m_pSub->GetUpperHallTripped() && m_pSub->GetAvgEncoderPos() <= 1.0)
   {
     m_Mode = BatonMovemementMode::EXTEND;
   }
-  else if (!m_pSub->GetUpperHallTripped() || m_pSub->GetEncoderPos() >= 21.0)
+  else if (!m_pSub->GetUpperHallTripped() || m_pSub->GetAvgEncoderPos() >= 21.0)
     m_Mode = BatonMovemementMode::RETRACT;
   else
     m_Mode = BatonMovemementMode::STOP;
@@ -45,14 +45,14 @@ void BatonSwingCmd::Execute()
   case BatonMovemementMode::EXTEND:
     m_pSub->SetPosition(22.0);
 
-    if (!m_pSub->GetUpperHallTripped() || m_pSub->GetEncoderPos() >= 24.0)
+    if (!m_pSub->GetUpperHallTripped() || m_pSub->GetAvgEncoderPos() >= 24.0)
       m_Mode = BatonMovemementMode::STOP;
 
     break;
   case BatonMovemementMode::RETRACT:
     m_pSub->SetPosition(0.0);
 
-    if (m_pSub->GetEncoderPos() <= 0.2)
+    if (m_pSub->GetAvgEncoderPos() <= 0.5)
       m_Mode = BatonMovemementMode::STOP;
 
     break;

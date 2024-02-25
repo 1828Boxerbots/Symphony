@@ -55,6 +55,14 @@ void BatonSub::SetMotors(double speed)
     m_motorR.Set(speed);
 } 
 
+double BatonSub::GetAvgEncoderPos()
+{
+    double leftPos = m_EncoderL.GetPosition();
+    double rightPos = m_EncoderR.GetPosition();
+
+    return (leftPos + rightPos) / 2.0;
+}
+
 void BatonSub::ZeroSensors()
 {
     m_EncoderL.SetPosition(0.0);

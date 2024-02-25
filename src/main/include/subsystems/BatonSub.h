@@ -9,6 +9,8 @@
 #include <rev/CANSparkMax.h>
 #include <frc/DigitalInput.h>
 
+#include <utility>
+
 class BatonSub : public frc2::SubsystemBase {
  public:
   BatonSub();
@@ -25,7 +27,7 @@ class BatonSub : public frc2::SubsystemBase {
   void SetMotors(double speed);
 
   inline bool GetUpperHallTripped() const { return m_UpperHallEffect.Get(); }
-  inline double GetEncoderPos() const { return m_EncoderL.GetPosition(); }
+  double GetAvgEncoderPos();
 
   void ZeroSensors();
 
