@@ -52,7 +52,7 @@ void RobotContainer::ConfigureBindings() {
   m_driverController.A().OnTrue(BatonSwingCmd(&m_batonSub).ToPtr());
 
   // Auto Align Command
-  m_driverController.X().OnTrue(AlignCmd(&m_visionSub, &m_driveSub, 0.25, 5.0).ToPtr());
+  m_driverController.X().WhileTrue(AlignCmd(&m_visionSub, &m_driveSub, 0.25, 5.0).ToPtr());
 }
 
 frc2::CommandPtr RobotContainer::GetAutonomousCommand() 

@@ -16,14 +16,12 @@ VisionSub::VisionSub()
 // This method will be called once per scheduler run
 void VisionSub::Periodic() 
 {
-    double start = (double)m_timer.Get();
+    // double start = (double)m_timer.Get();
     
     Util::Log("dist(in inches)", (double)GetDistanceInInches(), GetName());
 
-    Util::Log("NetworkTableData", GetNetworkTableData(), GetName());
-
-    double total = (double)m_timer.Get() - start;
-    Util::Log("periodic(msec)", total*1000.0, GetName());
+    // double total = (double)m_timer.Get() - start;
+    // Util::Log("periodic(msec)", total*1000.0, GetName());
 }
 
 void VisionSub::Init()
@@ -33,7 +31,7 @@ void VisionSub::Init()
     m_timer.Reset();
     m_timer.Start();
 
-    InitNetworkTableData(); // TBD TBD TBD TBD TBD TBD TBD TBD TBD
+    // InitNetworkTableData(); // TBD TBD TBD TBD TBD TBD TBD TBD TBD
 }
 
 double VisionSub::GetBestYaw()
@@ -240,43 +238,43 @@ units::length::meter_t VisionSub::GetTargetHeight(int id)
     return 0.0_m;
 }
 
-void VisionSub::InitNetworkTableData()
-{
-    std::string tableName = "photonvision";
-    std::string topic = m_cameraName + "/targetYaw"; // why doesn't m_testCam.GetCameraName() work?
-    std::string topicName = "/" + tableName + "/" + topic;
+// void VisionSub::InitNetworkTableData()
+// {
+//     std::string tableName = "photonvision";
+//     std::string topic = m_cameraName + "/targetYaw"; // why doesn't m_testCam.GetCameraName() work?
+//     std::string topicName = "/" + tableName + "/" + topic;
 
-    // https://docs.wpilib.org/en/stable/docs/software/networktables/tables-and-topics.html
-    nt::NetworkTableInstance inst = nt::NetworkTableInstance::GetDefault();
+//     // https://docs.wpilib.org/en/stable/docs/software/networktables/tables-and-topics.html
+//     nt::NetworkTableInstance inst = nt::NetworkTableInstance::GetDefault();
 
-    // get a topic from a NetworkTableInstance
-    // the topic name in this case is the full name
-    nt::DoubleTopic dblTopic = inst.GetDoubleTopic(topicName);
+//     // get a topic from a NetworkTableInstance
+//     // the topic name in this case is the full name
+//     nt::DoubleTopic dblTopic = inst.GetDoubleTopic(topicName);
 
-    // get a topic from a NetworkTable
-    // the topic name in this case is the name within the table;
-    std::shared_ptr<nt::NetworkTable> table = inst.GetTable(tableName);
-    nt::DoubleTopic dblTopic2 = table->GetDoubleTopic(topic);
+//     // get a topic from a NetworkTable
+//     // the topic name in this case is the name within the table;
+//     std::shared_ptr<nt::NetworkTable> table = inst.GetTable(tableName);
+//     nt::DoubleTopic dblTopic2 = table->GetDoubleTopic(topic);
 
-    // get a type-specific topic from a generic Topic
-    nt::Topic genericTopic = inst.GetTopic(topicName);
-    nt::DoubleTopic dblTopic3{genericTopic};
+//     // get a type-specific topic from a generic Topic
+//     nt::Topic genericTopic = inst.GetTopic(topicName);
+//     nt::DoubleTopic dblTopic3{genericTopic};
 
-    // NOTE: dblTopic, dblTopic2, dblTopic3 should all have SAME value
+//     // NOTE: dblTopic, dblTopic2, dblTopic3 should all have SAME value
 
-    // start subscribing; the return value must be retained.
-    // the parameter is the default value if no value is available when get() is called
-    m_dblSub = dblTopic.Subscribe(0.0);
-    m_dblSub2 = dblTopic2.Subscribe(0.0);
-    m_dblSub3 = dblTopic3.Subscribe(0.0);
-}
-double VisionSub::GetNetworkTableData()
-{
-    double dbl = m_dblSub.Get(-666.0);
-    Util::Log("netTable topic1 yaw", dbl, GetName());
-    dbl = m_dblSub2.Get(-777.0);
-    Util::Log("netTable topic2 yaw", dbl, GetName());
-    dbl = m_dblSub3.Get(-888.0);
-    Util::Log("netTable topic3 yaw", dbl, GetName());
-    return dbl;
-}
+//     // start subscribing; the return value must be retained.
+//     // the parameter is the default value if no value is available when get() is called
+//     m_dblSub = dblTopic.Subscribe(0.0);
+//     m_dblSub2 = dblTopic2.Subscribe(0.0);
+//     m_dblSub3 = dblTopic3.Subscribe(0.0);
+// }
+// double VisionSub::GetNetworkTableData()
+// {
+//     double dbl = m_dblSub.Get(-666.0);
+//     Util::Log("netTable topic1 yaw", dbl, GetName());
+//     dbl = m_dblSub2.Get(-777.0);
+//     Util::Log("netTable topic2 yaw", dbl, GetName());
+//     dbl = m_dblSub3.Get(-888.0);
+//     Util::Log("netTable topic3 yaw", dbl, GetName());
+//     return dbl;
+// }

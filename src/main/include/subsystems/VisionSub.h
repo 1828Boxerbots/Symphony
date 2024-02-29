@@ -66,11 +66,11 @@ class VisionSub : public frc2::SubsystemBase
   // NETWORK TABLE TEST ///////////////////////////////////////////////////////
   // TBD TBD TBD - test only
   /// @brief initializes data for network table data acquisition
-  void InitNetworkTableData();
+  // void InitNetworkTableData();
 
   /// @brief returns network data from subscriptions
   /// @return value for given data
-  double GetNetworkTableData();
+  // double GetNetworkTableData();
   // NETWORK TABLE TEST ///////////////////////////////////////////////////////
 
  private:
@@ -94,8 +94,8 @@ class VisionSub : public frc2::SubsystemBase
   const int m_kMaxTargetId = 16;
 
   // NETWORK TABLE TEST ///////////////////////////////////////////////////////
-  nt::DoubleSubscriber m_dblSub;
-  nt::DoubleSubscriber m_dblSub2;
-  nt::DoubleSubscriber m_dblSub3;
+  // nt::DoubleSubscriber m_dblSub;
+  // nt::DoubleSubscriber m_dblSub2;
+  // nt::DoubleSubscriber m_dblSub3;
   // NETWORK TABLE TEST ///////////////////////////////////////////////////////
 };
