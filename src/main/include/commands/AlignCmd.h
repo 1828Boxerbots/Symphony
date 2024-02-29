@@ -4,8 +4,10 @@
 
 #pragma once
 
+#include <frc/controller/PIDController.h>
 #include <frc2/command/Command.h>
 #include <frc2/command/CommandHelper.h>
+#include <frc/smartdashboard/SmartDashboard.h>
 #include "subsystems/VisionSub.h"
 #include "subsystems/DriveSub.h"
 
@@ -16,10 +18,10 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class VisionAlignCmd : public frc2::CommandHelper<frc2::Command, VisionAlignCmd> 
+class AlignCmd : public frc2::CommandHelper<frc2::Command, AlignCmd> 
 {
  public:
-  VisionAlignCmd(VisionSub *pVisionSub, DriveSub *pDriveSub, double speed);
+  AlignCmd(VisionSub *pVisionSub, DriveSub *pDriveSub, double speed, double deadZone);
 
   void Initialize() override;
 
@@ -33,4 +35,14 @@ class VisionAlignCmd : public frc2::CommandHelper<frc2::Command, VisionAlignCmd>
   VisionSub* m_pVisionSub = nullptr;
   DriveSub* m_pDriveSub = nullptr;
   double m_speed = 0.0;
+  double m_deadZone = 0.0;
+  double m_targYaw =0.0;
+  bool m_isFinished = false;
+  const double kMinDeadZone = 0.1;
+
+  const double kProportionalGain = 0.1;
+  const double kIntegralGain = 0.0;
+  const double kDerivativeGain = 0.0;
+
+  frc::PIDController m_controller { kProportionalGain, kIntegralGain, kDerivativeGain };
 };

@@ -12,8 +12,9 @@
 #include "commands/PickupNoteCmd.h"
 #include "commands/SpitoutNoteCmd.h"
 #include "commands/BatonSwingCmd.h"
-#include "commands/VisionAlignCmd.h"
+#include "commands/AlignCmd.h"
 
+#include "commands/AutonomousNoPosCmdGrp.h"
 #include "commands/AutonomousPos1CmdGrp.h"
 #include "commands/AutonomousPos2CmdGrp.h"
 #include "commands/AutonomousPos3CmdGrp.h"
@@ -51,7 +52,7 @@ void RobotContainer::ConfigureBindings() {
   m_driverController.A().OnTrue(BatonSwingCmd(&m_batonSub).ToPtr());
 
   // Auto Align Command
-  m_driverController.X().OnTrue(VisionAlignCmd(&m_visionSub, &m_driveSub, 0.25).ToPtr());
+  m_driverController.X().OnTrue(AlignCmd(&m_visionSub, &m_driveSub, 0.25, 5.0).ToPtr());
 }
 
 frc2::CommandPtr RobotContainer::GetAutonomousCommand() 
@@ -59,17 +60,17 @@ frc2::CommandPtr RobotContainer::GetAutonomousCommand()
   switch (m_AutoSwitchSub.GetSelectedMode())
   {
     case AutonomousMode::POS1:
-      //AutonomousPos1CmdGrp(&m_driveSub).ToPtr();
       frc::SmartDashboard::PutString("Auto Mode", "Position 1");
-      break;
+      return AutonomousPos1CmdGrp(&m_driveSub).ToPtr();
     case AutonomousMode::POS2:
-      //AutonomousPos2CmdGrp(&m_driveSub).ToPtr();
       frc::SmartDashboard::PutString("Auto Mode", "Position 2");
-      break;
+      return AutonomousPos2CmdGrp(&m_driveSub).ToPtr();
     case AutonomousMode::POS3:
-      //AutonomousPos3CmdGrp(&m_driveSub).ToPtr();
       frc::SmartDashboard::PutString("Auto Mode", "Position 3");
-      break;
+      return AutonomousPos3CmdGrp(&m_driveSub).ToPtr();
+    default:
+      frc::SmartDashboard::PutString("Auto Mode", "No Position Selected");
+      return AutonomousNoPosCmdGrp().ToPtr();
   }
 }
 

@@ -14,7 +14,7 @@ DriveSub::DriveSub()
 void DriveSub::Periodic()
 {
     // NOTE: Only enable during debugging (will slow down the hardware)
-    frc::SmartDashboard::PutNumber("Encoder Distance (in)", GetAvgDistance());
+    //frc::SmartDashboard::PutNumber("Encoder Distance (in)", GetAvgDistance());
 }
 
 void DriveSub::Init()
