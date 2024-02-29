@@ -45,7 +45,7 @@ void BatonSwingCmd::Execute()
   case BatonMovemementMode::EXTEND:
     m_pSub->SetPosition(22.0);
 
-    if (!m_pSub->GetUpperHallTripped() || m_pSub->GetAvgEncoderPos() >= 24.0)
+    if (!m_pSub->GetUpperHallTripped() || m_pSub->GetAvgEncoderPos() >= 22.0)
       m_Mode = BatonMovemementMode::STOP;
 
     break;
@@ -57,7 +57,7 @@ void BatonSwingCmd::Execute()
 
     break;
   case BatonMovemementMode::STOP:
-    m_pSub->Stop();
+    m_pSub->SetMotors(0.0);
     m_isFinished = true;
     break;
   default:
@@ -71,7 +71,7 @@ void BatonSwingCmd::End(bool interrupted)
 {
    if (m_pSub != nullptr)
   {
-    m_pSub->Stop();
+    m_pSub->SetMotors(0.0);
   }
 }
 

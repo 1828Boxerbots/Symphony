@@ -14,6 +14,7 @@ DriveSub::DriveSub()
 void DriveSub::Periodic()
 {
     // NOTE: Only enable during debugging (will slow down the hardware)
+    frc::SmartDashboard::PutNumber("Encoder Distance (in)", GetAvgDistance());
 }
 
 void DriveSub::Init()
@@ -92,8 +93,10 @@ void DriveSub::SetPIDSpeed(double speed)
 
 double DriveSub::GetAvgDistance()
 {
-    double leftDist1 = m_leftEncoder1.GetPosition();
-    double leftDist2 = m_leftEncoder2.GetPosition();
+    double factor = 0.95;
+
+    double leftDist1 = m_leftEncoder1.GetPosition() * factor;
+    double leftDist2 = m_leftEncoder2.GetPosition() * factor;
     double rightDist1 = m_rightEncoder1.GetPosition();
     double rightDist2 = m_rightEncoder2.GetPosition();
 

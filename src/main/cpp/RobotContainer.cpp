@@ -15,6 +15,8 @@
 #include "commands/VisionAlignCmd.h"
 
 #include "commands/AutonomousPos1CmdGrp.h"
+#include "commands/AutonomousPos2CmdGrp.h"
+#include "commands/AutonomousPos3CmdGrp.h"
 
 RobotContainer::RobotContainer() 
 {
@@ -33,6 +35,7 @@ void RobotContainer::Init()
   m_loaderSub.Init();
   m_batonSub.Init();
   //m_climberSub.Init();
+  m_AutoSwitchSub.Init();
 }
 
 void RobotContainer::ConfigureBindings() {
@@ -53,18 +56,20 @@ void RobotContainer::ConfigureBindings() {
 
 frc2::CommandPtr RobotContainer::GetAutonomousCommand() 
 {
-  switch (GetDPDT())
+  switch (m_AutoSwitchSub.GetSelectedMode())
   {
-    case 1:
-      // position 2
+    case AutonomousMode::POS1:
+      //AutonomousPos1CmdGrp(&m_driveSub).ToPtr();
+      frc::SmartDashboard::PutString("Auto Mode", "Position 1");
       break;
-    case 2:
-      // position 3
+    case AutonomousMode::POS2:
+      //AutonomousPos2CmdGrp(&m_driveSub).ToPtr();
+      frc::SmartDashboard::PutString("Auto Mode", "Position 2");
       break;
-    case 0:
-    default:
-      // position 1
-      return AutonomousPos1CmdGrp(&m_driveSub).ToPtr();
+    case AutonomousMode::POS3:
+      //AutonomousPos3CmdGrp(&m_driveSub).ToPtr();
+      frc::SmartDashboard::PutString("Auto Mode", "Position 3");
+      break;
   }
 }
 

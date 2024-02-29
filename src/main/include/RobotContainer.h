@@ -14,6 +14,7 @@
 #include "subsystems/LoaderSub.h"
 #include "subsystems/ClimberSub.h"
 #include "subsystems/BatonSub.h"
+#include "subsystems/AutoSwitchSub.h"
 
 /**
  * This class is where the bulk of the robot should be declared.  Since
@@ -49,4 +50,5 @@ class RobotContainer {
   LoaderSub m_loaderSub;
   //ClimberSub m_climberSub;
   BatonSub m_batonSub;
+  AutoSwitchSub m_AutoSwitchSub;
 };

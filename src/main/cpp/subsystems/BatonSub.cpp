@@ -14,6 +14,7 @@ void BatonSub::Periodic()
     // frc::SmartDashboard::PutNumber("Left Encoder Rotations", m_EncoderL.GetPosition());
     // frc::SmartDashboard::PutNumber("Right Encoder Rotations", m_EncoderR.GetPosition());
     // frc::SmartDashboard::PutBoolean("Upper Hall Effect", m_UpperHallEffect.Get());
+    // frc::SmartDashboard::PutNumber("Avg Encoder Rotations", GetAvgEncoderPos());
 }
 
 void BatonSub::Init()
@@ -36,12 +37,6 @@ void BatonSub::Init()
     m_PIDRight.SetFF(m_kF);
     m_PIDRight.SetOutputRange(m_kMinOutput, m_kMaxOutput);
 }
-
-void BatonSub::Stop()
-{
-    m_motorL.Set(0.0);
-    m_motorR.Set(0.0);
-} 
 
 void BatonSub::SetPosition(double pos)
 {

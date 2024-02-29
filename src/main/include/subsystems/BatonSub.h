@@ -27,6 +27,10 @@ class BatonSub : public frc2::SubsystemBase {
   /// @param pos The position (in rotations) to move the baton to.
   void SetPosition(double pos);
 
+  /// @brief Sets the speed of the motors to the provided value.
+  /// @param speed The speed to move at.
+  void SetMotors(double speed);
+
   /// @brief Retrieves the current state of the upper hall effect sensor. The
   ///        sensor returns high signal by default.
   /// @return True if the sensor is not tripped. False if a magnetic field is

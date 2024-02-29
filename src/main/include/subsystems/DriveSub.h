@@ -71,7 +71,7 @@ class DriveSub : public frc2::SubsystemBase
   rev::SparkPIDController m_rightPID1 = m_motorR1.GetPIDController();
   rev::SparkPIDController m_rightPID2 = m_motorR2.GetPIDController();
 
-  double m_kP= 0.08;
+  double m_kP= 0.035;
   double m_kI = 0;
   double m_kD = 1;
   double m_kIZ = 0;
