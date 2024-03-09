@@ -16,6 +16,8 @@
 #include "subsystems/BatonSub.h"
 #include "subsystems/AutoSwitchSub.h"
 
+#include "subsystems/LEDSub.h"
+
 /**
  * This class is where the bulk of the robot should be declared.  Since
  * Command-based is a "declarative" paradigm, very little robot logic should
@@ -45,10 +47,11 @@ class RobotContainer {
 
   // The robot's subsystems are defined here...
   VisionSub m_visionSub;
-  DriveSub m_driveSub;
-  ShooterSub m_shooterSub;
-  LoaderSub m_loaderSub;
+  //DriveSub m_driveSub;
+  //ShooterSub m_shooterSub;
+  //LoaderSub m_loaderSub;
   //ClimberSub m_climberSub;
-  BatonSub m_batonSub;
-  AutoSwitchSub m_AutoSwitchSub;
+  //BatonSub m_batonSub;
+  //AutoSwitchSub m_AutoSwitchSub;
+  //LEDSub m_LEDSub;
 };

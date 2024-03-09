@@ -11,6 +11,8 @@
 #include <frc/Timer.h>
 #include <string>
 
+#include <cameraserver/CameraServer.h>
+
 #include "Constants.h"
 
 class VisionSub : public frc2::SubsystemBase 
@@ -59,19 +61,11 @@ class VisionSub : public frc2::SubsystemBase
 
   /// @brief gets distance to target
   /// @return distance to target in meters
-  double GetDistanceInMeters();
-  double GetDistanceInInches();
+  units::length::meter_t GetDistanceInMeters(int targetID);
 
-
-  // NETWORK TABLE TEST ///////////////////////////////////////////////////////
-  // TBD TBD TBD - test only
-  /// @brief initializes data for network table data acquisition
-  // void InitNetworkTableData();
-
-  /// @brief returns network data from subscriptions
-  /// @return value for given data
-  // double GetNetworkTableData();
-  // NETWORK TABLE TEST ///////////////////////////////////////////////////////
+  /// @brief Gets the distance to a target
+  /// @return The distance in inches
+  units::length::inch_t GetDistanceInInches(int targetID);
 
  private:
   /// @brief returns target height (center of aprilTag), for given April-Tag ID
@@ -86,16 +80,7 @@ class VisionSub : public frc2::SubsystemBase
   const std::string m_cameraName = "TestCam1";
   photon::PhotonCamera m_testCam{m_cameraName};
 
-  frc::Timer m_timer;
-
-  const units::meter_t m_kCamHeight = 34.9416666667_in;  // TBD TBD - need actual robot specs
-  const units::meter_t m_kTargetHeight = 49.733333333_in;    // TBD TBD - need actual robot specs
-  const units::radian_t m_kCamPitch = 0.0_deg;    // TBD TBD - need actual robot specs
+  const units::meter_t m_kCamHeight = 16.5_in;  // TBD TBD - need actual robot specs
+  const units::radian_t m_kCamPitch = 15.0_deg;    // TBD TBD - need actual robot specs
   const int m_kMaxTargetId = 16;
-
-  // NETWORK TABLE TEST ///////////////////////////////////////////////////////
-  // nt::DoubleSubscriber m_dblSub;
-  // nt::DoubleSubscriber m_dblSub2;
-  // nt::DoubleSubscriber m_dblSub3;
-  // NETWORK TABLE TEST ///////////////////////////////////////////////////////
 };

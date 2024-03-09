@@ -38,7 +38,7 @@ void SpeakerShootCmd::Execute()
   double avgRPM = ((fabs(motorRPM.first) + fabs(motorRPM.second)) / 2.0);
 
   if (avgRPM >= targetRPM)
-    m_pLoaderSub->Load(0.25);
+    m_pLoaderSub->Load(0.7);
 }
 
 // Called once the command ends or is interrupted.

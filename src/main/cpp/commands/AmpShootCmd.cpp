@@ -42,7 +42,7 @@ void AmpShootCmd::Execute()
   std::cout << avgRPM << "/" << targetRPM << std::endl;
 
   if (avgRPM >= targetRPM)
-    m_pLoaderSub->Load(0.25);
+    m_pLoaderSub->Load(0.7);
 }
 
 // Called once the command ends or is interrupted.

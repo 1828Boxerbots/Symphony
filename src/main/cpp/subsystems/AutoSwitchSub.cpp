@@ -10,6 +10,8 @@ AutoSwitchSub::AutoSwitchSub() = default;
 // This method will be called once per scheduler run
 void AutoSwitchSub::Periodic() 
 {
+    // frc::SmartDashboard::PutBoolean("Switch High", m_SwitchHigh.Get());
+    // frc::SmartDashboard::PutBoolean("Switch Low", m_SwitchLow.Get());
 }
 
 void AutoSwitchSub::Init()
@@ -18,11 +20,11 @@ void AutoSwitchSub::Init()
 
 AutonomousMode AutoSwitchSub::GetSelectedMode()
 {
-    // NOTE: With a 3 position switch the possible cases are (TF, FF, and FT).
-
+    // NOTE: With a 3 position switch the possible cases are (TF, TT, and FT).
+ 
     if (m_SwitchHigh.Get() && !m_SwitchLow.Get())
         return AutonomousMode::POS1;
-    else if (!m_SwitchHigh.Get() && !m_SwitchLow.Get())
+    else if (m_SwitchHigh.Get() && m_SwitchLow.Get())
         return AutonomousMode::POS2;
     else if (!m_SwitchHigh.Get() && m_SwitchLow.Get())
         return AutonomousMode::POS3;

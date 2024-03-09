@@ -18,20 +18,20 @@ void VisionSub::Periodic()
 {
     // double start = (double)m_timer.Get();
     
-    Util::Log("dist(in inches)", (double)GetDistanceInInches(), GetName());
+    Util::Log("dist(in inches)", (double)GetDistanceInInches(10), GetName());
 
     // double total = (double)m_timer.Get() - start;
-    // Util::Log("periodic(msec)", total*1000.0, GetName());
+    //Util::Log("periodic(msec)", total*1000.0, GetName());
 }
 
 void VisionSub::Init()
 {
-    // initialize Addressable LED lights
-
-    m_timer.Reset();
-    m_timer.Start();
-
-    // InitNetworkTableData(); // TBD TBD TBD TBD TBD TBD TBD TBD TBD
+    // initialize Addressable LED light
+    cs::UsbCamera camera = frc::CameraServer::StartAutomaticCapture();
+    camera.SetResolution(640, 380);
+    camera.SetBrightness(50);
+    camera.SetExposureAuto();
+    camera.SetFPS(30);
 }
 
 double VisionSub::GetBestYaw()
@@ -119,162 +119,82 @@ int VisionSub::NumValidTargets(int *pTarget1Id, int *pTarget2Id, double *pYaw1, 
     return targValidCount;
 }
 
-double VisionSub::GetDistanceInMeters()
+units::length::meter_t VisionSub::GetDistanceInMeters(int targetID)
 {
     photon::PhotonPipelineResult result = m_testCam.GetLatestResult();
-    if (result.HasTargets() == false)
+    if (!result.HasTargets())
     {
-        return 0.0;
+        return 0.0_m;
     }
 
     // get target info
     std::span<const photon::PhotonTrackedTarget, 4294967295U> targets = result.GetTargets();
 
     // find specific ID
-    const int requiredID = 15; // TBD TBD
     for(unsigned i=0; i<targets.size(); ++i)
     {
-        Util::Log(std::string("ID #") + std::to_string(i), targets[i].GetFiducialId(), GetName());
-        double dist = (double)((units::inch_t)photon::PhotonUtils::CalculateDistanceToTarget (m_kCamHeight, (units::inch_t)44.9375, m_kCamPitch, (units::degree_t)targets[i].GetPitch()));
+        //Util::Log(std::string("ID #") + std::to_string(i), targets[i].GetFiducialId(), GetName());
 
-        Util::Log(std::string("Dist #") + std::to_string(i), dist, GetName());
-        if (targets[i].GetFiducialId() == requiredID)
+        //Util::Log(std::string("Dist #") + std::to_string(i), dist, GetName());
+        if (targets[i].GetFiducialId() == targetID)
         {
-            Util::Log("Final Dist", dist, GetName());
+            units::length::meter_t dist = (photon::PhotonUtils::CalculateDistanceToTarget (m_kCamHeight, GetTargetHeight(targetID), m_kCamPitch, (units::degree_t)targets[i].GetPitch()));
+            //Util::Log("Final Dist", (double)dist, GetName());
             return dist;
         }
-    }
-    return 0.0;
-}
-
-double VisionSub::GetDistanceInInches()
-{
-    photon::PhotonPipelineResult result = m_testCam.GetLatestResult();
-    if (result.HasTargets() == false)
-    {
-        return 0.0;
-    }
-
-    int id1;
-    int id2;
-    int numTargets = NumValidTargets(&id1, &id2);
-
-    if (numTargets == 0)
-    {
-        // no VALID targets found
-        return 0.0;
-    }
-
-        // get target info
-    std::span<const photon::PhotonTrackedTarget, 4294967295U> targets = result.GetTargets();
-
-    int requiredID = 0; // TBD TBD
-    // find specific ID
-    if (numTargets == 1)
-    {
-        requiredID = id1;
-    }
-
-    if (id2 > id1)
-    {
-        // required ID to focus on is the larger ID
-        requiredID = id2;
-    }
-    
-    for(unsigned i=0; i<targets.size(); ++i)
-    {
-        Util::Log(std::string("ID #") + std::to_string(i), targets[i].GetFiducialId(), GetName());
-        units::inch_t dist = (units::inch_t)photon::PhotonUtils::CalculateDistanceToTarget (m_kCamHeight, m_kTargetHeight, m_kCamPitch, (units::degree_t)targets[i].GetPitch());
-        double distInch = (double)dist; // Convert inches to double;.
-
-        Util::Log(std::string("distInch #") + std::to_string(i), distInch, GetName());
-        if (targets[i].GetFiducialId() == requiredID)
-        {
-            Util::Log("Final distInch", distInch, GetName());
-            return distInch;
-        }
-    }
-    return 0.0;
-}
-
-units::length::meter_t VisionSub::GetTargetHeight(int id)
-{
-    // for given target-ID, return height (needed for distance calculation)
-    switch(id)
-    {
-        case 1:
-            return 0.0_m; // TBD TBD  look at field specs from Game Manual
-        case 2:
-            return 0.0_m; // TBD TBD  look at field specs from Game Manual
-        case 3:
-            return 0.0_m; // TBD TBD  look at field specs from Game Manual
-        case 4:
-            return 0.0_m; // TBD TBD  look at field specs from Game Manual
-        case 5:
-            return 0.0_m; // TBD TBD  look at field specs from Game Manual
-        case 6:
-            return 0.0_m; // TBD TBD  look at field specs from Game Manual
-        case 7:
-            return 0.0_m; // TBD TBD  look at field specs from Game Manual
-        case 8:
-            return 0.0_m; // TBD TBD  look at field specs from Game Manual
-        case 9:
-            return 0.0_m; // TBD TBD  look at field specs from Game Manual
-        case 10:
-            return 0.0_m; // TBD TBD  look at field specs from Game Manual
-        case 11:
-            return 0.0_m; // TBD TBD  look at field specs from Game Manual
-        case 12:
-            return 0.0_m; // TBD TBD  look at field specs from Game Manual
-        case 13:
-            return 0.0_m; // TBD TBD  look at field specs from Game Manual
-        case 14:
-            return 0.0_m; // TBD TBD  look at field specs from Game Manual
-        case 15:
-            return 0.0_m; // TBD TBD  look at field specs from Game Manual
-        case 16:
-            return 0.0_m; // TBD TBD  look at field specs from Game Manual
     }
     return 0.0_m;
 }
 
-// void VisionSub::InitNetworkTableData()
-// {
-//     std::string tableName = "photonvision";
-//     std::string topic = m_cameraName + "/targetYaw"; // why doesn't m_testCam.GetCameraName() work?
-//     std::string topicName = "/" + tableName + "/" + topic;
+units::length::inch_t VisionSub::GetDistanceInInches(int targetID)
+{
+    return (units::length::inch_t)GetDistanceInMeters(targetID);
+}
 
-//     // https://docs.wpilib.org/en/stable/docs/software/networktables/tables-and-topics.html
-//     nt::NetworkTableInstance inst = nt::NetworkTableInstance::GetDefault();
+units::length::meter_t VisionSub::GetTargetHeight(int id)
+{
+    units::length::inch_t centerOffset = 3.25_in;
 
-//     // get a topic from a NetworkTableInstance
-//     // the topic name in this case is the full name
-//     nt::DoubleTopic dblTopic = inst.GetDoubleTopic(topicName);
+    // for given target-ID, return height (needed for distance calculation)
+    switch(id)
+    {
+        case 1:
+            return 53.38_in - centerOffset; 
+        case 2:
+            return 53.38_in - centerOffset; 
+        case 3:
+            return 57.13_in - centerOffset; 
+        case 4:
+            return 57.13_in - centerOffset; 
+        case 5:
+            return 53.38_in - centerOffset; 
+        case 6:
+            return 53.38_in - centerOffset; 
+        case 7:
+            return 57.13_in - centerOffset; 
+        case 8:
+            return 57.13_in - centerOffset; 
+        case 9:
+            return 53.38_in - centerOffset; 
+        case 10:
+            return 53.38_in - centerOffset; 
+        case 11:
+            return 52.00_in - centerOffset; 
+        case 12:
+            return 52.00_in - centerOffset; 
+        case 13:
+            return 52.00_in - centerOffset; 
+        case 14:
+            return 52.00_in - centerOffset; 
+        case 15:
+            return 52.00_in - centerOffset;
+        case 16:
+            return 52.00_in - centerOffset;
+    }
+    return 0.0_m;
+}
 
-//     // get a topic from a NetworkTable
-//     // the topic name in this case is the name within the table;
-//     std::shared_ptr<nt::NetworkTable> table = inst.GetTable(tableName);
-//     nt::DoubleTopic dblTopic2 = table->GetDoubleTopic(topic);
-
-//     // get a type-specific topic from a generic Topic
-//     nt::Topic genericTopic = inst.GetTopic(topicName);
-//     nt::DoubleTopic dblTopic3{genericTopic};
-
-//     // NOTE: dblTopic, dblTopic2, dblTopic3 should all have SAME value
-
-//     // start subscribing; the return value must be retained.
-//     // the parameter is the default value if no value is available when get() is called
-//     m_dblSub = dblTopic.Subscribe(0.0);
-//     m_dblSub2 = dblTopic2.Subscribe(0.0);
-//     m_dblSub3 = dblTopic3.Subscribe(0.0);
-// }
-// double VisionSub::GetNetworkTableData()
-// {
-//     double dbl = m_dblSub.Get(-666.0);
-//     Util::Log("netTable topic1 yaw", dbl, GetName());
-//     dbl = m_dblSub2.Get(-777.0);
-//     Util::Log("netTable topic2 yaw", dbl, GetName());
-//     dbl = m_dblSub3.Get(-888.0);
-//     Util::Log("netTable topic3 yaw", dbl, GetName());
-//     return dbl;
-// }
+int VisionSub::GetTargID()
+{
+    return m_testCam.GetLatestResult().GetTargets()[0].GetFiducialId();
+}

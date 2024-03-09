@@ -46,6 +46,10 @@ inline constexpr double kSymphonyClimberMotorSpeed = 0.1;
 inline constexpr int kSymphonyAutoSwithPort1 = 1;   // TODO: Figure out the real port value
 inline constexpr int kSymphonyAutoSwithPort2 = 2;   // TODO: Figure out the real port value
 
+// LEDs
+inline constexpr int kLEDPort = 3;
+inline constexpr int PIXEL_COUNT = 60;
+
 // Constants
 inline constexpr int NEO_ENCODER_COUNT = 42;
 inline constexpr double ToInches = 0.393701;

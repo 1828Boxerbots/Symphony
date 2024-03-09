@@ -4,7 +4,7 @@
 
 #include "commands/DriveCmd.h"
 
-#include <iostream>
+#include <cmath>
 
 DriveCmd::DriveCmd(DriveSub *pDriveSub, frc::XboxController *pController) 
 {
@@ -24,18 +24,38 @@ void DriveCmd::Execute()
 {
   if (m_pDriveSub != nullptr && m_pController != nullptr)
   {
+
     double deadzone = 0.05;
 
     double leftY = m_pController->GetLeftY();
     double rightX = m_pController->GetRightX();
 
+    frc::SmartDashboard::PutNumber("Left Timer", (double)m_LeftTimer.Get());
+    frc::SmartDashboard::PutNumber("Right Timer", (double)m_RightTimer.Get());
+
     if (leftY < deadzone && leftY > -deadzone)
+    {
       leftY = 0.0;
+      m_LeftTimer.Stop();
+      m_LeftTimer.Reset();
+    }
+    else
+      m_LeftTimer.Start();
 
     if (rightX < deadzone && rightX > -deadzone)
+    {
       rightX = 0.0;
+      m_RightTimer.Stop();
+      m_RightTimer.Reset();
+    }
+    else
+      m_RightTimer.Start();
 
-    m_pDriveSub->DriveRC(-leftY, rightX);
+    double leftFactor = std::lerp(0.0, 1.0, (double)m_LeftTimer.Get());
+    // double rightFactor = std::lerp(0.0, 1.0, (double)m_RightTimer.Get());
+    double rightFactor = 1.0;
+
+    m_pDriveSub->DriveRC(-(leftY * leftFactor), rightX * rightFactor);
   }
 }
 

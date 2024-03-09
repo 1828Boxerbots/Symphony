@@ -11,7 +11,6 @@
 #include "Constants.h"
 #include <frc/ADIS16448_IMU.h>
 
-
 class DriveSub : public frc2::SubsystemBase 
 {
  public:
