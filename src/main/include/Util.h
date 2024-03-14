@@ -97,4 +97,9 @@ namespace Util
     /// @param gearRatio The gear ratio of the system.
     /// @return 
     double CalculateDistPerPulse(const double wheelDiameter, const int revPerPulse, const double gearRatio = 1.0);
+
+    /// @brief Given an angle in degrees, it will convert the angle to radians.
+    /// @param degrees The angle to convert in degrees.
+    /// @return The angle in radians.
+    double ConvertToRadians(double degrees);
 }

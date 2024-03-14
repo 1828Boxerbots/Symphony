@@ -30,6 +30,11 @@ class ShooterSub : public frc2::SubsystemBase {
     ///         the left motor RPM and the second element is the right motor.
     std::pair<double, double> GetMotorRPM();
 
+    /// @brief Calculates the desired motor speed based on distance.
+    /// @param distanceToTarget The distance to the target in meters.
+    /// @return The percentage of motor power to run the code.
+    double CalculateSpeed(double distanceToTarget);
+
     /// @brief Called to reset any subsystem sensitive sensors.
     void ZeroSensors();
 

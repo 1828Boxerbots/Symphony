@@ -48,7 +48,7 @@ inline constexpr int kSymphonyAutoSwithPort2 = 2;   // TODO: Figure out the real
 
 // LEDs
 inline constexpr int kLEDPort = 3;
-inline constexpr int PIXEL_COUNT = 60;
+inline constexpr int PIXEL_COUNT = 240;
 
 // Constants
 inline constexpr int NEO_ENCODER_COUNT = 42;

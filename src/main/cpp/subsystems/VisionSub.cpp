@@ -8,6 +8,9 @@
 #include "subsystems/VisionSub.h"
 #include "Util.h"
 
+#include <opencv2/core/core.hpp>
+#include <opencv2/imgproc/imgproc.hpp>
+
 VisionSub::VisionSub()
 {
     SetName("VisionSub");
@@ -26,12 +29,11 @@ void VisionSub::Periodic()
 
 void VisionSub::Init()
 {
-    // initialize Addressable LED light
     cs::UsbCamera camera = frc::CameraServer::StartAutomaticCapture();
-    camera.SetResolution(640, 380);
+    camera.SetResolution(640, 480);
     camera.SetBrightness(50);
     camera.SetExposureAuto();
-    camera.SetFPS(30);
+    camera.SetFPS(15);
 }
 
 double VisionSub::GetBestYaw()

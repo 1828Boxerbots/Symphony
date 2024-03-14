@@ -7,6 +7,7 @@
 #include <frc2/command/Command.h>
 #include <frc2/command/CommandHelper.h>
 #include "subsystems/ShooterSub.h"
+#include "subsystems/VisionSub.h"
 #include "subsystems/LoaderSub.h"
 #include <frc/XboxController.h>
 
@@ -20,7 +21,7 @@
 class SpeakerShootCmd
     : public frc2::CommandHelper<frc2::Command, SpeakerShootCmd> {
  public:
-  SpeakerShootCmd(frc::XboxController *pController, ShooterSub *shooterSub, LoaderSub* loaderSub);
+  SpeakerShootCmd(frc::XboxController *pController, ShooterSub *shooterSub, LoaderSub* loaderSub, VisionSub* visionSub);
 
   void Initialize() override;
 
@@ -34,6 +35,7 @@ class SpeakerShootCmd
   frc::XboxController *m_pController = nullptr;
   ShooterSub *m_pShooterSub = nullptr;
   LoaderSub* m_pLoaderSub = nullptr;
+  VisionSub* m_pVisionSub = nullptr;
 
   bool m_isFinished = false;
   double m_speed = 0;

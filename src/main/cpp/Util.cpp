@@ -170,3 +170,8 @@ double Util::CalculateDistPerPulse(const double wheelDiameter, const int countPe
 
     return pulsesPerRev / circumference;
 }
+
+double Util::ConvertToRadians(double degrees)
+{
+    return degrees * OperatorConstants::PI/180;
+}

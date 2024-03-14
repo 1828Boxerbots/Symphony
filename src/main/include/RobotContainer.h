@@ -47,11 +47,11 @@ class RobotContainer {
 
   // The robot's subsystems are defined here...
   VisionSub m_visionSub;
-  //DriveSub m_driveSub;
-  //ShooterSub m_shooterSub;
-  //LoaderSub m_loaderSub;
-  //ClimberSub m_climberSub;
-  //BatonSub m_batonSub;
-  //AutoSwitchSub m_AutoSwitchSub;
-  //LEDSub m_LEDSub;
+  DriveSub m_driveSub;
+  ShooterSub m_shooterSub;
+  LoaderSub m_loaderSub;
+  ClimberSub m_climberSub;
+  BatonSub m_batonSub;
+  AutoSwitchSub m_AutoSwitchSub;
+  LEDSub m_LEDSub;
 };
