@@ -29,20 +29,8 @@ void SpeakerShootCmd::Execute()
     m_isFinished = true; 
     return;
   }
-  m_speed = m_pController->GetRightTriggerAxis();
-  m_pShooterSub->Shoot(-m_speed);
 
-  double targetSpeed;
-  auto allianceColor = frc::DriverStation::GetAlliance().value();
-  if (allianceColor == frc::DriverStation::Alliance::kRed)
-  {
-    targetSpeed = m_pShooterSub->CalculateSpeed(2.0 * (double)m_pVisionSub->GetDistanceInMeters(4));
-  }
-  else
-  {
-    targetSpeed = m_pShooterSub->CalculateSpeed(2.0 * (double)m_pVisionSub->GetDistanceInMeters(7));
-  }
-
+  double targetSpeed = 1.0;
   double targetRPM = OperatorConstants::NEO_MAX_OPENLOAD_RPM * targetSpeed; // Calculates the target RPM with no load
   double loadFactor = targetRPM * OperatorConstants::NEO_LOAD_FACTOR;       // Calculates the affect of load on the motors
   targetRPM -= loadFactor;                                                  // Applies the load factor to give target RPM with load factor
@@ -50,6 +38,8 @@ void SpeakerShootCmd::Execute()
   // The first item is left motor, right is second
   std::pair<double, double> motorRPM = m_pShooterSub->GetMotorRPM();
   double avgRPM = ((fabs(motorRPM.first) + fabs(motorRPM.second)) / 2.0);
+
+  m_pShooterSub->Shoot(-targetSpeed);
 
   if (avgRPM >= targetRPM)
     m_pLoaderSub->Load(0.7);

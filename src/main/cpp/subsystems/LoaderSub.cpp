@@ -7,6 +7,8 @@
 
 #include <iostream>
 
+frc::DigitalInput LoaderSub::m_photogate = frc::DigitalInput(OperatorConstants::kSymphonyLoaderPhotogate);
+
 LoaderSub::LoaderSub() = default;
 
 // This method will be called once per scheduler run

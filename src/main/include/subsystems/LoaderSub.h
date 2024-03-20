@@ -25,7 +25,7 @@ class LoaderSub : public frc2::SubsystemBase {
 
   /// @brief Retrieves the status of the photogate.
   /// @return True if the photogate is not tripped, false when tripped.
-  bool GetPhotoGate();
+  static bool GetPhotoGate();
 
   /// @brief Gets the current speed of the loader motor.
   /// @return The current RPM of the motor.
@@ -34,7 +34,7 @@ class LoaderSub : public frc2::SubsystemBase {
 
  private:
   // DIO
-  frc::DigitalInput m_photogate {OperatorConstants::kSymphonyLoaderPhotogate};
+  static frc::DigitalInput m_photogate;
 
   // Motor Controllers
   rev::CANSparkMax m_motor {OperatorConstants::kSymphonyLoaderMotorID, rev::CANSparkMax::MotorType::kBrushless};

@@ -80,7 +80,7 @@ class VisionSub : public frc2::SubsystemBase
   const std::string m_cameraName = "TestCam1";
   photon::PhotonCamera m_testCam{m_cameraName};
 
-  const units::meter_t m_kCamHeight = 16.5_in;  // TBD TBD - need actual robot specs
-  const units::radian_t m_kCamPitch = 15.0_deg;    // TBD TBD - need actual robot specs
+  const units::meter_t m_kCamHeight = 18.5_in;  // TBD TBD - need actual robot specs
+  const units::radian_t m_kCamPitch = 10.0_deg;    // TBD TBD - need actual robot specs
   const int m_kMaxTargetId = 16;
 };

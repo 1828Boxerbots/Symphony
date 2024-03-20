@@ -21,7 +21,7 @@ void VisionSub::Periodic()
 {
     // double start = (double)m_timer.Get();
     
-    Util::Log("dist(in inches)", (double)GetDistanceInInches(10), GetName());
+    //Util::Log("dist(in inches)", (double)GetDistanceInInches(4), GetName());
 
     // double total = (double)m_timer.Get() - start;
     //Util::Log("periodic(msec)", total*1000.0, GetName());

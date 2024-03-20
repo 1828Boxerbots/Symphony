@@ -13,6 +13,7 @@
 #include "commands/SpitoutNoteCmd.h"
 #include "commands/BatonSwingCmd.h"
 #include "commands/AlignCmd.h"
+#include "commands/LEDCmd.h"
 
 #include "commands/AutonomousNoPosCmdGrp.h"
 #include "commands/AutonomousPos1CmdGrp.h"
@@ -32,8 +33,8 @@ RobotContainer::RobotContainer()
 
 void RobotContainer::Init()
 {
-  //m_driveSub.Init();
-  //m_driveSub.SetDefaultCommand(DriveCmd(&m_driveSub, &m_driverController));
+  m_driveSub.Init();
+  m_driveSub.SetDefaultCommand(DriveCmd(&m_driveSub, &m_driverController));
 
   m_visionSub.Init();
   m_shooterSub.Init();
@@ -41,7 +42,9 @@ void RobotContainer::Init()
   m_batonSub.Init();
   m_climberSub.Init();
   m_AutoSwitchSub.Init();
+  
   m_LEDSub.Init();
+  m_LEDSub.SetDefaultCommand(LEDCmd(&m_LEDSub, &m_signalController));
 }
 
 void RobotContainer::ConfigureBindings() {
@@ -57,8 +60,7 @@ void RobotContainer::ConfigureBindings() {
   m_driverController.A().OnTrue(BatonSwingCmd(&m_batonSub).ToPtr());
 
   // Auto Align Command
-  m_driverController.X().WhileTrue(AlignCmd(&m_visionSub, &m_driveSub, 0.25, 5.0).ToPtr());
-  m_driverController.X().ToggleOnTrue(AlignCmdTest(&m_visionSub, 0.25, 5.0).ToPtr());
+  m_driverController.X().WhileTrue(AlignCmd(&m_visionSub, &m_driveSub, 0.1, 15.0).ToPtr());
 }
 
 frc2::CommandPtr RobotContainer::GetAutonomousCommand() 

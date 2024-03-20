@@ -6,10 +6,8 @@
 
 #include <frc2/command/Command.h>
 #include <frc2/command/CommandHelper.h>
-#include <frc/smartdashboard/SmartDashboard.h>
+#include <subsystems/LEDSub.h>
 #include <frc/XboxController.h>
-#include "subsystems/DriveSub.h"
-
 #include <frc/Timer.h>
 
 /**
@@ -19,10 +17,10 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class DriveCmd : public frc2::CommandHelper<frc2::Command, DriveCmd> 
-{
+class LEDCmd
+    : public frc2::CommandHelper<frc2::Command, LEDCmd> {
  public:
-  DriveCmd(DriveSub *pDriveSub, frc::XboxController *pControllerz);
+  LEDCmd(LEDSub *pSub, frc::XboxController* pController);
 
   void Initialize() override;
 
@@ -32,10 +30,18 @@ class DriveCmd : public frc2::CommandHelper<frc2::Command, DriveCmd>
 
   bool IsFinished() override;
 
-  private:
-  DriveSub* m_pDriveSub = nullptr;
+  private: 
+  LEDSub *m_pSub = nullptr;
   frc::XboxController* m_pController = nullptr;
-  bool m_isFinished = false;
 
-  frc::Timer m_LeftTimer;
+  unsigned int m_flashCounts = 15;
+  unsigned int m_CurrentFlashCount = 0;
+  bool m_FlashOn = false;
+  AllianceColor m_allianceColor;
+  frc::Timer m_Timer;
+
+  bool m_toggleTopSignal = false;
+  bool m_toggleDriverSignal = false;
+  
+  bool m_isFinished = false;
 };

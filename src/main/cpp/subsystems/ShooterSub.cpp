@@ -57,31 +57,6 @@ std::pair<double, double> ShooterSub::GetMotorRPM()
     return std::pair<double, double>(leftRPM, rightRPM);
 }
 
-double ShooterSub::CalculateSpeed(double distanceToTarget)
-{
-    const double shooterAngle = 50; //in degrees
-    const double initialHeight = 0.38734643; //in meters
-    const double gravity = -9.8; //in m/s^2
-    double initialVelocity; //the initial needed velocity for shooter
-    double numerator; //denominator of equation to find initial velocity
-    double denominator; //denominator of equation to find initial velocity
-    double rotationsPerMinute; //target rotations per minute based off of calculations
-    double radius = 0.0508; //in meters, placeholder value until confirmed
-    double angleRad = Util::ConvertToRadians(shooterAngle); //converting angle in degrees to radians for calculation
-    double maxMotorRPM = 5676; //The max amount of rotations per minute of the given motor
-    double motorSpeed; //speed to set motor to based off of calculations
-
-    numerator = gravity * (distanceToTarget * distanceToTarget); 
-    denominator = 2.0 * std::cos(angleRad) * ((-initialHeight * std::cos(angleRad)) - (distanceToTarget * std::sin(angleRad))); //TBD what 2 means
-    initialVelocity = numerator/denominator; 
-    rotationsPerMinute = (initialVelocity/radius)/(2.0 * OperatorConstants::PI);
-
-    Util::Log("CalculateSpeed", motorSpeed, GetName());
-    
-    return motorSpeed;
-
-}
-
 void ShooterSub::ZeroSensors()
 {
     m_EncoderLeft.SetPosition(0.0);

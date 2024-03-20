@@ -17,6 +17,7 @@
 namespace OperatorConstants 
 {
 inline constexpr int kDriverControllerPort = 0;
+inline constexpr int kSignalControllerPort = 1;
 
 //Drive:
 inline constexpr int kSymphonyDriveMotorIDR1 = 1;
@@ -30,6 +31,7 @@ inline constexpr int kSymphonyShooterIDR = 6;
 
 //Loader:
 inline constexpr int kSymphonyLoaderPhotogate = 7;
+inline constexpr int kSymphonyLoaderUltrasonic = 4;
 inline constexpr int kSymphonyLoaderMotorID = 7;
 
 //Baton:
@@ -47,8 +49,8 @@ inline constexpr int kSymphonyAutoSwithPort1 = 1;   // TODO: Figure out the real
 inline constexpr int kSymphonyAutoSwithPort2 = 2;   // TODO: Figure out the real port value
 
 // LEDs
-inline constexpr int kLEDPort = 3;
-inline constexpr int PIXEL_COUNT = 240;
+inline constexpr int kLEDPort = 0;
+inline constexpr int PIXEL_COUNT = 119;
 
 // Constants
 inline constexpr int NEO_ENCODER_COUNT = 42;

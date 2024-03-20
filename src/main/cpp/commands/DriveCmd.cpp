@@ -30,8 +30,7 @@ void DriveCmd::Execute()
     double leftY = m_pController->GetLeftY();
     double rightX = m_pController->GetRightX();
 
-    frc::SmartDashboard::PutNumber("Left Timer", (double)m_LeftTimer.Get());
-    frc::SmartDashboard::PutNumber("Right Timer", (double)m_RightTimer.Get());
+    // frc::SmartDashboard::PutNumber("Left Timer", (double)m_LeftTimer.Get());
 
     if (leftY < deadzone && leftY > -deadzone)
     {
@@ -43,16 +42,10 @@ void DriveCmd::Execute()
       m_LeftTimer.Start();
 
     if (rightX < deadzone && rightX > -deadzone)
-    {
       rightX = 0.0;
-      m_RightTimer.Stop();
-      m_RightTimer.Reset();
-    }
-    else
-      m_RightTimer.Start();
 
-    double leftFactor = std::lerp(0.0, 1.0, (double)m_LeftTimer.Get());
-    // double rightFactor = std::lerp(0.0, 1.0, (double)m_RightTimer.Get());
+    double responseFactor = 1.25;
+    double leftFactor = std::lerp(0.0, 1.0, (double)m_LeftTimer.Get() * responseFactor);
     double rightFactor = 1.0;
 
     m_pDriveSub->DriveRC(-(leftY * leftFactor), rightX * rightFactor);
