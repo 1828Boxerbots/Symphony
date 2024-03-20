@@ -9,9 +9,6 @@ AutoMoveForwardDistanceCmd::AutoMoveForwardDistanceCmd(DriveSub* sub, double spe
     m_Distance = distance;
 
     AddRequirements(m_pDriveSub);
-
-    std::cout << "Speed: " << m_Speed << std::endl;
-    std::cout << "Distance: " << m_Distance << std::endl;
 }
 
 void AutoMoveForwardDistanceCmd::Initialize()

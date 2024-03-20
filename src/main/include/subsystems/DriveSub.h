@@ -9,16 +9,12 @@
 #include <ctre/phoenix/motorcontrol/can/WPI_VictorSPX.h>
 #include <rev/CANSparkMax.h> // from https://www.chiefdelphi.com/t/2024-software-download-links/448077.  use (https://software-metadata.revrobotics.com/REVLib-2024.json) file.
 #include "Constants.h"
-#include <frc/ADIS16448_IMU.h>
+#include <frc/ADIS16470_IMU.h>
 
 class DriveSub : public frc2::SubsystemBase 
 {
  public:
   DriveSub();
-
-  /**
-   * Will be called periodically whenever the CommandScheduler runs.
-   */
 
   void Init();
 
@@ -49,6 +45,13 @@ class DriveSub : public frc2::SubsystemBase
   /// @brief Called to zero sensitive sensors.
   void ZeroSensors();
 
+  /// @brief Resets the IMU so that whatever direction it is facing
+  ///        is considered forward (0 degrees)
+  void ResetIMU();
+
+  /// @brief Retrieves the current yaw of the IMU
+  /// @return The yaw in degrees (CCW is positive)
+  double GetYaw();
 
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
@@ -76,7 +79,5 @@ class DriveSub : public frc2::SubsystemBase
   double m_kIZ = 0;
   double m_kF = 0;
 
-  ///////////////////////////////////////////////////////////////////////////////
-  // IMU
-  //frc::ADIS16448_IMU m_imu;
+  frc::ADIS16470_IMU m_imu;
 };

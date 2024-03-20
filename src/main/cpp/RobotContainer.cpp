@@ -20,10 +20,6 @@
 #include "commands/AutonomousPos2CmdGrp.h"
 #include "commands/AutonomousPos3CmdGrp.h"
 
-// ==== DEBUGGING ONLY!!!! ==================
-#include "commands/AlignCmdTest.h"
-// ==========================================
-
 RobotContainer::RobotContainer() 
 {
   // Initialize all of your commands and subsystems here
@@ -68,16 +64,12 @@ frc2::CommandPtr RobotContainer::GetAutonomousCommand()
   switch (m_AutoSwitchSub.GetSelectedMode())
   {
    case AutonomousMode::POS1:
-     frc::SmartDashboard::PutString("Auto Mode", "Position 1");
-     return AutonomousPos1CmdGrp(&m_driveSub).ToPtr();
+     return AutonomousPos1CmdGrp(&m_driveSub, &m_visionSub, &m_shooterSub, &m_loaderSub).ToPtr();
    case AutonomousMode::POS2:
-     frc::SmartDashboard::PutString("Auto Mode", "Position 2");
-     return AutonomousPos2CmdGrp(&m_driveSub).ToPtr();
+     return AutonomousPos2CmdGrp(&m_driveSub, &m_visionSub, &m_shooterSub, &m_loaderSub).ToPtr();
    case AutonomousMode::POS3:
-     frc::SmartDashboard::PutString("Auto Mode", "Position 3");
      return AutonomousPos3CmdGrp(&m_driveSub).ToPtr();
    default:
-     frc::SmartDashboard::PutString("Auto Mode", "No Position Selected");
      return AutonomousNoPosCmdGrp().ToPtr();
   }
 

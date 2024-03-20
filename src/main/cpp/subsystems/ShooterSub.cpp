@@ -48,10 +48,10 @@ void ShooterSub::Shoot(double speed)
     // ===============================================
     //          BEGIN SAFETY CRITICAL CODE
     // ===============================================
-    if (m_motorL.GetMotorTemperature() >= 60.0)
+    if (m_motorL.GetMotorTemperature() >= 50.0)
         m_motorL.Set(0.0);
 
-    if (m_motorR.GetMotorTemperature() >= 60.0)
+    if (m_motorR.GetMotorTemperature() >= 50.0)
         m_motorR.Set(0.0);
     // ===============================================
     //          BEGIN SAFETY CRITICAL CODE

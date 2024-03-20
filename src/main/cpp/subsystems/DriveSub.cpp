@@ -72,13 +72,13 @@ void DriveSub::DriveTank(double left, double right)
     // ===============================================
     //          BEGIN SAFETY CRITICAL CODE
     // ===============================================
-    if (m_motorL1.GetMotorTemperature() >= 60.0 || m_motorL2.GetMotorTemperature() >= 60.0)
+    if (m_motorL1.GetMotorTemperature() >= 60.0 || m_motorL2.GetMotorTemperature() >= 50.0)
     {
         m_motorL1.Set(0.0);
         m_motorL2.Set(0.0);
     }
 
-    if (m_motorR1.GetMotorTemperature() >= 60.0 || m_motorR2.GetMotorTemperature() >= 60.0)
+    if (m_motorR1.GetMotorTemperature() >= 60.0 || m_motorR2.GetMotorTemperature() >= 50.0)
     {
         m_motorR1.Set(0.0);
         m_motorR2.Set(0.0);
@@ -135,4 +135,14 @@ void DriveSub::ZeroSensors()
     m_leftEncoder2.SetPosition(0.0);
     m_rightEncoder1.SetPosition(0.0);
     m_rightEncoder2.SetPosition(0.0);
+}
+
+void DriveSub::ResetIMU()
+{
+    m_imu.Reset();
+}
+
+double DriveSub::GetYaw()
+{
+    return (double)m_imu.GetAngle(frc::ADIS16470_IMU::kZ);
 }
