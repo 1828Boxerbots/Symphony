@@ -46,6 +46,18 @@ void BatonSub::SetPosition(double pos)
 
 void BatonSub::SetMotors(double speed)
 {
+    // ===============================================
+    //          BEGIN SAFETY CRITICAL CODE
+    // ===============================================
+    if (m_motorL.GetMotorTemperature() >= 60.0 || m_motorR.GetMotorTemperature() >= 60.0)
+    {
+        m_motorL.Set(0.0);
+        m_motorR.Set(0.0);
+    }
+    // ===============================================
+    //          BEGIN SAFETY CRITICAL CODE
+    // ===============================================
+
     m_motorL.Set(speed);
     m_motorR.Set(speed);
 } 

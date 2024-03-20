@@ -69,6 +69,24 @@ void DriveSub::Init()
 
 void DriveSub::DriveTank(double left, double right)
 {
+    // ===============================================
+    //          BEGIN SAFETY CRITICAL CODE
+    // ===============================================
+    if (m_motorL1.GetMotorTemperature() >= 60.0 || m_motorL2.GetMotorTemperature() >= 60.0)
+    {
+        m_motorL1.Set(0.0);
+        m_motorL2.Set(0.0);
+    }
+
+    if (m_motorR1.GetMotorTemperature() >= 60.0 || m_motorR2.GetMotorTemperature() >= 60.0)
+    {
+        m_motorR1.Set(0.0);
+        m_motorR2.Set(0.0);
+    }
+    // ===============================================
+    //          BEGIN SAFETY CRITICAL CODE
+    // ===============================================
+
     m_motorR1.Set(right);
     m_motorR2.Set(right);
     m_motorL1.Set(left);

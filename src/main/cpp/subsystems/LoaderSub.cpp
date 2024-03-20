@@ -25,6 +25,15 @@ void LoaderSub::Init()
 
 void LoaderSub::Load(double speed)
 {
+    // ===============================================
+    //          BEGIN SAFETY CRITICAL CODE
+    // ===============================================
+    if (m_motor.GetMotorTemperature() >= 60.0)
+        m_motor.Set(0.0);
+    // ===============================================
+    //          BEGIN SAFETY CRITICAL CODE
+    // ===============================================
+
     m_motor.Set(speed);
 }
 
