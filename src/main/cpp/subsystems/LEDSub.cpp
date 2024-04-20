@@ -14,35 +14,44 @@ void LEDSub::Init()
     m_AddressableLED.SetData(m_PixelBuffer);
     m_AddressableLED.Start();
 
-    auto allianceColor = frc::DriverStation::GetAlliance();
-    if (allianceColor.value() == frc::DriverStation::Alliance::kRed)
-    {
-        SetRangeRGB(0, OperatorConstants::PIXEL_COUNT - 1, 255, 0, 0);
-    }
-    else
-    {
-        SetRangeRGB(0, OperatorConstants::PIXEL_COUNT - 1, 0, 0, 255);
-    }
+    // auto allianceColor = frc::DriverStation::GetAlliance();
+    // if (allianceColor.value() == frc::DriverStation::Alliance::kRed)
+    // {
+    //     SetRangeRGB(0, OperatorConstants::PIXEL_COUNT - 1, 255, 0, 0);
+    // }
+    // else
+    // {
+    //     SetRangeRGB(0, OperatorConstants::PIXEL_COUNT - 1, 0, 0, 255);
+    // }
 }
 
 void LEDSub::Periodic()
 {
-    frc::SmartDashboard::PutNumber("Ultra Sonic", GetUltrasonic());
+    // if (frc::DriverStation::IsDisabled())
+    // {
+    //     auto allianceColor = frc::DriverStation::GetAlliance();
+    //     if (allianceColor.value() == frc::DriverStation::Alliance::kRed)
+    //     {
+    //         SetRangeRGB(0, OperatorConstants::PIXEL_COUNT - 1, 255, 0, 0);
+    //     }
+    //     else
+    //     {
+    //         SetRangeRGB(0, OperatorConstants::PIXEL_COUNT - 1, 0, 0, 255);
+    //     }
 
-    if (frc::DriverStation::IsDisabled())
+    //     ApplyBuffer();
+    // }
+
+    for (int i = 0; i < OperatorConstants::PIXEL_COUNT; i++)
     {
-        auto allianceColor = frc::DriverStation::GetAlliance();
-        if (allianceColor.value() == frc::DriverStation::Alliance::kRed)
-        {
-            SetRangeRGB(0, OperatorConstants::PIXEL_COUNT - 1, 255, 0, 0);
-        }
-        else
-        {
-            SetRangeRGB(0, OperatorConstants::PIXEL_COUNT - 1, 0, 0, 255);
-        }
-
-        ApplyBuffer();
+        const auto pixelHue = (m_CurPixelHue + (i * 180 / OperatorConstants::PIXEL_COUNT));
+        m_PixelBuffer[i].SetHSV(pixelHue, 255, 128);
     }
+
+    m_CurPixelHue += 3;
+    m_CurPixelHue %= 180;
+
+    ApplyBuffer();
 }
 
 void LEDSub::SetPixelRGB(unsigned int i, u_int8_t r, uint8_t g, uint8_t b)
@@ -73,9 +82,4 @@ void LEDSub::SetRangeRGB(unsigned int start, unsigned int end, u_int8_t r, uint8
 void LEDSub::ApplyBuffer()
 {
     m_AddressableLED.SetData(m_PixelBuffer);
-}
-
-bool LEDSub::GetUltrasonic()
-{
-    return m_loadedSensor.Get();
 }

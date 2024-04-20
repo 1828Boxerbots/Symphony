@@ -15,28 +15,29 @@ void AutoMoveForwardDistanceCmd::Initialize()
 {
     m_pDriveSub->SetPIDSpeed(m_Speed);
     m_pDriveSub->ZeroSensors();
+
+    m_IsFinished = false;
 }
 
 void AutoMoveForwardDistanceCmd::Execute()
 {
-    if (m_pDriveSub->GetAvgDistance() > m_Distance)
-    {
-        m_IsFinished = true;
-        return;
-    }
-
     m_pDriveSub->DriveDistancePID(m_Distance);
-    //m_pDriveSub->DriveTank(m_Speed, m_Speed);
 }
 
 void AutoMoveForwardDistanceCmd::End(bool interrupted)
 {
     std::cout << "Finished" << std::endl;
     m_pDriveSub->DriveTank(0.0, 0.0);
-    m_IsFinished = false;
 }
 
 bool AutoMoveForwardDistanceCmd::IsFinished()
 {
-    return m_IsFinished;
+    frc::SmartDashboard::PutNumber("Avg Distance", m_pDriveSub->GetAvgDistance());
+
+    if (m_pDriveSub->GetAvgDistance() > (m_Distance - 4))
+    {
+        return true;
+    }
+
+    return false;
 }

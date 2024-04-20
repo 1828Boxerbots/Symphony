@@ -8,11 +8,11 @@
 AutonomousPos2CmdGrp::AutonomousPos2CmdGrp(DriveSub* drive, VisionSub* vision, ShooterSub* shooter, LoaderSub* loader)
 {
     AddCommands(
-        AutoMoveForwardDistanceCmd(drive, 0.5, 76.1),
-        AutoRotateToAngleCmd(drive, 0.5, 135.0),
-        AlignCmd(vision, drive, 0.25, 15.0),
+        AutoMoveForwardDistanceCmd(drive, 0.5, 60.0),
+        AutoRotateToAngleCmd(drive, 0.15, 135.0),
+        AlignCmd(vision, drive, 0.25, 5.0),
         AutoShootCmd(shooter, loader),
-        AutoRotateToAngleCmd(drive, 0.5, 180),
-        AutoMoveForwardDistanceCmd(drive, -0.5, -24.9)
+        AutoRotateToAngleCmd(drive, 0.15, 360.0),
+        AutoMoveForwardDistanceCmd(drive, 0.5, 40.0)
     );
 }

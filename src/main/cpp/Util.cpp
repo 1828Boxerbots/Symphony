@@ -175,3 +175,18 @@ double Util::ConvertToRadians(double degrees)
 {
     return degrees * OperatorConstants::PI/180;
 }
+
+bool Util::FloatComp(double a, double b)
+{
+    frc::SmartDashboard::PutNumber("A", a);
+    frc::SmartDashboard::PutNumber("B", b);
+
+    {
+        if (fabs(a - b) < 1e-2)
+        {
+            return true;
+        }
+
+        return false;
+    }
+}

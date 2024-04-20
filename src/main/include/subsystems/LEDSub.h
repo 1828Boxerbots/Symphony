@@ -6,7 +6,6 @@
 
 #include <frc2/command/SubsystemBase.h>
 #include <frc/AddressableLED.h>
-#include <frc/DigitalInput.h>
 
 #include "Constants.h"
 
@@ -29,11 +28,10 @@ class LEDSub : public frc2::SubsystemBase {
 
     void ApplyBuffer();
 
-    bool GetUltrasonic();
-
  private:
-    frc::DigitalInput m_loadedSensor {OperatorConstants::kSymphonyLoaderUltrasonic};
 
     frc::AddressableLED m_AddressableLED {OperatorConstants::kLEDPort};
     std::array<frc::AddressableLED::LEDData, OperatorConstants::PIXEL_COUNT> m_PixelBuffer;
+
+    int m_CurPixelHue = 0;
 };

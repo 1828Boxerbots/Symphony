@@ -40,7 +40,7 @@ void RobotContainer::Init()
   m_AutoSwitchSub.Init();
   
   m_LEDSub.Init();
-  m_LEDSub.SetDefaultCommand(LEDCmd(&m_LEDSub, &m_signalController));
+  //m_LEDSub.SetDefaultCommand(LEDCmd(&m_LEDSub, &m_signalController));
 }
 
 void RobotContainer::ConfigureBindings() {
@@ -50,10 +50,10 @@ void RobotContainer::ConfigureBindings() {
 
   // Shooter Commands
   m_driverController.RightTrigger().WhileTrue(SpeakerShootCmd(&m_driverController, &m_shooterSub, &m_loaderSub, &m_visionSub).ToPtr());
-  m_driverController.LeftTrigger().WhileTrue(AmpShootCmd(0.7, &m_shooterSub, &m_loaderSub).ToPtr());
+  // m_driverController.LeftTrigger().WhileTrue(AmpShootCmd(0.7, &m_shooterSub, &m_loaderSub).ToPtr());
 
   // Baton Command
-  m_driverController.A().OnTrue(BatonSwingCmd(&m_batonSub).ToPtr());
+  // m_driverController.A().OnTrue(BatonSwingCmd(&m_batonSub).ToPtr());
 
   // Auto Align Command
   m_driverController.X().WhileTrue(AlignCmd(&m_visionSub, &m_driveSub, 0.1, 15.0).ToPtr());
@@ -86,4 +86,8 @@ void RobotContainer::ZeroSensors()
   m_batonSub.ZeroSensors();
   m_shooterSub.ZeroSensors();
   m_driveSub.ZeroSensors();
+}
+void RobotContainer::ResetIMU()
+{
+  m_driveSub.ResetIMU();
 }

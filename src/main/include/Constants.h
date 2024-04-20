@@ -31,8 +31,9 @@ inline constexpr int kSymphonyShooterIDR = 6;
 
 //Loader:
 inline constexpr int kSymphonyLoaderPhotogate = 7;
-inline constexpr int kSymphonyLoaderUltrasonic = 4;
+inline constexpr int kSymphonyLoaderUltrasonic = 0;
 inline constexpr int kSymphonyLoaderMotorID = 7;
+inline constexpr double ULTRASONIC_LOADED_DIST = 12.0;   // Represents 2 inches
 
 //Baton:
 inline constexpr int kSymphonyBatonMotorIDL = 8;
@@ -59,5 +60,6 @@ inline constexpr double ToCM = 2.53;
 inline constexpr double PI = 3.141592653589793238462643383279502884197169399375105820974944;
 inline constexpr double NEO_MAX_OPENLOAD_RPM = 5676;    // The max RPM of NEO motor without any load
 inline constexpr double NEO_LOAD_FACTOR = 0.05;         // Estimated from calculated load factors
+inline constexpr double MOTOR_CUTOFF_TEMP = 50.0;   // Degrees Celsius
 
 }  // namespace OperatorConstants

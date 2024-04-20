@@ -48,17 +48,22 @@ void ShooterSub::Shoot(double speed)
     // ===============================================
     //          BEGIN SAFETY CRITICAL CODE
     // ===============================================
-    if (m_motorL.GetMotorTemperature() >= 50.0)
+    if (m_motorL.GetMotorTemperature() >= OperatorConstants::MOTOR_CUTOFF_TEMP)
+    {
         m_motorL.Set(0.0);
+    }
+    else
+        m_motorL.Set(speed);
 
-    if (m_motorR.GetMotorTemperature() >= 50.0)
+    if (m_motorR.GetMotorTemperature() >= OperatorConstants::MOTOR_CUTOFF_TEMP)
+    {
         m_motorR.Set(0.0);
+    }
+    else
+        m_motorR.Set(speed);
     // ===============================================
     //          BEGIN SAFETY CRITICAL CODE
     // ===============================================
-
-    m_motorL.Set(speed);
-    m_motorR.Set(speed);
 }
 
 std::pair<double, double> ShooterSub::GetMotorRPM()

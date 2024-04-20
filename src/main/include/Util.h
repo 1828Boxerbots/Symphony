@@ -102,4 +102,10 @@ namespace Util
     /// @param degrees The angle to convert in degrees.
     /// @return The angle in radians.
     double ConvertToRadians(double degrees);
+
+    /// @brief Finds if two floating point numbers are equal
+    /// @param a The first number
+    /// @param b The second number
+    /// @return True if the numbers are close enough to be equal. False otherwise.
+    bool FloatComp(double a, double b);
 }

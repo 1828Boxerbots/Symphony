@@ -1,5 +1,6 @@
 #include "commands/Autonomous/AutoRotateToAngleCmd.h"
 
+#include "Util.h"
 #include <iostream>
 
 AutoRotateToAngleCmd::AutoRotateToAngleCmd(DriveSub* sub, double speed, double angle)
@@ -19,12 +20,6 @@ void AutoRotateToAngleCmd::Initialize()
 
 void AutoRotateToAngleCmd::Execute()
 {
-    if (m_pDriveSub->GetYaw() > m_Angle)
-    {
-        m_IsFinished = true;
-        return;
-    }
-
     if (m_Angle < 0.0)
         m_pDriveSub->DriveTank(m_Speed, -m_Speed);
     else
@@ -34,10 +29,14 @@ void AutoRotateToAngleCmd::Execute()
 void AutoRotateToAngleCmd::End(bool interrupted)
 {
     m_pDriveSub->DriveTank(0.0, 0.0);
-    m_IsFinished = false;
 }
 
 bool AutoRotateToAngleCmd::IsFinished()
 {
-    return m_IsFinished;
+    if (fabs(m_pDriveSub->GetYaw()) >= fabs(m_Angle))
+    {
+        return true;
+    }
+
+    return false;
 }

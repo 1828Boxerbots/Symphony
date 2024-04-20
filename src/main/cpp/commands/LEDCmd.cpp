@@ -36,15 +36,9 @@ void LEDCmd::Execute()
     {
         m_toggleTopSignal = !m_toggleTopSignal;
     }
-    
-    // Toggle between driver signals
-    if (m_pController->GetAButtonPressed())
-    {
-        m_toggleDriverSignal = !m_toggleDriverSignal;
-    }
 
     // Flash when 10 seconds left
-    if ((double)m_Timer.Get() > 140.0)
+    if ((double)frc::DriverStation::GetMatchTime() < 10.0)
     {
         if (m_CurrentFlashCount > m_flashCounts)
         {
@@ -75,37 +69,7 @@ void LEDCmd::Execute()
     }
     else
     {
-        // Clear signal LEDs
-        m_pSub->SetRangeRGB(0, 118, 0, 0, 0);
-
-        // Toggle HP signal
-        if (m_toggleTopSignal)
-        {
-            if (m_CurrentFlashCount > m_flashCounts)
-            {
-                m_CurrentFlashCount = 0;
-                m_FlashOn = !m_FlashOn;
-            }
-
-            if (!m_FlashOn)
-            {
-                m_pSub->SetRangeRGB(24, 37, 0, 0, 0);
-                m_pSub->SetRangeRGB(105, 118, 0, 0, 0);
-            }
-            else
-            {
-                m_pSub->SetRangeRGB(24, 37, 255, 255, 0);
-                m_pSub->SetRangeRGB(105, 118, 255, 255, 0);
-            }
-
-            m_CurrentFlashCount++;
-        }
-
-        if (LoaderSub::GetPhotoGate())
-        {
-            m_pSub->SetRangeRGB(0, 23, 0, 210, 0);
-            m_pSub->SetRangeRGB(38, 104, 0, 210, 0);
-        }
+        
     }
 
     m_pSub->ApplyBuffer();

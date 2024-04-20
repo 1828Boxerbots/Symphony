@@ -38,6 +38,8 @@ class RobotContainer {
   // for each subsystem that relies on sensors being zeroed.
   void ZeroSensors();
 
+  void ResetIMU();
+
  private:
   // Replace with CommandPS4Controller or CommandJoystick if needed
   frc2::CommandXboxController m_driverController{OperatorConstants::kDriverControllerPort};

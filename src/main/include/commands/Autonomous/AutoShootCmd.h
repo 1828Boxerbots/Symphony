@@ -2,6 +2,7 @@
 
 #include <frc2/command/CommandHelper.h>
 #include <frc2/command/Command.h>
+#include <frc/Timer.h>
 
 #include "subsystems/ShooterSub.h"
 #include "subsystems/LoaderSub.h"
@@ -22,6 +23,7 @@ public:
 private:
     ShooterSub* m_pShooterSub = nullptr;
     LoaderSub* m_pLoaderSub = nullptr;
-    
-    bool m_IsFinished = false;
+
+    frc::Timer m_Timer;
+    bool m_TimerStarted = false;
 };

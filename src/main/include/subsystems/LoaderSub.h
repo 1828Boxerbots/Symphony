@@ -10,6 +10,7 @@
 #include <frc/DigitalInput.h>
 #include <Constants.h>
 #include <rev/CANSparkMax.h>
+#include <frc/AnalogInput.h>
 
 class LoaderSub : public frc2::SubsystemBase {
  public:
@@ -27,14 +28,25 @@ class LoaderSub : public frc2::SubsystemBase {
   /// @return True if the photogate is not tripped, false when tripped.
   static bool GetPhotoGate();
 
+  /// @brief Retrieves the status of the temperature safety.
+  /// @return True if the safety is engaged.
+  static bool GetSafetyEngaged();
+
   /// @brief Gets the current speed of the loader motor.
   /// @return The current RPM of the motor.
   double GetEncoderSpeed();
 
+  /// @brief Calculates the distance reading of the ultrasonic in inches
+  /// @return The distance in inches.
+  static double GetUltrasonicDistance();
 
  private:
   // DIO
   static frc::DigitalInput m_photogate;
+  static bool m_SafetyEngaged;
+
+  // Analog
+  static frc::AnalogInput m_ultrasonic;
 
   // Motor Controllers
   rev::CANSparkMax m_motor {OperatorConstants::kSymphonyLoaderMotorID, rev::CANSparkMax::MotorType::kBrushless};
