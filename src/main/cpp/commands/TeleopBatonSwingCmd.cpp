@@ -51,3 +51,4 @@ bool TeleopBatonSwingCmd::IsFinished()
 {
   return m_isFinished;
 }
+

@@ -16,54 +16,51 @@
 
 namespace OperatorConstants 
 {
-//Drive:
 inline constexpr int kDriverControllerPort = 0;
-inline constexpr int kSymphonyDriveMotorIDR1 = 1; //Change value.
-inline constexpr int kSymphonyDriveMotorIDL1 = 2; //Change value.
-inline constexpr int kSymphonyDriveMotorIDR2 = 3; //Change value.
-inline constexpr int kSymphonyDriveMotorIDL2 = 4; //Change value.
-inline constexpr int kSymphonyDriveMotorControlR1 = 1; //Change value.
-inline constexpr int kSymphonyDriveMotorControlL1 = 2; //Change value.
-inline constexpr int kSymphonyDriveMotorControlR2 = 3; //Change value.
-inline constexpr int kSymphonyDriveMotorControlL2 = 4; //Change value.
-inline constexpr int kSymphonyDriveEncoderAR = 1; //Change value.
-inline constexpr int kSymphonyDriveEncoderAL = 2; //Change value.
-inline constexpr int kSymphonyDriveEncoderBR = 3; //Change value.
-inline constexpr int kSymphonyDriveEncoderBL = 4; //Change value.
-inline constexpr int kSymphonyL1EncoderCounts = 363; //Change value.
-inline constexpr int kSymphonyL2EncoderCounts = 363; //Change value.
-inline constexpr int kSymphonyR1EncoderCounts = 363; //Change value.
-inline constexpr int kSymphonyR2EncoderCounts = 363; //Change value.
+inline constexpr int kSignalControllerPort = 1;
 
-
+//Drive:
+inline constexpr int kSymphonyDriveMotorIDR1 = 1;
+inline constexpr int kSymphonyDriveMotorIDR2 = 2;
+inline constexpr int kSymphonyDriveMotorIDL1 = 3;
+inline constexpr int kSymphonyDriveMotorIDL2 = 4;
 
 //Shooter:
-inline constexpr int kSymphonyShooterPWMPortL = 3; //actually CAN motor
-inline constexpr int kSymphonyShooterPWMPortR = 2; //actually CAN motor
+inline constexpr int kSymphonyShooterIDL = 5;
+inline constexpr int kSymphonyShooterIDR = 6;
 
 //Loader:
-inline constexpr int kSymphonyLoaderPhotogate = 8; //values are for C418
-inline constexpr int kSymphonyLoaderMotor = 5; //values are for C418
+inline constexpr int kSymphonyLoaderPhotogate = 7;
+inline constexpr int kSymphonyLoaderUltrasonic = 0;
+inline constexpr int kSymphonyLoaderMotorID = 7;
+inline constexpr double ULTRASONIC_LOADED_DIST = 12.0;   // Represents 2 inches
 
 //Baton:
-inline constexpr int kSymphonyBatonMotorL = 9; //bogus port value, not true at all
-inline constexpr int kSymphonyBatonMotorR = 10; //bogus port value, not true at all
-inline constexpr int kSymphonyBatonSwingMagnetPort = 1;  //bogus port value, not true at all
-inline constexpr int kSymphonyBatonRestMagnetPort = 2;  //bogus port value, not true at all
-inline constexpr int kSymphonyBatonOptimalSpeed = 1; //unknown true optimal speed as of now 
-
-
+inline constexpr int kSymphonyBatonMotorIDL = 8;
+inline constexpr int kSymphonyBatonMotorIDR = 9; 
+inline constexpr int kBatonUpperHallEffect = 0;
 
 // Climber
-inline constexpr int kSymphonyClimberMotorLeft = 1; 
-inline constexpr int kSymphonyClimberMotorRight = 2; 
-inline constexpr double kSymphonyClimberMotorSpeed = 1.0; 
-inline constexpr int kSymphonyClimberExtendMagnetPort = 3;  //bogus port value, not true at all
-inline constexpr int kSymphonyClimberRetractMagnetPort = 4;  //bogus port value, not true at all
-inline constexpr int kSymphonyClimberClimbingMagnetPort = 5;  //bogus port value, not true at all
+inline constexpr int kSymphonyClimberMotorIDL = 10; 
+inline constexpr int kSymphonyClimberMotorIDR = 11;  
+inline constexpr double kSymphonyClimberMotorSpeed = 0.1; 
 
+// Autonomous Selector
+inline constexpr int kSymphonyAutoSwithPort1 = 1;   // TODO: Figure out the real port value
+inline constexpr int kSymphonyAutoSwithPort2 = 2;   // TODO: Figure out the real port value
 
+// LEDs
+inline constexpr int kLEDPort = 0;
+inline constexpr int PIXEL_COUNT = 119;
 
+// Constants
+inline constexpr int NEO_ENCODER_COUNT = 42;
+inline constexpr double ToInches = 0.393701;
+inline constexpr double ToCM = 2.53;
+inline constexpr double PI = 3.141592653589793238462643383279502884197169399375105820974944;
+inline constexpr double NEO_MAX_OPENLOAD_RPM = 5676;    // The max RPM of NEO motor without any load
+inline constexpr double NEO_LOAD_FACTOR = 0.05;         // Estimated from calculated load factors
+inline constexpr double MOTOR_CUTOFF_TEMP = 50.0;   // Degrees Celsius
 
 // Vision:
 inline constexpr int kMaxTargetId = 16;

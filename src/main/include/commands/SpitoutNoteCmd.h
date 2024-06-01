@@ -6,7 +6,7 @@
 
 #include <frc2/command/Command.h>
 #include <frc2/command/CommandHelper.h>
-#include "subsystems/BatonSub.h"
+#include <subsystems/LoaderSub.h>
 #include <frc/XboxController.h>
 
 /**
@@ -16,10 +16,10 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class TeleopBatonSwingCmd
-    : public frc2::CommandHelper<frc2::Command, TeleopBatonSwingCmd> {
+class SpitoutNoteCmd
+    : public frc2::CommandHelper<frc2::Command, SpitoutNoteCmd> {
  public:
-  TeleopBatonSwingCmd(frc::XboxController *pController, BatonSub *pSub);
+  SpitoutNoteCmd(LoaderSub *pSub, double speed = 1.0);
 
   void Initialize() override;
 
@@ -29,8 +29,9 @@ class TeleopBatonSwingCmd
 
   bool IsFinished() override;
 
-  private:
-  frc::XboxController *m_pController = nullptr;
-  BatonSub *m_pSub = nullptr; 
+  private: 
+  LoaderSub *m_pSub = nullptr;
+  
+  double m_speed = 0;
   bool m_isFinished = false;
 };

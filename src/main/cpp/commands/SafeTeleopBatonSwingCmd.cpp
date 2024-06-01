@@ -62,3 +62,4 @@ bool SafeTeleopBatonSwingCmd::IsFinished()
 {
   return m_isFinished;
 }
+

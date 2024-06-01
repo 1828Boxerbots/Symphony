@@ -19,38 +19,15 @@ class ClimberSub : public frc2::SubsystemBase
   ClimberSub();
 
   void Init();
-  void SetMotors(double speed);
-  bool Extend(); //same as go to swing for baton sub
-  bool Retract(); // same as go to rest for baton sub
-  void Stop(); 
-  bool IsAtRetractLimit();
-  bool IsAtExtendLimit();
-  bool IsAtClimbSensor();
-  
 
-  /**
-   * Will be called periodically whenever the CommandScheduler runs.
-   */
   void Periodic() override;
+
+  /// @brief Sets the speed of the climb motors.
+  /// @param speed The speed to move the motors at.
+  void SetMotors(double speed);
 
  private:
 
- bool m_isClimbable = false; //Suposed to me made true when Climb arm gets fully extended 
-
-frc::DigitalInput m_retractMagnet{OperatorConstants::kSymphonyClimberExtendMagnetPort};
-frc::DigitalInput m_extendMagnet{OperatorConstants::kSymphonyClimberRetractMagnetPort};
-frc::DigitalInput m_climbingMagnet{OperatorConstants::kSymphonyClimberClimbingMagnetPort};
-
-ctre::phoenix::motorcontrol::can::WPI_VictorSPX m_motorL{OperatorConstants::kSymphonyClimberMotorLeft};
-ctre::phoenix::motorcontrol::can::WPI_VictorSPX m_motorR{OperatorConstants::kSymphonyClimberMotorRight};
-
-
- //cmds
-
- //ExtendCmd m_ExtendCmd;
-
-
-
-  // Components (e.g. motor controllers and sensors) should generally be
-  // declared private and exposed only through public methods.
+  ctre::phoenix::motorcontrol::can::WPI_VictorSPX m_motorL{OperatorConstants::kSymphonyClimberMotorIDL};
+  ctre::phoenix::motorcontrol::can::WPI_VictorSPX m_motorR{OperatorConstants::kSymphonyClimberMotorIDR};
 };

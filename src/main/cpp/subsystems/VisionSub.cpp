@@ -8,6 +8,9 @@
 #include "subsystems/VisionSub.h"
 #include "Util.h"
 
+#include <opencv2/core/core.hpp>
+#include <opencv2/imgproc/imgproc.hpp>
+
 VisionSub::VisionSub()
 {
     SetName("VisionSub");
@@ -16,25 +19,26 @@ VisionSub::VisionSub()
 // This method will be called once per scheduler run
 void VisionSub::Periodic() 
 {
-    double start = (double)m_timer.Get();
+    // double start = (double)m_timer.Get();
     
-    Util::Log("dist(in inches)", (double)GetDistanceInInches(), GetName());
+    //Util::Log("dist(in inches)", (double)GetDistanceInInches(4), GetName());
 
-    double total = (double)m_timer.Get() - start;
-    Util::Log("periodic(msec)", total*1000.0, GetName());
+    // double total = (double)m_timer.Get() - start;
+    //Util::Log("periodic(msec)", total*1000.0, GetName());
 }
 
 void VisionSub::Init()
 {
-    // initialize Addressable LED lights
-
-    m_timer.Reset();
-    m_timer.Start();
+    cs::UsbCamera camera = frc::CameraServer::StartAutomaticCapture();
+    camera.SetResolution(640, 480);
+    camera.SetBrightness(50);
+    camera.SetExposureAuto();
+    camera.SetFPS(15);
 }
 
 double VisionSub::GetBestYaw()
 {
-    photon::PhotonPipelineResult result = m_robotCam.GetLatestResult();
+    photon::PhotonPipelineResult result = m_testCam.GetLatestResult();
     if (result.HasTargets() == false)
     {
         return 0.0;
@@ -44,7 +48,7 @@ double VisionSub::GetBestYaw()
 
 double VisionSub::GetYaw()
 {
-    photon::PhotonPipelineResult result = m_robotCam.GetLatestResult();
+    photon::PhotonPipelineResult result = m_testCam.GetLatestResult();
     if (result.HasTargets() == false)
     {
         return 0.0;
@@ -77,26 +81,26 @@ double VisionSub::GetYaw()
 
 bool VisionSub::HasTargets()
 {
-    return m_robotCam.GetLatestResult().HasTargets();
+    return m_testCam.GetLatestResult().HasTargets();
 }
 
 int VisionSub::NumValidTargets(int *pTarget1Id, int *pTarget2Id, double *pYaw1, double *pYaw2)
 {
     int targValidCount = 0;
 
-    if (m_robotCam.GetLatestResult().HasTargets() == false)
+    if (m_testCam.GetLatestResult().HasTargets() == false)
     {
         return 0;
     }
 
-    std::span<const photon::PhotonTrackedTarget, 4294967295U> targets = m_robotCam.GetLatestResult().GetTargets();
+    std::span<const photon::PhotonTrackedTarget, 4294967295U> targets = m_testCam.GetLatestResult().GetTargets();
 
     for(unsigned i = 0; i < targets.size(); i++)
     {        
         int targID = targets[i].GetFiducialId();
 
         // valid target ID's are from 1 thru 16.
-        if(targID >= 1 and targID <=  OperatorConstants::kMaxTargetId)
+        if(targID >= 1 and targID <= m_kMaxTargetId)
         {
             targValidCount++;
 
@@ -104,8 +108,7 @@ int VisionSub::NumValidTargets(int *pTarget1Id, int *pTarget2Id, double *pYaw1, 
             if (targValidCount == 1 and pTarget1Id != nullptr and pYaw1 != nullptr)
             {
                 *pTarget1Id = targets[i].GetFiducialId();
-                *pYaw1 = m_robotCam.GetLatestResult().GetBestTarget().GetYaw();
-                
+                *pYaw1 = m_testCam.GetLatestResult().GetBestTarget().GetYaw();
             }
             else if (targValidCount == 2 and pTarget2Id != nullptr and pYaw2 != nullptr)
             {
@@ -118,162 +121,82 @@ int VisionSub::NumValidTargets(int *pTarget1Id, int *pTarget2Id, double *pYaw1, 
     return targValidCount;
 }
 
-double VisionSub::GetDistanceInMeters()
+units::length::meter_t VisionSub::GetDistanceInMeters(int targetID)
 {
-    photon::PhotonPipelineResult result = m_robotCam.GetLatestResult();
-    if (result.HasTargets() == false)
+    photon::PhotonPipelineResult result = m_testCam.GetLatestResult();
+    if (!result.HasTargets())
     {
-        return 0.0;
+        return 0.0_m;
     }
 
     // get target info
     std::span<const photon::PhotonTrackedTarget, 4294967295U> targets = result.GetTargets();
 
     // find specific ID
-    const int requiredID = 15; // TBD TBD
     for(unsigned i=0; i<targets.size(); ++i)
     {
-        Util::Log(std::string("ID #") + std::to_string(i), targets[i].GetFiducialId(), GetName());
-        double dist = (double)((units::inch_t)photon::PhotonUtils::CalculateDistanceToTarget ( m_kCamHeight, m_kTargetHeight, m_kCamPitch, (units::degree_t)targets[i].GetPitch()));
+        //Util::Log(std::string("ID #") + std::to_string(i), targets[i].GetFiducialId(), GetName());
 
-        Util::Log(std::string("Dist #") + std::to_string(i), dist, GetName());
-        if (targets[i].GetFiducialId() == requiredID)
+        //Util::Log(std::string("Dist #") + std::to_string(i), dist, GetName());
+        if (targets[i].GetFiducialId() == targetID)
         {
-            Util::Log("Final Dist", dist, GetName());
+            units::length::meter_t dist = (photon::PhotonUtils::CalculateDistanceToTarget (m_kCamHeight, GetTargetHeight(targetID), m_kCamPitch, (units::degree_t)targets[i].GetPitch()));
+            //Util::Log("Final Dist", (double)dist, GetName());
             return dist;
         }
-    }
-    return 0.0;
-}
-
-double VisionSub::GetDistanceInInches()
-{
-    photon::PhotonPipelineResult result = m_robotCam.GetLatestResult();
-    if (result.HasTargets() == false)
-    {
-        return 0.0;
-    }
-
-    int id1;
-    int id2;
-    int numTargets = NumValidTargets(&id1, &id2);
-
-    if (numTargets == 0)
-    {
-        // no VALID targets found
-        return 0.0;
-    }
-
-        // get target info
-    std::span<const photon::PhotonTrackedTarget, 4294967295U> targets = result.GetTargets();
-
-    int requiredID = 0; // TBD TBD
-    // find specific ID
-    if (numTargets == 1)
-    {
-        requiredID = id1;
-    }
-
-    if (id2 > id1)
-    {
-        // required ID to focus on is the larger ID
-        requiredID = id2;
-    }
-    
-    for(unsigned i=0; i<targets.size(); ++i)
-    {
-        Util::Log(std::string("ID #") + std::to_string(i), targets[i].GetFiducialId(), GetName());
-        units::inch_t dist = (units::inch_t)photon::PhotonUtils::CalculateDistanceToTarget (m_kCamHeight, m_kTargetHeight, m_kCamPitch, (units::degree_t)targets[i].GetPitch());
-        double distInch = (double)dist; // Convert inches to double;.
-
-        Util::Log(std::string("distInch #") + std::to_string(i), distInch, GetName());
-        if (targets[i].GetFiducialId() == requiredID)
-        {
-            Util::Log("Final distInch", distInch, GetName());
-            return distInch;
-        }
-    }
-    return 0.0;
-}
-
-void VisionSub::InputInitialYaw(double initialYaw)
-{
-    if(initialYaw != m_initialYaw)
-    {
-        m_initialYaw == initialYaw;
-    }
-}
-
-double VisionSub::GetInitialYaw()
-{
-    return m_initialYaw;
-}
-
-units::length::meter_t VisionSub::GetTargetHeight(int id)
-{
-    // for given target-ID, return height (needed for distance calculation)
-    switch(id)
-    {
-        case 1:
-            return 0.0_m; // TBD TBD  look at field specs from Game Manual
-        case 2:
-            return 0.0_m; // TBD TBD  look at field specs from Game Manual
-        case 3:
-            return 0.0_m; // TBD TBD  look at field specs from Game Manual
-        case 4:
-            return 0.0_m; // TBD TBD  look at field specs from Game Manual
-        case 5:
-            return 0.0_m; // TBD TBD  look at field specs from Game Manual
-        case 6:
-            return 0.0_m; // TBD TBD  look at field specs from Game Manual
-        case 7:
-            return 0.0_m; // TBD TBD  look at field specs from Game Manual
-        case 8:
-            return 0.0_m; // TBD TBD  look at field specs from Game Manual
-        case 9:
-            return 0.0_m; // TBD TBD  look at field specs from Game Manual
-        case 10:
-            return 0.0_m; // TBD TBD  look at field specs from Game Manual
-        case 11:
-            return 0.0_m; // TBD TBD  look at field specs from Game Manual
-        case 12:
-            return 0.0_m; // TBD TBD  look at field specs from Game Manual
-        case 13:
-            return 0.0_m; // TBD TBD  look at field specs from Game Manual
-        case 14:
-            return 0.0_m; // TBD TBD  look at field specs from Game Manual
-        case 15:
-            return 0.0_m; // TBD TBD  look at field specs from Game Manual
-        case 16:
-            return 0.0_m; // TBD TBD  look at field specs from Game Manual
     }
     return 0.0_m;
 }
 
-double VisionSub::CalculateDeadZone(double distance1, double calcAngle1, double distance2, double calcAngle2)
+units::length::inch_t VisionSub::GetDistanceInInches(int targetID)
 {
-    double slope = 0.0;
-    double yIntercept = 0.0;
+    return (units::length::inch_t)GetDistanceInMeters(targetID);
+}
 
-    if (distance1 != 0.0 or distance2 != 0.0)
+units::length::meter_t VisionSub::GetTargetHeight(int id)
+{
+    units::length::inch_t centerOffset = 3.25_in;
+
+    // for given target-ID, return height (needed for distance calculation)
+    switch(id)
     {
-        slope = ((calcAngle1-calcAngle2)/(distance1-distance2));
-
-        if (distance1 == 0.0)
-        {
-            yIntercept = calcAngle1;
-        }
-        else if(distance2 == 0.0)
-        {
-            yIntercept = calcAngle2;
-        }
+        case 1:
+            return 53.38_in - centerOffset; 
+        case 2:
+            return 53.38_in - centerOffset; 
+        case 3:
+            return 57.13_in - centerOffset; 
+        case 4:
+            return 57.13_in - centerOffset; 
+        case 5:
+            return 53.38_in - centerOffset; 
+        case 6:
+            return 53.38_in - centerOffset; 
+        case 7:
+            return 57.13_in - centerOffset; 
+        case 8:
+            return 57.13_in - centerOffset; 
+        case 9:
+            return 53.38_in - centerOffset; 
+        case 10:
+            return 53.38_in - centerOffset; 
+        case 11:
+            return 52.00_in - centerOffset; 
+        case 12:
+            return 52.00_in - centerOffset; 
+        case 13:
+            return 52.00_in - centerOffset; 
+        case 14:
+            return 52.00_in - centerOffset; 
+        case 15:
+            return 52.00_in - centerOffset;
+        case 16:
+            return 52.00_in - centerOffset;
     }
-    else
-    {
-        yIntercept = (calcAngle1-(slope*distance1));     
-    }
+    return 0.0_m;
+}
 
-    double calcDeadZone = ((slope*GetDistanceInInches())+yIntercept);
-
-    return calcDeadZone;
+int VisionSub::GetTargID()
+{
+    return m_testCam.GetLatestResult().GetTargets()[0].GetFiducialId();
 }

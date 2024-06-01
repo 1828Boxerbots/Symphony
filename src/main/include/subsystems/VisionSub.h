@@ -11,6 +11,8 @@
 #include <frc/Timer.h>
 #include <string>
 
+#include <cameraserver/CameraServer.h>
+
 #include "Constants.h"
 
 class VisionSub : public frc2::SubsystemBase 
@@ -32,6 +34,10 @@ class VisionSub : public frc2::SubsystemBase
 
   /// @brief Resets all vision data to 0.0's
   void ResetVisionData();
+
+  /// @brief Determine's the distance from robot to target AprilTag
+  /// @return distance in meters to target AprilTag ID.
+  units::meter_t GetTargDist();
 
   /// @brief returns YAW of VALID target found.  if more than one target, calculate best ID
   /// @return YAW value (in degrees)
@@ -55,13 +61,11 @@ class VisionSub : public frc2::SubsystemBase
 
   /// @brief gets distance to target
   /// @return distance to target in meters
-  double GetDistanceInMeters();
-  double GetDistanceInInches();
+  units::length::meter_t GetDistanceInMeters(int targetID);
 
-  void InputInitialYaw(double initialYaw);
-  double GetInitialYaw();
-
-  double CalculateDeadZone(double distance1, double calcAngle1, double distance2, double calcAngle2);
+  /// @brief Gets the distance to a target
+  /// @return The distance in inches
+  units::length::inch_t GetDistanceInInches(int targetID);
 
  private:
   /// @brief returns target height (center of aprilTag), for given April-Tag ID
@@ -73,14 +77,10 @@ class VisionSub : public frc2::SubsystemBase
   // declared private and exposed only through public methods.
 
   //Initialize Camera:
-  const std::string m_cameraName = "SymphonyCam";
-  photon::PhotonCamera m_robotCam{m_cameraName};
+  const std::string m_cameraName = "TestCam1";
+  photon::PhotonCamera m_testCam{m_cameraName};
 
-  frc::Timer m_timer;
-
-  const units::meter_t m_kTargetHeight = 49.733333333_in;    // for testing ONLY
-  const units::meter_t m_kCamHeight = 34.9416666667_in;  // TBD TBD - need actual robot specs;
-  const units::radian_t m_kCamPitch = 0.0_deg;  // TBD TBD - need actual robot specs
-
-  double m_initialYaw = 0.0;
+  const units::meter_t m_kCamHeight = 18.5_in;  // TBD TBD - need actual robot specs
+  const units::radian_t m_kCamPitch = 10.0_deg;    // TBD TBD - need actual robot specs
+  const int m_kMaxTargetId = 16;
 };

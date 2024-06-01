@@ -7,7 +7,6 @@
 #include <frc2/command/Command.h>
 #include <frc2/command/CommandHelper.h>
 #include "subsystems/BatonSub.h"
-#include <Constants.h>
 
 /**
  * An example command.
@@ -16,10 +15,17 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
+enum BatonMovemementMode
+{
+  EXTEND,
+  RETRACT,
+  STOP
+};
+
 class BatonSwingCmd
     : public frc2::CommandHelper<frc2::Command, BatonSwingCmd> {
  public:
-  BatonSwingCmd(bool restFlag, BatonSub *pSub);
+  BatonSwingCmd(BatonSub *pSub);
 
   void Initialize() override;
 
@@ -30,7 +36,8 @@ class BatonSwingCmd
   bool IsFinished() override;
 
   private:
-  bool m_flag = false;
-  BatonSub *m_pSub = nullptr;
-  bool m_isFinished = false;
+    BatonSub *m_pSub = nullptr; 
+    
+    bool m_isFinished = false;
+    BatonMovemementMode m_Mode;
 };

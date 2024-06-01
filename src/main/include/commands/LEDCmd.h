@@ -6,9 +6,9 @@
 
 #include <frc2/command/Command.h>
 #include <frc2/command/CommandHelper.h>
-#include "subsystems/ShooterSub.h"
-#include "subsystems/VisionSub.h"
+#include <subsystems/LEDSub.h>
 #include <frc/XboxController.h>
+#include <frc/Timer.h>
 
 /**
  * An example command.
@@ -17,10 +17,10 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class TeleopShootCmd
-    : public frc2::CommandHelper<frc2::Command, TeleopShootCmd> {
+class LEDCmd
+    : public frc2::CommandHelper<frc2::Command, LEDCmd> {
  public:
-  TeleopShootCmd(frc::XboxController *pController, ShooterSub *pShooterSub, VisionSub *pVisionSub);
+  LEDCmd(LEDSub *pSub, frc::XboxController* pController);
 
   void Initialize() override;
 
@@ -31,8 +31,17 @@ class TeleopShootCmd
   bool IsFinished() override;
 
   private: 
-  frc::XboxController *m_pController = nullptr;
-  ShooterSub *m_pShooterSub = nullptr;
-  VisionSub *m_pVisionSub = nullptr;
+  LEDSub *m_pSub = nullptr;
+  frc::XboxController* m_pController = nullptr;
+
+  unsigned int m_flashCounts = 15;
+  unsigned int m_CurrentFlashCount = 0;
+  bool m_FlashOn = false;
+  AllianceColor m_allianceColor;
+  frc::Timer m_Timer;
+
+  bool m_toggleTopSignal = false;
+  bool m_toggleDriverSignal = false;
+  
   bool m_isFinished = false;
 };

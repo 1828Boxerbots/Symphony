@@ -9,6 +9,7 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 
 #include "Util.h"
+#include "Constants.h"
 
 double Util::Limit(double value, double lowerLimit, double higherLimit)
 {
@@ -131,17 +132,6 @@ void Util::Log(std::string title, const char *value, std::string subsystemName)
     frc::SmartDashboard::PutString(subsystemName + " " + title, newvalue);
 }
 
-/* 
-*  Specialized error reporting (Adam's test)
-*  
-*  Allows you to report to the driver station with a custom error code.
-*/
-void Util::SendErrorAndCode(const char* error, int32_t code)
-{
-    wpi::SmallString<128> temp;
-    HAL_SendError(1, code, 0, error, "", "", 1);
-}
-
 // /* 
 // *  Overload of the other error function (Adam's test)
 // *  
@@ -170,9 +160,33 @@ std::string Util::TimeStampStr()
     
     Log("Util Stamp", str);
     return str;
-} 
+}
+
+double Util::CalculateDistPerPulse(const double wheelDiameter, const int countPerRev, const double gearRatio)
+{
+    // double pulsesPerRev = countPerRev * gearRatio;
+    double pulsesPerRev = countPerRev;
+    double circumference = OperatorConstants::PI * wheelDiameter;
+
+    return pulsesPerRev / circumference;
+}
 
 double Util::ConvertToRadians(double degrees)
 {
     return degrees * OperatorConstants::PI/180;
+}
+
+bool Util::FloatComp(double a, double b)
+{
+    frc::SmartDashboard::PutNumber("A", a);
+    frc::SmartDashboard::PutNumber("B", b);
+
+    {
+        if (fabs(a - b) < 1e-2)
+        {
+            return true;
+        }
+
+        return false;
+    }
 }

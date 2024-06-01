@@ -6,14 +6,19 @@
 
 #include <frc2/command/button/Trigger.h>
 
-#include "commands/Autos.h" 
+#include "commands/DriveCmd.h"
+#include "commands/AmpShootCmd.h"
+#include "commands/SpeakerShootCmd.h"
+#include "commands/PickupNoteCmd.h"
+#include "commands/SpitoutNoteCmd.h"
+#include "commands/BatonSwingCmd.h"
+#include "commands/AlignCmd.h"
+#include "commands/LEDCmd.h"
 
-#include "commands/TeleopShootCmd.h"
-#include "commands/LoadCmd.h"
-#include "commands/LoadUntilPhotogateCmd.h"
-#include "commands/TeleopDriveCmd.h"
-#include "commands/VisionAlignCmd.h"
-#include "commands/AutoForwardCmd.h"
+#include "commands/AutonomousNoPosCmdGrp.h"
+#include "commands/AutonomousPos1CmdGrp.h"
+#include "commands/AutonomousPos2CmdGrp.h"
+#include "commands/AutonomousPos3CmdGrp.h"
 
 RobotContainer::RobotContainer() 
 {
@@ -25,51 +30,64 @@ RobotContainer::RobotContainer()
 void RobotContainer::Init()
 {
   m_driveSub.Init();
-  //m_driveSub.SetDefaultCommand(TeleopDriveCmd(&m_driveSub, &m_driverController));
+  m_driveSub.SetDefaultCommand(DriveCmd(&m_driveSub, &m_driverController));
 
   m_visionSub.Init();
   m_shooterSub.Init();
-  m_shooterSub.SetDefaultCommand(TeleopShootCmd(&m_driverController, &m_shooterSub, &m_visionSub)); //in finished code use driverController2
   m_loaderSub.Init();
+  m_batonSub.Init();
+  m_climberSub.Init();
+  m_AutoSwitchSub.Init();
+  
+  m_LEDSub.Init();
+  //m_LEDSub.SetDefaultCommand(LEDCmd(&m_LEDSub, &m_signalController));
 }
 
-void RobotContainer::ConfigureBindings() 
-{
-  // Configure your trigger bindings here
-  //m_driverController.A().WhileTrue(LoadCmd(&m_driverController, &m_loaderSub, 1.0).ToPtr()); //in finished code use driverController2 and 1.0 speed
+void RobotContainer::ConfigureBindings() {
+  // Loader Commands
+  m_driverController.B().ToggleOnTrue(PickupNoteCmd(&m_loaderSub, 0.8).ToPtr());
+  m_driverController.Y().WhileTrue(SpitoutNoteCmd(&m_loaderSub, 0.8).ToPtr());
 
-  //m_driverController.Y().WhileTrue(LoadUntilPhotogateCmd(&m_loaderSub, 1.0).ToPtr()); //in finished code use driverController2 and 1.0 speed
+  // Shooter Commands
+  m_driverController.RightTrigger().WhileTrue(SpeakerShootCmd(&m_driverController, &m_shooterSub, &m_loaderSub, &m_visionSub).ToPtr());
+  // m_driverController.LeftTrigger().WhileTrue(AmpShootCmd(0.7, &m_shooterSub, &m_loaderSub).ToPtr());
 
-  // Vision:
-  m_driverController.A().WhileTrue(VisionAlignCmd(&m_visionSub, &m_driveSub, 0.4).ToPtr());
+  // Baton Command
+  // m_driverController.A().OnTrue(BatonSwingCmd(&m_batonSub).ToPtr());
 
-  // // Load
-  // m_driverController.A().WhileTrue(LoadCommand(m_pLoadSub, &m_driverController, 1.0, LoaderSubBase::intake).ToPtr()); // m_aButton.WhenHeld(m_pLoadIntakeCMD);
-  // m_driverController.B().WhileTrue(LoadCommand(m_pLoadSub, &m_driverController, 1.0, LoaderSubBase::intake).ToPtr()); // m_bButton.WhenHeld(m_pLoadUpperCMD);
-  // m_driverController.X().WhileTrue(LoadCommand(m_pLoadSub, &m_driverController, 1.0, LoaderSubBase::lower).ToPtr()); // m_xButton.WhenHeld(m_pLoadLowerCMD);
-  // m_driverController.Y().WhileTrue(LoadCommand(m_pLoadSub, &m_driverController).ToPtr()); // m_yButton.WhenHeld(m_pLoadAllCMD);
-  // // Shoot
-  // m_driverController.RightTrigger().WhileTrue(ShootCommand(m_pShootSub, &m_driverController).ToPtr()); // m_rightTrigger.WhenHeld(m_pShootCMD);
+  // Auto Align Command
+  m_driverController.X().WhileTrue(AlignCmd(&m_visionSub, &m_driveSub, 0.1, 15.0).ToPtr());
 }
 
 frc2::CommandPtr RobotContainer::GetAutonomousCommand() 
 {
-  switch (GetDPDT())
+  switch (m_AutoSwitchSub.GetSelectedMode())
   {
-    case 1:
-      // position 2 - in front of Amp (at side)
-      return autos::Position2CmdGrp(&m_driveSub, &m_loaderSub, &m_visionSub, &m_shooterSub, &m_batonSub);
-    case 2:
-      // just move out of starting area, to get 1 point
-      return AutoForwardCmd(&m_driveSub, 2.0_m, 1.0).ToPtr();
-    case 0:
-    default:
-      // position 1 - in front of Speaker
-      return autos::Position1CmdGrp(&m_driveSub, &m_loaderSub, &m_visionSub, &m_shooterSub, &m_batonSub);
+   case AutonomousMode::POS1:
+     return AutonomousPos1CmdGrp(&m_driveSub, &m_visionSub, &m_shooterSub, &m_loaderSub).ToPtr();
+   case AutonomousMode::POS2:
+     return AutonomousPos2CmdGrp(&m_driveSub, &m_visionSub, &m_shooterSub, &m_loaderSub).ToPtr();
+   case AutonomousMode::POS3:
+     return AutonomousPos3CmdGrp(&m_driveSub).ToPtr();
+   default:
+     return AutonomousNoPosCmdGrp().ToPtr();
   }
+
+  return AutonomousNoPosCmdGrp().ToPtr();
 }
 
 int RobotContainer::GetDPDT() 
 {
   return 0;
+}
+
+void RobotContainer::ZeroSensors()
+{
+  m_batonSub.ZeroSensors();
+  m_shooterSub.ZeroSensors();
+  m_driveSub.ZeroSensors();
+}
+void RobotContainer::ResetIMU()
+{
+  m_driveSub.ResetIMU();
 }

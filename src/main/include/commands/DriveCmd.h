@@ -8,8 +8,10 @@
 #include <frc2/command/Command.h>
 #include <frc2/command/CommandHelper.h>
 #include <frc/smartdashboard/SmartDashboard.h>
-#include "subsystems/VisionSub.h"
+#include <frc/XboxController.h>
 #include "subsystems/DriveSub.h"
+
+#include <frc/Timer.h>
 
 /**
  * An example command.
@@ -18,10 +20,10 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class VisionAlignCmd : public frc2::CommandHelper<frc2::Command, VisionAlignCmd> 
+class DriveCmd : public frc2::CommandHelper<frc2::Command, DriveCmd> 
 {
  public:
-  VisionAlignCmd(VisionSub *pVisionSub, DriveSub *pDriveSub, double speed, bool isUnalign = false);
+  DriveCmd(DriveSub *pDriveSub, frc::XboxController *pControllerz);
 
   void Initialize() override;
 
@@ -32,18 +34,9 @@ class VisionAlignCmd : public frc2::CommandHelper<frc2::Command, VisionAlignCmd>
   bool IsFinished() override;
 
   private:
-  VisionSub* m_pVisionSub = nullptr;
   DriveSub* m_pDriveSub = nullptr;
-  double m_speed = 0.0;
-  double m_deadZone = 0.0;
-  bool m_isUnalign = false;
-  double m_targYaw = 0.0;
+  frc::XboxController* m_pController = nullptr;
   bool m_isFinished = false;
-  const double kMinDeadZone = 0.1;
 
-  const double kProportionalGain = 0.1;
-  const double kIntegralGain = 0.0;
-  const double kDerivativeGain = 0.0;
-
-  frc::PIDController m_controller { kProportionalGain, kIntegralGain, kDerivativeGain };
+  frc::Timer m_LeftTimer;
 };

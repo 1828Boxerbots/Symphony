@@ -12,24 +12,38 @@
 #include <rev/CANSparkMax.h> 
 #include <math.h>
 
+#include <utility>
+
 class ShooterSub : public frc2::SubsystemBase {
  public:
-  ShooterSub();
+    ShooterSub();
 
-  void Init();
+    void Init();
 
-  void Shoot(double speed);
+    void Periodic() override;
 
-  void Periodic() override; 
+    /// @brief Used to set the speed of the shooter motors.
+    /// @param speed The speed at which the motors will move.
+    void Shoot(double speed);
 
-  double CalculateSpeed(double distanceToTarget); 
+    /// @brief Returns the current RPM of both shooter motors.
+    /// @return A std::pair that contains the motor RPM. The first element is
+    ///         the left motor RPM and the second element is the right motor.
+    std::pair<double, double> GetMotorRPM();
 
-  double GetSpeed();
+    /// @brief Calculates the desired motor speed based on distance.
+    /// @param distanceToTarget The distance to the target in meters.
+    /// @return The percentage of motor power to run and the corresponding RPM.
+    std::pair<double, double> CalculateSpeed(double distanceToTarget);
+
+    /// @brief Called to reset any subsystem sensitive sensors.
+    void ZeroSensors();
 
  private:
- double m_pulses = 363; //placeholder value, real number of pulses not yet known
 
-rev::CANSparkMax m_motorL {OperatorConstants::kSymphonyShooterPWMPortL, rev::CANSparkMax::MotorType::kBrushed};
-rev::CANSparkMax m_motorR {OperatorConstants::kSymphonyShooterPWMPortR, rev::CANSparkMax::MotorType::kBrushed};
+    rev::CANSparkMax m_motorL {OperatorConstants::kSymphonyShooterIDL, rev::CANSparkMax::MotorType::kBrushless};
+    rev::CANSparkMax m_motorR {OperatorConstants::kSymphonyShooterIDR, rev::CANSparkMax::MotorType::kBrushless};  
 
+    rev::SparkRelativeEncoder m_EncoderLeft = m_motorL.GetEncoder(rev::SparkRelativeEncoder::Type::kHallSensor);
+    rev::SparkRelativeEncoder m_EncoderRight = m_motorR.GetEncoder(rev::SparkRelativeEncoder::Type::kHallSensor);
 };

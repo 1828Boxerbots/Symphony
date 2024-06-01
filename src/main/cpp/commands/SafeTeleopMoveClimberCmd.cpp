@@ -68,3 +68,4 @@ bool SafeTeleopMoveClimberCmd::IsFinished()
 {
   return m_isFinished;
 }
+

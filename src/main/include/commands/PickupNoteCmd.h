@@ -6,8 +6,8 @@
 
 #include <frc2/command/Command.h>
 #include <frc2/command/CommandHelper.h>
-#include <frc/Xboxcontroller.h>
 #include <subsystems/LoaderSub.h>
+#include <frc/XboxController.h>
 
 /**
  * An example command.
@@ -16,10 +16,10 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class LoadCmd
-    : public frc2::CommandHelper<frc2::Command, LoadCmd> {
+class PickupNoteCmd
+    : public frc2::CommandHelper<frc2::Command, PickupNoteCmd> {
  public:
-  LoadCmd(frc::XboxController *pController, LoaderSub *pSub, double speed = 1.0);
+  PickupNoteCmd(LoaderSub *pSub, double speed = 1.0);
 
   void Initialize() override;
 
@@ -30,8 +30,8 @@ class LoadCmd
   bool IsFinished() override;
 
   private: 
-  frc::XboxController *m_pController = nullptr;
   LoaderSub *m_pSub = nullptr;
+  
   double m_speed = 0;
   bool m_isFinished = false;
 };

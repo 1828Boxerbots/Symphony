@@ -12,7 +12,11 @@
 #include "subsystems/DriveSub.h"
 #include "subsystems/ShooterSub.h"
 #include "subsystems/LoaderSub.h"
+#include "subsystems/ClimberSub.h"
 #include "subsystems/BatonSub.h"
+#include "subsystems/AutoSwitchSub.h"
+
+#include "subsystems/LEDSub.h"
 
 /**
  * This class is where the bulk of the robot should be declared.  Since
@@ -30,12 +34,16 @@ class RobotContainer {
   int GetDPDT();
   void Init();
 
+  // Called by teleop init in order to make sure sensors are zeroed
+  // for each subsystem that relies on sensors being zeroed.
+  void ZeroSensors();
+
+  void ResetIMU();
+
  private:
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  frc2::CommandXboxController m_driverController{
-      OperatorConstants::kDriverControllerPort};
-  frc2::CommandXboxController m_driverController2{
-      OperatorConstants::kDriverControllerPort};
+  frc2::CommandXboxController m_driverController{OperatorConstants::kDriverControllerPort};
+  frc2::CommandXboxController m_signalController{OperatorConstants::kSignalControllerPort};
 
   void ConfigureBindings();
 
@@ -44,6 +52,8 @@ class RobotContainer {
   DriveSub m_driveSub;
   ShooterSub m_shooterSub;
   LoaderSub m_loaderSub;
+  ClimberSub m_climberSub;
   BatonSub m_batonSub;
-  // ClimberSub m_climberSub;
+  AutoSwitchSub m_AutoSwitchSub;
+  LEDSub m_LEDSub;
 };

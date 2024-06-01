@@ -13,162 +13,143 @@ DriveSub::DriveSub()
 // This method will be called once per scheduler run
 void DriveSub::Periodic()
 {
-    // motor encoders
-    Util::Log("MotorEncoderL1-dist", GetDistanceL1(), GetName());
-    Util::Log("MotorEncoderL2-dist", GetDistanceL2(), GetName());
-    Util::Log("MotorEncoderR1-dist", GetDistanceR1(), GetName());
-    Util::Log("MotorEncoderR2-dist", GetDistanceR2(), GetName());
-    Util::Log("MotorEncoderL1-speed", GetSpeedL1(), GetName());
-    Util::Log("MotorEncoderL2-speed", GetSpeedL2(), GetName());
-    Util::Log("MotorEncoderR1-speed", GetSpeedR1(), GetName());
-    Util::Log("MotorEncoderR2-speed", GetSpeedR2(), GetName());
+    // NOTE: Only enable during debugging (will slow down the hardware)
+    //frc::SmartDashboard::PutNumber("Encoder Distance (in)", GetAvgDistance());
 
-    Util::Log("MotorEncoderL1-avgDepth", GetEncoderL1().GetAverageDepth(), GetName());
-    Util::Log("MotorEncoderL2-avgDepth", GetEncoderL2().GetAverageDepth(), GetName());
-    Util::Log("MotorEncoderR1-avgDepth", GetEncoderR1().GetAverageDepth(), GetName());
-    Util::Log("MotorEncoderR2-avgDepth", GetEncoderR2().GetAverageDepth(), GetName());
-
-    Util::Log("MotorEncoderL1-cntPerRev", GetEncoderL1().GetCountsPerRevolution(), GetName());
-    Util::Log("MotorEncoderL2-cntPerRev", GetEncoderL2().GetCountsPerRevolution(), GetName());
-    Util::Log("MotorEncoderR1-cntPerRev", GetEncoderR1().GetCountsPerRevolution(), GetName());
-    Util::Log("MotorEncoderR2-cntPerRev", GetEncoderR2().GetCountsPerRevolution(), GetName());
-
-    Util::Log("MotorEncoderL1-inverted", GetEncoderL1().GetInverted(), GetName());
-    Util::Log("MotorEncoderL2-inverted", GetEncoderL2().GetInverted(), GetName());
-    Util::Log("MotorEncoderR1-inverted", GetEncoderR1().GetInverted(), GetName());
-    Util::Log("MotorEncoderR2-inverted", GetEncoderR2().GetInverted(), GetName());
-
-    Util::Log("MotorEncoderL1-measPeriod", GetEncoderL1().GetMeasurementPeriod(), GetName());
-    Util::Log("MotorEncoderL2-measPeriod", GetEncoderL2().GetMeasurementPeriod(), GetName());
-    Util::Log("MotorEncoderR1-measPeriod", GetEncoderR1().GetMeasurementPeriod(), GetName());
-    Util::Log("MotorEncoderR2-measPeriod", GetEncoderR2().GetMeasurementPeriod(), GetName());
-
-    Util::Log("MotorEncoderL1-posConvFactor", GetEncoderL1().GetPositionConversionFactor(), GetName());
-    Util::Log("MotorEncoderL2-posConvFactor", GetEncoderL2().GetPositionConversionFactor(), GetName());
-    Util::Log("MotorEncoderR1-posConvFactor", GetEncoderR1().GetPositionConversionFactor(), GetName());
-    Util::Log("MotorEncoderR2-posConvFactor", GetEncoderR2().GetPositionConversionFactor(), GetName());
-
-    Util::Log("MotorEncoderL1-velConvFactor", GetEncoderL1().GetVelocityConversionFactor(), GetName());
-    Util::Log("MotorEncoderL2-velConvFactor", GetEncoderL2().GetVelocityConversionFactor(), GetName());
-    Util::Log("MotorEncoderR1-velConvFactor", GetEncoderR1().GetVelocityConversionFactor(), GetName());
-    Util::Log("MotorEncoderR2-velConvFactor", GetEncoderR2().GetVelocityConversionFactor(), GetName());
-
-    // IMU
-    Util::Log("IMU-angleX", GetAngleX(), GetName());
-    Util::Log("IMU-angleY", GetAngleY(), GetName());
-    Util::Log("IMU-angleZ", GetAngleZ(), GetName());
-    Util::Log("IMU-angle", (double)m_imu.GetAngle(), GetName());
-
-    Util::Log("IMU-barPressure", (double)m_imu.GetBarometricPressure(), GetName());
-    Util::Log("IMU-magFluxX", (double)m_imu.GetMagneticFieldX(), GetName());
-    Util::Log("IMU-magFluxY", (double)m_imu.GetMagneticFieldY(), GetName());
-    Util::Log("IMU-magFluxZ", (double)m_imu.GetMagneticFieldZ(), GetName());
-    Util::Log("IMU-temperature", (double)m_imu.GetTemperature(), GetName());
-    Util::Log("IMU-xCompAngle", (double)m_imu.GetXComplementaryAngle(), GetName());
-    Util::Log("IMU-yCompAngle", (double)m_imu.GetYComplementaryAngle(), GetName());
-    Util::Log("IMU-xAccelAngle", (double)m_imu.GetXFilteredAccelAngle(), GetName());
-    Util::Log("IMU-yAccelAngle", (double)m_imu.GetYFilteredAccelAngle(), GetName());
-    Util::Log("IMU-yAxis", (double)m_imu.GetYawAxis(), GetName());
+    frc::SmartDashboard::PutNumber("IMU Yaw", GetYaw());
 }
 
 void DriveSub::Init()
 {
     // invert apprpriate motors
-    m_motorControlR1.SetInverted(true);
-    m_motorControlR2.SetInverted(true);
-    m_motorControlL1.SetInverted(false);
-    m_motorControlL2.SetInverted(false);
+    m_motorR1.SetInverted(true);
+    m_motorR2.SetInverted(true);
+    m_motorL1.SetInverted(false);
+    m_motorL2.SetInverted(false);
     
     // stop all motors
-    m_motorControlR1.Set(0.0);
-    m_motorControlR2.Set(0.0);
-    m_motorControlL1.Set(0.0);
-    m_motorControlL2.Set(0.0);
+    m_motorR1.Set(0.0);
+    m_motorR2.Set(0.0);
+    m_motorL1.Set(0.0);
+    m_motorL2.Set(0.0);
 
-    // initialize encoders
-    const double wheelDia = 6.0; // inches
-    const double countsPerRotation = 288; // TBD for REV-41-1300 value=288.  for REV-41-1291, value=28(bare),1120(40:1),560(20:1)
-    // TBD TBD TBD TBD TBD TBD - where to set distancePerPulse?
-    GetEncoderL1().SetPositionConversionFactor(wheelDia * 3.14 / countsPerRotation);
-    GetEncoderL2().SetPositionConversionFactor(wheelDia * 3.14 / countsPerRotation);
-    GetEncoderR1().SetPositionConversionFactor(wheelDia * 3.14 / countsPerRotation);
-    GetEncoderR2().SetPositionConversionFactor(wheelDia * 3.14 / countsPerRotation);
-    GetEncoderL1().SetInverted(false);
-    GetEncoderL2().SetInverted(false);
-    GetEncoderR1().SetInverted(true);
-    GetEncoderR2().SetInverted(true);
-    //GetEncoderL1().SetAverageDepth(tbd);
-    //GetEncoderL1().SetMeasurementPeriod(tbd);
-    //GetEncoderL1().SetVelocityConversionFactor(tbd);
+    // Setup Encoders
+    const double wheelDiameter = 6.0; // inches
+    const double gearRatio = 8.46 / 1.0;
+    double distPerPulse = Util::CalculateDistPerPulse(wheelDiameter, OperatorConstants::NEO_ENCODER_COUNT, gearRatio);
 
-    // initialize imu
-    m_imu.Calibrate();
-    m_imu.Reset();
+    m_leftEncoder1.SetPositionConversionFactor(distPerPulse);
+    m_leftEncoder2.SetPositionConversionFactor(distPerPulse);
+    m_rightEncoder1.SetPositionConversionFactor(distPerPulse);
+    m_rightEncoder2.SetPositionConversionFactor(distPerPulse);
+
+    // Setup PIDs
+    m_leftPID1.SetP(m_kP);
+    m_leftPID1.SetI(m_kI);
+    m_leftPID1.SetD(m_kD);
+    m_leftPID1.SetIZone(m_kIZ);
+    m_leftPID1.SetFF(m_kF);
+
+    m_leftPID2.SetP(m_kP);
+    m_leftPID2.SetI(m_kI);
+    m_leftPID2.SetD(m_kD);
+    m_leftPID2.SetIZone(m_kIZ);
+    m_leftPID2.SetFF(m_kF);
+
+    m_rightPID1.SetP(m_kP);
+    m_rightPID1.SetI(m_kI);
+    m_rightPID1.SetD(m_kD);
+    m_rightPID1.SetIZone(m_kIZ);
+    m_rightPID1.SetFF(m_kF);
+
+    m_rightPID2.SetP(m_kP);
+    m_rightPID2.SetI(m_kI);
+    m_rightPID2.SetD(m_kD);
+    m_rightPID2.SetIZone(m_kIZ);
+    m_rightPID2.SetFF(m_kF);
 }
 
 void DriveSub::DriveTank(double left, double right)
 {
-    m_motorControlR1.Set(right);
-    m_motorControlR2.Set(right);
-    m_motorControlL1.Set(left);
-    m_motorControlL2.Set(left);
+    // ===============================================
+    //          BEGIN SAFETY CRITICAL CODE
+    // ===============================================
+    if (m_motorL1.GetMotorTemperature() >= OperatorConstants::MOTOR_CUTOFF_TEMP || m_motorL2.GetMotorTemperature() >= OperatorConstants::MOTOR_CUTOFF_TEMP)
+    {
+        m_motorL1.Set(0.0);
+        m_motorL2.Set(0.0);
+    }
+    else
+    {
+        m_motorL1.Set(left);
+        m_motorL2.Set(left);
+    }
+
+    if (m_motorR1.GetMotorTemperature() >= OperatorConstants::MOTOR_CUTOFF_TEMP || m_motorR2.GetMotorTemperature() >= OperatorConstants::MOTOR_CUTOFF_TEMP)
+    {
+        m_motorR1.Set(0.0);
+        m_motorR2.Set(0.0);
+    }
+    else
+    {
+        m_motorR1.Set(right);
+        m_motorR2.Set(right);
+    }
+    // ===============================================
+    //          BEGIN SAFETY CRITICAL CODE
+    // ===============================================
+}
+
+void DriveSub::DriveDistancePID(double dist)
+{
+    m_leftPID1.SetReference(dist, rev::CANSparkMax::ControlType::kPosition);
+    m_leftPID2.SetReference(dist, rev::CANSparkMax::ControlType::kPosition);
+    m_rightPID1.SetReference(dist, rev::CANSparkMax::ControlType::kPosition);
+    m_rightPID2.SetReference(dist, rev::CANSparkMax::ControlType::kPosition);
+}
+
+void DriveSub::SetPIDSpeed(double speed)
+{
+    m_leftPID1.SetOutputRange(-speed, speed);
+    m_leftPID2.SetOutputRange(-speed, speed);
+    m_rightPID1.SetOutputRange(-speed, speed);
+    m_rightPID2.SetOutputRange(-speed, speed);
+}
+
+double DriveSub::GetAvgDistance()
+{
+    double factor = 0.95;
+
+    double leftDist1 = m_leftEncoder1.GetPosition() * factor;
+    double leftDist2 = m_leftEncoder2.GetPosition() * factor;
+    double rightDist1 = m_rightEncoder1.GetPosition();
+    double rightDist2 = m_rightEncoder2.GetPosition();
+
+    return (leftDist1 + leftDist2 + rightDist1 + rightDist2) / 4.0;
 }
 
 void DriveSub::DriveRC(double vertical, double horizontal)
 {
-    DriveTank(vertical+horizontal, vertical-horizontal);
+    double dampFactor = 0.8;
+    double dampedHoriz = horizontal * dampFactor;
+
+    DriveTank(vertical+dampedHoriz, vertical-dampedHoriz);
 }
 
-///////////////////////////////////////////////////////////////////////////////
-// ENCODERS
-double DriveSub::GetDistanceL1()
+void DriveSub::ZeroSensors()
 {
-    return GetEncoderL1().GetPosition();
-}
-double DriveSub::GetDistanceL2()
-{
-    return GetEncoderL2().GetPosition();
-}
-double DriveSub::GetDistanceR1()
-{
-    return GetEncoderR1().GetPosition();
-}
-double DriveSub::GetDistanceR2()
-{
-    return GetEncoderR2().GetPosition();
-}
-double DriveSub::GetSpeedL1()
-{
-    return GetEncoderL1().GetVelocity();
-}
-double DriveSub::GetSpeedL2()
-{
-    return GetEncoderL2().GetVelocity();
-}
-double DriveSub::GetSpeedR1()
-{
-    return GetEncoderR1().GetVelocity();
-}
-double DriveSub::GetSpeedR2()
-{
-    return GetEncoderR2().GetVelocity();
+    m_leftEncoder1.SetPosition(0.0);
+    m_leftEncoder2.SetPosition(0.0);
+    m_rightEncoder1.SetPosition(0.0);
+    m_rightEncoder2.SetPosition(0.0);
 }
 
-///////////////////////////////////////////////////////////////////////////////
-// IMU
-double DriveSub::GetAngle()
+void DriveSub::ResetIMU()
 {
-    return GetAngleX();
+    m_imu.Reset();
 }
-double DriveSub::GetAngleX()
+
+double DriveSub::GetYaw()
 {
-    return (double)m_imu.GetGyroAngleX();;
-}
-double DriveSub::GetAngleY()
-{
-    return (double)m_imu.GetGyroAngleY();;
-}
-double DriveSub::GetAngleZ()
-{
-    return (double)m_imu.GetGyroAngleZ();;
+    return (double)m_imu.GetAngle(frc::ADIS16470_IMU::kZ);
 }

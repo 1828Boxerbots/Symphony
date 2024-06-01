@@ -10,66 +10,68 @@ BatonSub::BatonSub() = default;
 // This method will be called once per scheduler run
 void BatonSub::Periodic() 
 {
-    frc::SmartDashboard::PutNumber ("BatonSub Swing Magnet", m_SwingMagnet.Get());
-    frc::SmartDashboard::PutNumber ("BatonSub Rest Magnet", m_RestMagnet.Get());
-    frc::SmartDashboard::PutNumber ("BatonMotorLSpeed", m_motorL.Get());
-    frc::SmartDashboard::PutNumber ("BatonMotorRSpeed", m_motorR.Get());
+    // NOTE: Only used for outputing values to smart dashboard during debugging
+    // frc::SmartDashboard::PutNumber("Left Encoder Rotations", m_EncoderL.GetPosition());
+    // frc::SmartDashboard::PutNumber("Right Encoder Rotations", m_EncoderR.GetPosition());
+    // frc::SmartDashboard::PutBoolean("Upper Hall Effect", m_UpperHallEffect.Get());
+    // frc::SmartDashboard::PutNumber("Avg Encoder Rotations", GetAvgEncoderPos());
 }
-
-void BatonSub::Swing(double speed)
-{
-    m_motorL.Set(speed);
-    m_motorR.Set(speed);
-} 
 
 void BatonSub::Init()
 {
     m_motorR.SetInverted(true);
+
+    m_EncoderL.SetPosition(0.0);    // Reset the encoder at the rest position
+
+    m_PIDLeft.SetP(m_kP);
+    m_PIDLeft.SetI(m_kI);
+    m_PIDLeft.SetD(m_kD);
+    m_PIDLeft.SetIZone(m_kIZ);
+    m_PIDLeft.SetFF(m_kF);
+    m_PIDLeft.SetOutputRange(m_kMinOutput, m_kMaxOutput);
+
+    m_PIDRight.SetP(m_kP);
+    m_PIDRight.SetI(m_kI);
+    m_PIDRight.SetD(m_kD);
+    m_PIDRight.SetIZone(m_kIZ);
+    m_PIDRight.SetFF(m_kF);
+    m_PIDRight.SetOutputRange(m_kMinOutput, m_kMaxOutput);
 }
 
-
-bool BatonSub::GoToRest()
+void BatonSub::SetPosition(double pos)
 {
-    bool isAtLimit = IsAtRestLimit();
-    double speed = -OperatorConstants::kSymphonyBatonOptimalSpeed;
-    if (isAtLimit == true)
-    {
-      speed = 0.0;
-    }
-  m_motorL.Set(speed);
-  m_motorR.Set(speed);
-
-    return isAtLimit;
-}
-
-bool BatonSub::GoToSwing()
-{
-    bool isAtLimit = IsAtSwingLimit();
-    double speed = OperatorConstants::kSymphonyBatonOptimalSpeed;
-    if (isAtLimit == true)
-    {
-      speed = 0.0;
-    }
-  m_motorL.Set(speed);
-  m_motorR.Set(speed);
-
-    return isAtLimit;
+    m_PIDLeft.SetReference(pos, rev::CANSparkMax::ControlType::kPosition);
+    m_PIDRight.SetReference(pos, rev::CANSparkMax::ControlType::kPosition);
 } 
 
-void BatonSub::Stop()
+void BatonSub::SetMotors(double speed)
 {
-    m_motorL.Set(0.0);
-    m_motorR.Set(0.0);
+    // ===============================================
+    //          BEGIN SAFETY CRITICAL CODE
+    // ===============================================
+    if (m_motorL.GetMotorTemperature() >= OperatorConstants::MOTOR_CUTOFF_TEMP || m_motorR.GetMotorTemperature() >= OperatorConstants::MOTOR_CUTOFF_TEMP)
+    {
+        m_motorL.Set(0.0);
+        m_motorR.Set(0.0);
+    }
+    // ===============================================
+    //          BEGIN SAFETY CRITICAL CODE
+    // ===============================================
+
+    m_motorL.Set(speed);
+    m_motorR.Set(speed);
 } 
 
-bool BatonSub::IsAtRestLimit()
+double BatonSub::GetAvgEncoderPos()
 {
-  bool Rest = m_RestMagnet.Get();
-  return Rest;
+    double leftPos = m_EncoderL.GetPosition();
+    double rightPos = m_EncoderR.GetPosition();
+
+    return (leftPos + rightPos) / 2.0;
 }
 
-bool BatonSub::IsAtSwingLimit()
+void BatonSub::ZeroSensors()
 {
- bool Swing = m_SwingMagnet.Get();
-  return Swing;
+    m_EncoderL.SetPosition(0.0);
+    m_EncoderR.SetPosition(0.0);
 }

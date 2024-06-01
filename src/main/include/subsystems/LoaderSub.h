@@ -10,6 +10,7 @@
 #include <frc/DigitalInput.h>
 #include <Constants.h>
 #include <rev/CANSparkMax.h>
+#include <frc/AnalogInput.h>
 
 class LoaderSub : public frc2::SubsystemBase 
 {
@@ -17,20 +18,37 @@ class LoaderSub : public frc2::SubsystemBase
   LoaderSub();
 
   void Init();
-  void Load(double speed);
-  bool GetPhotoGate();
-
-
+  
   void Periodic() override;
 
+  /// @brief Sets the speed of the loader motor.
+  /// @param speed The speed to move at.
+  void Load(double speed);
+
+  /// @brief Retrieves the status of the photogate.
+  /// @return True if the photogate is not tripped, false when tripped.
+  static bool GetPhotoGate();
+
+  /// @brief Retrieves the status of the temperature safety.
+  /// @return True if the safety is engaged.
+  static bool GetSafetyEngaged();
+
+  /// @brief Gets the current speed of the loader motor.
+  /// @return The current RPM of the motor.
+  double GetEncoderSpeed();
+
+  /// @brief Calculates the distance reading of the ultrasonic in inches
+  /// @return The distance in inches.
+  static double GetUltrasonicDistance();
+
  private:
- //frc::PWMSparkMax m_motor {OperatorConstants::kSymphonyLoaderMotor}; //placeholder port, not actually 5
- frc::DigitalInput m_photogate {OperatorConstants::kSymphonyLoaderPhotogate};
+  // DIO
+  static frc::DigitalInput m_photogate;
+  static bool m_SafetyEngaged;
 
- //frc::Victor m_motor {OperatorConstants::kSymphonyLoaderMotor}; //used for testing with C418
- rev::CANSparkMax m_motor {OperatorConstants::kSymphonyLoaderMotor, rev::CANSparkMax::MotorType::kBrushed};
+  // Analog
+  static frc::AnalogInput m_ultrasonic;
 
-
-  // Components (e.g. motor controllers and sensors) should generally be
-  // declared private and exposed only through public methods.
+  // Motor Controllers
+  rev::CANSparkMax m_motor {OperatorConstants::kSymphonyLoaderMotorID, rev::CANSparkMax::MotorType::kBrushless};
 };
