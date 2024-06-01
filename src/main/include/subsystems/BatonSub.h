@@ -11,7 +11,9 @@
 
 #include <utility>
 
-class BatonSub : public frc2::SubsystemBase {
+
+class BatonSub : public frc2::SubsystemBase 
+{
  public:
   BatonSub();
 

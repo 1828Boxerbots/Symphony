@@ -9,7 +9,8 @@
 #include <frc/Encoder.h>
 #include <frc/motorcontrol/Victor.h>
 #include <Constants.h>
-#include <rev/CANSparkMax.h>
+#include <rev/CANSparkMax.h> 
+#include <math.h>
 
 #include <utility>
 

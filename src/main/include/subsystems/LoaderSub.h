@@ -12,7 +12,8 @@
 #include <rev/CANSparkMax.h>
 #include <frc/AnalogInput.h>
 
-class LoaderSub : public frc2::SubsystemBase {
+class LoaderSub : public frc2::SubsystemBase 
+{
  public:
   LoaderSub();
 

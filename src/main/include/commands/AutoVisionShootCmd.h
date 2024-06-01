@@ -4,14 +4,11 @@
 
 #pragma once
 
-#include <frc/controller/PIDController.h>
 #include <frc2/command/Command.h>
 #include <frc2/command/CommandHelper.h>
-#include <frc/smartdashboard/SmartDashboard.h>
-#include <frc/XboxController.h>
-#include "subsystems/DriveSub.h"
 
-#include <frc/Timer.h>
+#include "subsystems/ShooterSub.h"
+#include "subsystems/VisionSub.h"
 
 /**
  * An example command.
@@ -20,10 +17,10 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class DriveCmd : public frc2::CommandHelper<frc2::Command, DriveCmd> 
-{
+class AutoVisionShootCmd
+    : public frc2::CommandHelper<frc2::Command, AutoVisionShootCmd> {
  public:
-  DriveCmd(DriveSub *pDriveSub, frc::XboxController *pControllerz);
+  AutoVisionShootCmd(ShooterSub *pDrive, VisionSub *pVision);
 
   void Initialize() override;
 
@@ -34,9 +31,11 @@ class DriveCmd : public frc2::CommandHelper<frc2::Command, DriveCmd>
   bool IsFinished() override;
 
   private:
-  DriveSub* m_pDriveSub = nullptr;
-  frc::XboxController* m_pController = nullptr;
-  bool m_isFinished = false;
+    bool m_isFinished = false;
 
-  frc::Timer m_LeftTimer;
+    ShooterSub *m_pShooter = nullptr;
+    VisionSub *m_pVision = nullptr;
+
+    double m_rangeToTarget = 0.0;
+    double m_speed = 0.0;
 };

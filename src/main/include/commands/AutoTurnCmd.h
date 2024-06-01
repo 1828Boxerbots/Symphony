@@ -4,14 +4,10 @@
 
 #pragma once
 
-#include <frc/controller/PIDController.h>
 #include <frc2/command/Command.h>
 #include <frc2/command/CommandHelper.h>
-#include <frc/smartdashboard/SmartDashboard.h>
-#include <frc/XboxController.h>
-#include "subsystems/DriveSub.h"
 
-#include <frc/Timer.h>
+#include "subsystems/DriveSub.h"
 
 /**
  * An example command.
@@ -20,10 +16,10 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class DriveCmd : public frc2::CommandHelper<frc2::Command, DriveCmd> 
-{
+class AutoTurnCmd
+    : public frc2::CommandHelper<frc2::Command, AutoTurnCmd> {
  public:
-  DriveCmd(DriveSub *pDriveSub, frc::XboxController *pControllerz);
+  AutoTurnCmd(DriveSub *pDrive, double absoluteAngle, double speed = 0.5);
 
   void Initialize() override;
 
@@ -34,9 +30,9 @@ class DriveCmd : public frc2::CommandHelper<frc2::Command, DriveCmd>
   bool IsFinished() override;
 
   private:
-  DriveSub* m_pDriveSub = nullptr;
-  frc::XboxController* m_pController = nullptr;
-  bool m_isFinished = false;
+    DriveSub *m_pDrive = nullptr;
+    double m_absoluteAngle = 0.0;
+    double m_speed = 0.0;
 
-  frc::Timer m_LeftTimer;
+    bool m_isFinished = false;
 };

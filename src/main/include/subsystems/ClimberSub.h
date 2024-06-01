@@ -8,11 +8,13 @@
 
 #include <frc2/command/SubsystemBase.h>
 #include <ctre/phoenix/motorcontrol/can/WPI_VictorSPX.h>
-#include <frc/AnalogPotentiometer.h>
+#include <frc/DigitalInput.h>
 
 
 
-class ClimberSub : public frc2::SubsystemBase {
+
+class ClimberSub : public frc2::SubsystemBase 
+{
  public:
   ClimberSub();
 

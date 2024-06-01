@@ -10,6 +10,7 @@
 #include <wpi/SmallString.h>
 
 #include "hal/DriverStation.h"
+#include "Constants.h"
 
 namespace Util
 {

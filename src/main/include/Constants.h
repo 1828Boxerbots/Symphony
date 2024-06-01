@@ -62,4 +62,14 @@ inline constexpr double NEO_MAX_OPENLOAD_RPM = 5676;    // The max RPM of NEO mo
 inline constexpr double NEO_LOAD_FACTOR = 0.05;         // Estimated from calculated load factors
 inline constexpr double MOTOR_CUTOFF_TEMP = 50.0;   // Degrees Celsius
 
+// Vision:
+inline constexpr int kMaxTargetId = 16;
+
+//Useful Constants
+constexpr double ToInches = 0.393701;
+constexpr double ToCM = 2.53;
+constexpr double PI = 3.141592653589793238462643383279502884197169399375105820974944;
+constexpr double MetersPerInch = 0.0254;
+
+
 }  // namespace OperatorConstants
