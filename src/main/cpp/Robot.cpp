@@ -3,13 +3,10 @@
 // the WPILib BSD license file in the root directory of this project.
 
 #include "Robot.h"
-#include <frc/smartdashboard/SmartDashboard.h>
+
 #include <frc2/command/CommandScheduler.h>
 
-void Robot::RobotInit() 
-{
-  m_container.Init();
-}
+Robot::Robot() {}
 
 /**
  * This function is called every 20 ms, no matter the mode. Use
@@ -37,9 +34,6 @@ void Robot::DisabledPeriodic() {}
  * RobotContainer} class.
  */
 void Robot::AutonomousInit() {
-  m_container.ZeroSensors();
-  m_container.ResetIMU();
-
   m_autonomousCommand = m_container.GetAutonomousCommand();
 
   if (m_autonomousCommand) {
@@ -57,20 +51,15 @@ void Robot::TeleopInit() {
   if (m_autonomousCommand) {
     m_autonomousCommand->Cancel();
   }
-
-  m_container.ZeroSensors();
 }
 
 /**
  * This function is called periodically during operator control.
  */
-void Robot::TeleopPeriodic()
- {
-
-  }
+void Robot::TeleopPeriodic() {}
 
 /**
- his function is called periodically during test mode.
+ * This function is called periodically during test mode.
  */
 void Robot::TestPeriodic() {}
 

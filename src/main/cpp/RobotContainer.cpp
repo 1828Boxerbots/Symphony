@@ -6,88 +6,30 @@
 
 #include <frc2/command/button/Trigger.h>
 
-#include "commands/DriveCmd.h"
-#include "commands/AmpShootCmd.h"
-#include "commands/SpeakerShootCmd.h"
-#include "commands/PickupNoteCmd.h"
-#include "commands/SpitoutNoteCmd.h"
-#include "commands/BatonSwingCmd.h"
-#include "commands/AlignCmd.h"
-#include "commands/LEDCmd.h"
+#include "commands/Autos.h"
+#include "commands/ExampleCommand.h"
 
-#include "commands/AutonomousNoPosCmdGrp.h"
-#include "commands/AutonomousPos1CmdGrp.h"
-#include "commands/AutonomousPos2CmdGrp.h"
-#include "commands/AutonomousPos3CmdGrp.h"
-
-RobotContainer::RobotContainer() 
-{
+RobotContainer::RobotContainer() {
   // Initialize all of your commands and subsystems here
+
   // Configure the button bindings
   ConfigureBindings();
 }
 
-void RobotContainer::Init()
-{
-  m_driveSub.Init();
-  m_driveSub.SetDefaultCommand(DriveCmd(&m_driveSub, &m_driverController));
-
-  m_visionSub.Init();
-  m_shooterSub.Init();
-  m_loaderSub.Init();
-  m_batonSub.Init();
-  m_climberSub.Init();
-  m_AutoSwitchSub.Init();
-  
-  m_LEDSub.Init();
-  //m_LEDSub.SetDefaultCommand(LEDCmd(&m_LEDSub, &m_signalController));
-}
-
 void RobotContainer::ConfigureBindings() {
-  // Loader Commands
-  m_driverController.B().ToggleOnTrue(PickupNoteCmd(&m_loaderSub, 0.8).ToPtr());
-  m_driverController.Y().WhileTrue(SpitoutNoteCmd(&m_loaderSub, 0.8).ToPtr());
+  // Configure your trigger bindings here
 
-  // Shooter Commands
-  m_driverController.RightTrigger().WhileTrue(SpeakerShootCmd(&m_driverController, &m_shooterSub, &m_loaderSub, &m_visionSub).ToPtr());
-  // m_driverController.LeftTrigger().WhileTrue(AmpShootCmd(0.7, &m_shooterSub, &m_loaderSub).ToPtr());
+  // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
+  frc2::Trigger([this] {
+    return m_subsystem.ExampleCondition();
+  }).OnTrue(ExampleCommand(&m_subsystem).ToPtr());
 
-  // Baton Command
-  // m_driverController.A().OnTrue(BatonSwingCmd(&m_batonSub).ToPtr());
-
-  // Auto Align Command
-  m_driverController.X().WhileTrue(AlignCmd(&m_visionSub, &m_driveSub, 0.1, 15.0).ToPtr());
+  // Schedule `ExampleMethodCommand` when the Xbox controller's B button is
+  // pressed, cancelling on release.
+  m_driverController.B().WhileTrue(m_subsystem.ExampleMethodCommand());
 }
 
-frc2::CommandPtr RobotContainer::GetAutonomousCommand() 
-{
-  switch (m_AutoSwitchSub.GetSelectedMode())
-  {
-   case AutonomousMode::POS1:
-     return AutonomousPos1CmdGrp(&m_driveSub, &m_visionSub, &m_shooterSub, &m_loaderSub).ToPtr();
-   case AutonomousMode::POS2:
-     return AutonomousPos2CmdGrp(&m_driveSub, &m_visionSub, &m_shooterSub, &m_loaderSub).ToPtr();
-   case AutonomousMode::POS3:
-     return AutonomousPos3CmdGrp(&m_driveSub).ToPtr();
-   default:
-     return AutonomousNoPosCmdGrp().ToPtr();
-  }
-
-  return AutonomousNoPosCmdGrp().ToPtr();
-}
-
-int RobotContainer::GetDPDT() 
-{
-  return 0;
-}
-
-void RobotContainer::ZeroSensors()
-{
-  m_batonSub.ZeroSensors();
-  m_shooterSub.ZeroSensors();
-  m_driveSub.ZeroSensors();
-}
-void RobotContainer::ResetIMU()
-{
-  m_driveSub.ResetIMU();
+frc2::CommandPtr RobotContainer::GetAutonomousCommand() {
+  // An example command will be run in autonomous
+  return autos::ExampleAuto(&m_subsystem);
 }

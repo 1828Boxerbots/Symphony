@@ -15,8 +15,7 @@
     "**/*~": true
   },
   "C_Cpp.default.configurationProvider": "vscode-wpilib",
-  "files.associations": {
-    "*.inc": "cpp",
-    "optional": "cpp"
-  }
+  "java.project.sourcePaths": [
+    "src/main/cpp/subsystems"
+  ]
 }

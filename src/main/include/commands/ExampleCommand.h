@@ -7,32 +7,25 @@
 #include <frc2/command/Command.h>
 #include <frc2/command/CommandHelper.h>
 
-#include "subsystems/DriveSub.h"
+#include "subsystems/ExampleSubsystem.h"
 
 /**
- * An example command.
+ * An example command that uses an example subsystem.
  *
  * <p>Note that this extends CommandHelper, rather extending Command
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class AutoTurnCmd
-    : public frc2::CommandHelper<frc2::Command, AutoTurnCmd> {
+class ExampleCommand
+    : public frc2::CommandHelper<frc2::Command, ExampleCommand> {
  public:
-  AutoTurnCmd(DriveSub *pDrive, double absoluteAngle, double speed = 0.5);
+  /**
+   * Creates a new ExampleCommand.
+   *
+   * @param subsystem The subsystem used by this command.
+   */
+  explicit ExampleCommand(ExampleSubsystem* subsystem);
 
-  void Initialize() override;
-
-  void Execute() override;
-
-  void End(bool interrupted) override;
-
-  bool IsFinished() override;
-
-  private:
-    DriveSub *m_pDrive = nullptr;
-    double m_absoluteAngle = 0.0;
-    double m_speed = 0.0;
-
-    bool m_isFinished = false;
+ private:
+  ExampleSubsystem* m_subsystem;
 };
